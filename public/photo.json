@@ -1,0 +1,113 @@
+ [
+    {
+      
+      "artist": "Rafiqun Nabi",
+      "title": "Untitled",
+      "media": "Oil on Canvas",
+      "size": "12 in x 12 in",
+      "year": 2019,
+      "price": "BDT 7000",
+      "stockCode": "RN001",
+      "photoUrl": "https://iili.io/20Yk6B4.jpg"
+    },
+    {
+      
+      "artist": "Zainul Abedin",
+      "title": "Cityscape",
+      "media": "Acrylic on Canvas",
+      "size": "18 in x 24 in",
+      "year": 2020,
+      "price": "BDT 12000",
+      "stockCode": "RN002",
+      "photoUrl": "https://iili.io/20QmRou.jpg"
+    },
+    {
+      
+      "artist": "Quamrul Hassan",
+      "title": "Village Life",
+      "media": "Watercolor on Paper",
+      "size": "16 in x 20 in",
+      "year": 2018,
+      "price": "BDT 8500",
+      "stockCode": "RN003",
+      "photoUrl": "https://iili.io/20Qmute.jpg"
+    },
+    {
+      
+      "artist": "SM Sultan",
+      "title": "Sunset Bliss",
+      "media": "Oil on Canvas",
+      "size": "20 in x 30 in",
+      "year": 2021,
+      "price": "BDT 15000",
+      "stockCode": "RN004",
+      "photoUrl": "https://iili.io/20QmTN9.jpg"
+    },
+    {
+ 
+      "artist": "Hashem Khan",
+      "title": "Abstract Thoughts",
+      "media": "Mixed Media",
+      "size": "24 in x 24 in",
+      "year": 2022,
+      "price": "BDT 18000",
+      "stockCode": "RN005",
+      "photoUrl": "https://iili.io/20QmIA7.jpg"
+    },
+    {
+      
+      "artist": "Shilpacharya Joynul Abedin",
+      "title": "Rural Beauty",
+      "media": "Oil on Canvas",
+      "size": "14 in x 18 in",
+      "year": 2017,
+      "price": "BDT 9500",
+      "stockCode": "RN006",
+      "photoUrl": "https://iili.io/20Qmz9S.jpg"
+    },
+    {
+      
+      "artist": "Shahabuddin Ahmed",
+      "title": "Monsoon Melody",
+      "media": "Acrylic on Canvas",
+      "size": "16 in x 20 in",
+      "year": 2020,
+      "price": "BDT 11000",
+      "stockCode": "RN007",
+      "photoUrl": "https://iili.io/20QmoS2.jpg"
+    },
+    {
+     
+      "artist": "Novera Ahmed",
+      "title": "Floral Symphony",
+      "media": "Oil on Canvas",
+      "size": "12 in x 16 in",
+      "year": 2021,
+      "price": "BDT 13000",
+      "stockCode": "RN008",
+      "photoUrl": "https://iili.io/20Qmncl.jpg"
+    },
+    {
+      
+      "artist": "Anisuzzaman",
+      "title": "Urban Chaos",
+      "media": "Charcoal on Paper",
+      "size": "18 in x 24 in",
+      "year": 2019,
+      "price": "BDT 9500",
+      "stockCode": "RN009",
+      "photoUrl": "https://iili.io/20QmCF4.jpg"
+    },
+    {
+      
+      "artist": "Murtaja Baseer",
+      "title": "Tranquility",
+      "media": "Oil on Canvas",
+      "size": "24 in x 36 in",
+      "year": 2022,
+      "price": "BDT 20000",
+      "stockCode": "RN010",
+      "photoUrl": "https://iili.io/20Yk6B4.jpg"
+    }
+  ]
+
