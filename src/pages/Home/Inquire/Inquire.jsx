@@ -27,7 +27,7 @@ const Inquire = () => {
       comments,
     }
     console.log(inquire);
-    fetch(`http://localhost:3000/inquire`, {
+    fetch(`https://art-sense-server.vercel.app/inquire`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'

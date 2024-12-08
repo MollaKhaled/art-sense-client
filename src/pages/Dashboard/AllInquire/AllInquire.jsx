@@ -9,14 +9,14 @@ const AllInquire = () => {
   const [inquires, setInquire] = useState([]);
   const [cart, refetch] = useCart();
   useEffect(() => {
-    fetch(`http://localhost:3000/inquire`)
+    fetch(`https://art-sense-server.vercel.app/inquire`)
       .then(res => res.json())
       .then(data => setInquire(data))
   }, []);
   const handleDelete = id =>{
     const proceed = confirm('Are you sure you want to delete')
     if(proceed){
-      fetch(`http://localhost:3000/inquire/${id}`,{
+      fetch(`https://art-sense-server.vercel.app/inquire/${id}`,{
         method:'DELETE'
       })
       .then(res=>res.json())

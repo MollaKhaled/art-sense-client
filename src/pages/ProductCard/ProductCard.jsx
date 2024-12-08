@@ -1,6 +1,6 @@
 import React from "react";
 import {  useParams } from "react-router-dom";
-import { FaWhatsapp } from "react-icons/fa";
+
 
 const ProductCard = () => {
   const {  id } = useParams();

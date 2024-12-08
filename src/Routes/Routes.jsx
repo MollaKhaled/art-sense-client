@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
       {
         path:'/inquire/:id',
         element:<Inquire></Inquire>,
-        loader:({params}) =>fetch(`http://localhost:3000/photo/${params.id}`)
+        loader:({params}) =>fetch(`https://art-sense-server.vercel.app/photo/${params.id}`)
       },
       {
         path:'/product/:id',
