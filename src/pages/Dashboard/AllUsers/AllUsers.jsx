@@ -20,7 +20,7 @@ const AllUsers = () => {
   const handleDelete = (id) =>{
     const proceed = confirm('Are you sure you want to delete')
     if(proceed){
-      fetch(`https://art-sense-server.vercel.app/users/${id}`,{
+      fetch(`http://localhost:3000/users/${id}`,{
         method:'DELETE'
       })
       .then(res=>res.json())
@@ -38,7 +38,7 @@ const AllUsers = () => {
   }
 
  const handleMakeAdmin = user  =>{
-      fetch(`https://art-sense-server.vercel.app/users/admin/${user._id}`, {
+      fetch(`http://localhost:3000/users/admin/${user._id}`, {
         method:'PATCH'
       })
       .then(res => res.json())

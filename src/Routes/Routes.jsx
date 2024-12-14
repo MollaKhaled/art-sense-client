@@ -17,6 +17,14 @@ import About from "../pages/Home/About/About";
 import Services from "../pages/Home/Services/Services";
 import Inquire from "../pages/Home/Inquire/Inquire";
 import AllInquire from "../pages/Dashboard/AllInquire/AllInquire";
+import Exhibition from "../pages/Exhibition/Exhibition";
+import ExhibitionModal from "../pages/Shared/ExhibitionModal/ExhibitionModal";
+import BookingModal from "../pages/Shared/BookingModal/BookingModal";
+import AddEvent from "../pages/Dashboard/AddEvent/AddEvent";
+import Event from "../pages/Home/Event/Event";
+import Auction from "../pages/Auction/Auction";
+import AuctionDetails from "../pages/AuctionDetails/AuctionDetails";
+import AddAuction from "../pages/Dashboard/AddAuction/AddAuction";
 
 
 export const router = createBrowserRouter([
@@ -27,6 +35,7 @@ export const router = createBrowserRouter([
       {
         path:"/",
         element:<Home></Home>,
+        loader:() =>fetch('http://localhost:3000/photoCount'),
       },
       {
         path:'/login',
@@ -37,25 +46,48 @@ export const router = createBrowserRouter([
         element:<SignUp/>
       },
       {
+        path:'/auction',
+        element:<Auction/>
+      },
+      {
+        path:'/auction/:id',
+        element:<AuctionDetails/>
+      },
+      {
+        path:'/exhibition',
+        element:<Exhibition/>,
+        
+      },
+      {
+        path:'/photoCount',
+        element:<BookingModal/>,
+       
+
+      },
+      {
         path:'/about',
-        element:<About></About>
+        element:<About></About>,
       },
       {
         path:'/services',
-        element:<Services></Services>
+        element:<Services></Services>,
+      },
+      {
+        path:'/event',
+        element:<Event></Event>,
       },
       {
         path:'/inquire/:id',
         element:<Inquire></Inquire>,
-        loader:({params}) =>fetch(`https://art-sense-server.vercel.app/photo/${params.id}`)
+        loader:({params}) =>fetch(`http://localhost:3000/photo/${params.id}`)
       },
       {
         path:'/product/:id',
-        element:<ProductCard/>
+        element:<ProductCard/>,
       },
       {
         path:'/users/:id',
-        element:<AllUsers></AllUsers>
+        element:<AllUsers></AllUsers>,
       },
     ]
   },
@@ -65,16 +97,24 @@ export const router = createBrowserRouter([
     children: [
       {
         path:'addItem',
-        element:<AdminRoute><AddItem></AddItem></AdminRoute>
+        element:<AdminRoute><AddItem></AddItem></AdminRoute>,
       },
       {
         path:'users',
-        element:<AdminRoute><AllUsers></AllUsers></AdminRoute>
+        element:<AdminRoute><AllUsers></AllUsers></AdminRoute>,
       },
       {
         path:'allInquire',
         element:<AdminRoute><AllInquire></AllInquire></AdminRoute>
-      }
+      },
+      {
+        path:'addEvent',
+        element:<AdminRoute><AddEvent/></AdminRoute>
+      },
+      {
+        path:'addAuction',
+        element:<AdminRoute><AddAuction/></AdminRoute>
+      },
     ]
   }
 ]);

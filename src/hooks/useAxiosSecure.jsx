@@ -6,7 +6,7 @@ import { AuthContext } from '../providers/AuthProvider';
 
 
 const axiosSecure = axios.create({
-  baseURL: 'https://art-sense-server.vercel.app',
+  baseURL: 'http://localhost:3000',
 });
 
 const useAxiosSecure = () => {

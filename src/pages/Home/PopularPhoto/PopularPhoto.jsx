@@ -5,7 +5,7 @@ const PopularPhoto = () => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/photo')
+    fetch('http://localhost:3000/photo')
       .then(res => res.json())
       .then(data => setPhotos(data))
       

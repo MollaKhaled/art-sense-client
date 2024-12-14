@@ -27,7 +27,7 @@ const Inquire = () => {
       comments,
     }
     console.log(inquire);
-    fetch(`https://art-sense-server.vercel.app/inquire`, {
+    fetch(`http://localhost:3000/inquire`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -83,12 +83,12 @@ const Inquire = () => {
             </h2>
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text font-semibold text-gray-600">*Id</span>
+                <span className="label-text font-semibold text-gray-600"></span>
               </label>
               <input
                 type="text"
                 name="id"
-                placeholder="Id"
+                placeholder="*id"
                 className="input input-bordered"
                 defaultValue={id}
                 required
@@ -99,47 +99,47 @@ const Inquire = () => {
               <div>
                 <div className="form-control mb-4">
                   <label className="label">
-                    <span className="label-text font-semibold text-gray-600">*Name</span>
+                    <span className="label-text font-semibold text-gray-600"></span>
                   </label>
                   <input
                     type="text"
                     name="name"
-                    placeholder="Name"
+                    placeholder="*name"
                     className="input input-bordered"
                     required
                   />
                 </div>
                 <div className="form-control mb-4">
                   <label className="label">
-                    <span className="label-text font-semibold text-gray-600">*Email</span>
+                    <span className="label-text font-semibold text-gray-600"></span>
                   </label>
                   <input
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="*email"
                     className="input input-bordered"
                     required
                   />
                 </div>
                 <div className="form-control mb-4">
                   <label className="label">
-                    <span className="label-text font-semibold text-gray-600">*Phone</span>
+                    <span className="label-text font-semibold text-gray-600"></span>
                   </label>
                   <input
                     type="text"
                     name="phone"
-                    placeholder="Phone"
+                    placeholder="*phone"
                     className="input input-bordered"
                     required
                   />
                 </div>
                 <div className="form-control mb-4">
                   <label className="label">
-                    <span className="label-text font-semibold text-gray-600">Address</span>
+                    <span className="label-text font-semibold text-gray-600"></span>
                   </label>
                   <textarea
                     name="address"
-                    placeholder="Address"
+                    placeholder="*address"
                     className="textarea textarea-bordered h-28 resize-none"
                     required
                   ></textarea>
@@ -149,11 +149,11 @@ const Inquire = () => {
               <div>
                 <div className="form-control h-full ">
                   <label className="label ">
-                    <span className="label-text font-semibold text-gray-600">Comments</span>
+                    <span className="label-text font-semibold text-gray-600"></span>
                   </label>
                   <textarea
                     name="comments"
-                    placeholder="Comments"
+                    placeholder="*comments"
                     className="textarea textarea-bordered h-full resize-none"
                     required
                   ></textarea>
@@ -162,7 +162,7 @@ const Inquire = () => {
             </div>
             <div className="mt-6 flex justify-end">
               <input
-                className="btn btn-error text-white font-bold py-1 px-3 rounded text-xs w-auto"
+                className="btn  "
                 type="submit"
                 value="Submit"
               />

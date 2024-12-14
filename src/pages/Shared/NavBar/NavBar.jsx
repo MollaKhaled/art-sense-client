@@ -26,7 +26,7 @@ const NavBar = () => {
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/">online exhibition</Link>
+          <Link to="/exhibition">online exhibition</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
@@ -35,6 +35,10 @@ const NavBar = () => {
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
           <Link to="/about">about</Link>
+        </li>
+        <span className="hidden lg:inline-block text-red-500">|</span>
+        <li>
+          <Link to="/event">Events</Link>
         </li>
         
         <span className="hidden lg:inline-block text-red-500">|</span>
@@ -99,7 +103,7 @@ const NavBar = () => {
               {navOptions}
             </ul>
           </div>
-          <div className="text-2xl">
+          <div className="text-2xl text-center ">
             <Link to="/">
               <span className="text-red-600">a</span>rt
               <span className="text-red-600">s</span>ense
