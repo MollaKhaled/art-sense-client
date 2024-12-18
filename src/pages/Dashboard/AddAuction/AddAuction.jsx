@@ -42,7 +42,7 @@ const AddAuction = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, title, media, size, year, price, stockCode, minEstimateBid, maxEstimateBid,bid } = data;
+          const { artist,birth,lotId,lotDetails, title, media, size, year,  stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory } = data;
 
           // Combine the range as a single string
           const estimateBid = `${minEstimateBid}-${maxEstimateBid}`;
@@ -51,7 +51,7 @@ const AddAuction = () => {
           const startDate = dates[0].startDate;
           const endDate = dates[0].endDate;
           const newItem = {
-            artist, title, media, size,
+            artist, title, media, size,birth,lotId,lotDetails,auctionCategory,
             year: parseFloat(year),
             bid: parseFloat(bid),
             estimateBid, // Store as a string like "20000-50000"
@@ -105,6 +105,33 @@ const AddAuction = () => {
                 className="input input-bordered w-full " />
             </div>
           </div>
+          <div className='flex'>
+            <div className="form-control w-full mb-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Birth*</span>
+              </div>
+              <input type="text" placeholder="birth"
+                {...register("birth", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
+            <div className="form-control w-full ml-4 mb-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Lot ID*</span>
+              </div>
+              <input type="text" placeholder="Lot Id"
+                {...register("lotId", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
+            
+          </div>
+          <div className="form-control w-full  mb-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Lot Details*</span>
+              </div>
+              <textarea type="text" placeholder="Lot Details"
+                {...register("lotDetails", { required: true, maxLength: 500})}
+                className="textarea textarea-bordered h-52 " />
+            </div>
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">
@@ -171,6 +198,14 @@ const AddAuction = () => {
             </div>
             <input type="text" placeholder="stockCode"
               {...register("stockCode", { required: true, maxLength: 120 })}
+              className="input input-bordered w-full " />
+          </div>
+          <div className="form-control w-full mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Auction Category*</span>
+            </div>
+            <input type="text" placeholder="Auction Category"
+              {...register("auctionCategory", { required: true, maxLength: 120 })}
               className="input input-bordered w-full " />
           </div>
           <div className='space-y-1'>

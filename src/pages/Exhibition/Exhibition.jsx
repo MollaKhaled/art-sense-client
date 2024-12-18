@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Banner from './Banner';
 import PopularExhibitionCard from '../PopularExhibitionCard/PopularExhibitionCard';
+import Banner from '../Exhibition/Banner';
 
 const Exhibition = ({item}) => {
   const [exhibition, setExhibition] = useState([]);
@@ -10,11 +10,9 @@ const Exhibition = ({item}) => {
       .then(res => res.json())
       .then(data => setExhibition(data))
   }, [])
-
-
   return (
     <div>
-      <Banner></Banner>
+      <Banner/>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
       {exhibition.length > 0 ? (
         exhibition.map((item) => <PopularExhibitionCard key={item._id} item={item} />)

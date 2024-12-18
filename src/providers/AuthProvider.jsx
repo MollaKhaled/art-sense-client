@@ -40,29 +40,30 @@ const AuthProvider = ({children}) => {
       photoURL: photo,
     })
   }
-    
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       console.log("auth state change", currentUser);
       setUser(currentUser);
       
-      // get and set token
-      if(currentUser){
-        axios.post('http://localhost:3000/jwt', {email: currentUser.email})
-        .then(data => {
-          localStorage.setItem('access-token', data.data.token);
-          setLoading(false);
-        }
-      )
-      }
-      else{
-        localStorage.removeItem('access-token')
+      if (currentUser) {
+        axios.post('http://localhost:3000/jwt', { email: currentUser.email })
+          .then(data => {
+            localStorage.setItem('access-token', data.data.token);
+            setLoading(false); // Ensure loading is set to false here
+          })
+          .catch(() => setLoading(false)); // Handle axios errors
+      } else {
+        localStorage.removeItem('access-token');
+        setLoading(false); // Ensure loading is set to false if no user
       }
     });
+  
     return () => {
-      return unsubscribe();
-    }
-  }, [])
+      unsubscribe();
+    };
+  }, []);
+   
+ 
   const authInfo = {
     user, 
     loading,

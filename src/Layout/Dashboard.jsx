@@ -34,30 +34,20 @@ const Dashboard = () => {
         <div className="drawer-side bg-[#D1A054]">
           <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
           <ul className="menu  w-80 p-4">
-            {
-              isAdmin ? <>
-                <li><NavLink to='/dashboard/adminhome'><FaHome />Admin Home</NavLink></li>
-                <li><NavLink to='/dashboard/addItem'><FaUtensils/> Add an Items</NavLink></li>
-                <li><NavLink to='/dashboard/addAuction'><FaUtensils/> Add an Auction</NavLink></li>
-                <li><NavLink to='/dashboard/allInquire'><FaWallet />all Inquire
-                </NavLink></li>
+          
+                <li><NavLink to='/'><FaHome />Admin Home</NavLink></li>
+                <li><NavLink to='/dashboard/addItem'><FaBook /> Add an Items</NavLink></li>
+                <li><NavLink to='/dashboard/addAuction'><FaBook /> Add an Auction</NavLink></li>
                 <li><NavLink to='/dashboard/addEvent'><FaBook />Add Event</NavLink></li>
+                <li><NavLink to='/dashboard/addExhibitionNavbar'><FaBook />Add Exhibition Navbar</NavLink></li>
+                <li><NavLink to='/dashboard/addAuctionNavbar'><FaBook />Add Auction Navbar</NavLink></li>
                 <li><NavLink to='/dashboard/users'><FaUsers />All Users</NavLink></li>
-              </> : <>
-                <li><NavLink to='/dashboard/userhome'><FaHome />User Home</NavLink></li>
-                <li><NavLink to='/dashboard/reservations'><FaCalendarAlt />reservations</NavLink></li>
-                <li><NavLink to='/dashboard/mycart'><FaCartShopping></FaCartShopping>My Cart
-                <span className="badge badge-secondary">+{cart?.length || 0}</span>
+                <li><NavLink to='/dashboard/allInquire'><FaUsers />all Inquire
                 </NavLink></li>
-                <li><NavLink to='dashboard/payment'><FaWallet />Payment History</NavLink></li>
-              </>
-            }
-            
-            <div className="divider"></div>
-            <li><NavLink to='/'><FaHome />Home</NavLink></li>
-            <li><NavLink to='/menu'><IoMenu />Our Menu</NavLink></li>
-            <li><NavLink to='/order/salad'><FaShoppingBag />Order Food</NavLink></li>
-            <li><NavLink to='/contact'><MdContactPhone />Contact</NavLink></li>
+                <li><NavLink to='/dashboard/allExhibitionNavbar'><FaUsers />All Exhibition Navbar</NavLink></li>
+                <li><NavLink to='/dashboard/allAuctionNavbar'><FaUsers />All Auction Navbar</NavLink></li>
+                <li><NavLink to='/dashboard/auctionMenu'><FaUsers />Auction Menu</NavLink></li>
+                <li><NavLink to='/dashboard/bid'><FaUsers />All Bider</NavLink></li>
           </ul>
         </div>
       </div>

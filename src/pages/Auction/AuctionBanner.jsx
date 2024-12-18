@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import banner from '../../assets/menu/Auction.jpg';
 
 const AuctionBanner = () => {
+  const [banner, setBanner] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/auctionNavbar')
+      .then(res => res.json())
+      .then(data => setBanner(data));
+  }, []);
+
   return (
-    <>
-      <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
-        <SwiperSlide>
-          <img src={banner} alt="Auction Banner" className="w-full h-full object-cover" />
+    <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+      {banner.map((item, index) => (
+        <SwiperSlide key={index}>
+          <img
+            src={item.photoUrl} // Replace 'photoUrl' with the correct property from your API data
+            alt={`Slide ${index + 1}`}
+            className="w-full h-auto object-cover"
+          />
         </SwiperSlide>
-      </Swiper>
-    </>
+      ))}
+    </Swiper>
   );
 };
 
