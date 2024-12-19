@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
+import LoadingSpinner from "../Shared/LoadingSpinner/LoadingSpinner";
 
 
 const AuctionDetails = () => {
@@ -110,7 +111,7 @@ const AuctionDetails = () => {
     }
   };
   if (photos.length === 0) {
-    return <p>Loading auction data...</p>;
+    return <p><LoadingSpinner/></p>;
   }
 
   const handlePrev = () => {
@@ -205,7 +206,7 @@ const AuctionDetails = () => {
           {/* Show bid count with loading state */}
           <p className="text-sm sm:text-base">
             {loading ? (
-              "Loading..."
+              <LoadingSpinner/>
             ) : (
               <span className="text-green-500">{bidCount} Bids</span>
             )}

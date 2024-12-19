@@ -1,32 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import AuctionCard from '../AuctionCard/AuctionCard';
 import AuctionBanner from './AuctionBanner';
+import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
 
 const Auction = () => {
   const [auctionPhoto, setAuctionPhoto] = useState([]);
-    useEffect (() => {
-      fetch('http://localhost:3000/auction')
-      .then(res =>res.json())
-      .then(data => setAuctionPhoto(data))
-  
-    }, []);
-    return (
-      <>
-      <div><AuctionBanner></AuctionBanner></div>
-       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
-        {auctionPhoto.length > 0 ? (
-          auctionPhoto.map((item) => <AuctionCard 
-          key={item._id} 
-          item={item}
-          
-           />)
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    fetch('http://localhost:3000/auction')
+      .then((res) => res.json())
+      .then((data) => {
+        setAuctionPhoto(data);
+        setLoading(false); // Set loading to false after data is fetched
+      })
+      .catch(() => setLoading(false)); // Handle fetch errors gracefully
+  }, []);
+
+  return (
+    <>
+      <div>
+        <AuctionBanner />
+      </div>
+      <div className="my-10">
+        {loading ? (
+          // Display spinner while loading
+          <div className="flex justify-center items-center h-screen">
+            <LoadingSpinner />
+          </div>
+        ) : auctionPhoto.length > 0 ? (
+          // Display auction items if data exists
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {auctionPhoto.map((item) => (
+              <AuctionCard key={item._id} item={item} />
+            ))}
+          </div>
         ) : (
-          <p className="text-center text-gray-500">No photos available.</p>
+          // Display message if no auction items are available
+          <p className="text-center text-gray-500"></p>
         )}
       </div>
-      </>
-     
-    );
+    </>
+  );
 };
 
 export default Auction;
