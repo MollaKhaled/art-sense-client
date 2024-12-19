@@ -5,7 +5,6 @@ import axios from "axios";
 
 
 
-
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 const AuthProvider = ({children}) => {
@@ -40,30 +39,30 @@ const AuthProvider = ({children}) => {
       photoURL: photo,
     })
   }
+    
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       console.log("auth state change", currentUser);
       setUser(currentUser);
       
-      if (currentUser) {
-        axios.post('http://localhost:3000/jwt', { email: currentUser.email })
-          .then(data => {
-            localStorage.setItem('access-token', data.data.token);
-            setLoading(false); // Ensure loading is set to false here
-          })
-          .catch(() => setLoading(false)); // Handle axios errors
-      } else {
+      // get and set token
+      if(currentUser){
+        axios.post('http://localhost:3000/jwt', {email: currentUser.email})
+        .then(data => {
+          localStorage.setItem('access-token', data.data.token);
+          setLoading(false);
+        })
+      }
+      else{
         localStorage.removeItem('access-token');
-        setLoading(false); // Ensure loading is set to false if no user
+        setLoading(false);
       }
     });
-  
     return () => {
-      unsubscribe();
-    };
-  }, []);
-   
- 
+      return unsubscribe();
+      
+    }
+  }, [])
   const authInfo = {
     user, 
     loading,
