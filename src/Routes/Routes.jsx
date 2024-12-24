@@ -28,9 +28,9 @@ import AddExhibitionNavbar from "../pages/Dashboard/AddExhibitionNavbar/AddExhib
 import AddAuctionNavbar from "../pages/Dashboard/AddAuctionNavbar/AddAuctionNavbar";
 import AllExhibitionNavbar from "../pages/Dashboard/AllExhibitionNavbar/AllExhibitionNavbar";
 import AllAuctionNavbar from "../pages/Dashboard/AllAuctionNavbar/AllAuctionNavbar";
-import PrivateRoute from "./PrivateRoute";
 import AuctionMenu from "../pages/Dashboard/AuctionMenu/AuctionMenu";
 import AllBider from "../pages/Dashboard/AllAuctionNavbar/AllBider/AllBider";
+import AllAuctionMenu from "../pages/Dashboard/AllAuctionMenu/AllAuctionMenu";
 
 
 export const router = createBrowserRouter([
@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
       },
       {
         path:'/auction/:id',
-        element:<PrivateRoute><AuctionDetails/></PrivateRoute>
+        element:<AuctionDetails/>
       },
       {
         path:'/exhibition',
@@ -99,59 +99,63 @@ export const router = createBrowserRouter([
   },
   {
     path:'dashboard',
-    element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+    element:<AdminRoute><Dashboard></Dashboard></AdminRoute>,
     children: [
       {
         path:'addItem',
-        element:<AdminRoute><AddItem></AddItem></AdminRoute>,
+        element:<AddItem></AddItem>,
       },
       {
         path:'users',
-        element:<AdminRoute><AllUsers></AllUsers></AdminRoute>,
+        element:<AllUsers></AllUsers>,
       },
       {
         path:'allInquire',
-        element:<AdminRoute><AllInquire></AllInquire></AdminRoute>
+        element:<AllInquire></AllInquire>
       },
       {
         path:'addEvent',
-        element:<AdminRoute><AddEvent/></AdminRoute>
+        element:<AddEvent/>
       },
       {
         path:'addAuction',
-        element:<AdminRoute><AddAuction/></AdminRoute>
+        element:<AddAuction/>
       },
       {
         path:'addExhibitionNavbar',
-        element:<AdminRoute><AddExhibitionNavbar/></AdminRoute>
+        element:<AddExhibitionNavbar/>
       },
       {
         path:'addAuctionNavbar',
-        element:<AdminRoute><AddAuctionNavbar/></AdminRoute>
+        element:<AddAuctionNavbar/>
       },
       {
         path:'allExhibitionNavbar',
-        element:<AdminRoute><AllExhibitionNavbar/></AdminRoute>
+        element:<AllExhibitionNavbar/>
       },
       {
         path:'allExhibitionNavbar/:id',
-        element:<AdminRoute><AllExhibitionNavbar/></AdminRoute>
+        element:<AllExhibitionNavbar/>
       },
       {
         path:'allAuctionNavbar',
-        element:<AdminRoute><AllAuctionNavbar/></AdminRoute>
+        element:<AllAuctionNavbar/>
       },
       {
         path:'allAuctionNavbar/:id',
-        element:<AdminRoute><AllAuctionNavbar/></AdminRoute>
+        element:<AllAuctionNavbar/>
       },
       {
         path:'auctionMenu',
-        element:<AdminRoute><AuctionMenu/></AdminRoute>
+        element:<AuctionMenu/>
+      },
+      {
+        path:'allAuctionMenu',
+        element:<AllAuctionMenu/>
       },
       {
         path:'bid',
-        element:<AdminRoute><AllBider/></AdminRoute>
+        element:<AllBider/>
       },
       
     ]

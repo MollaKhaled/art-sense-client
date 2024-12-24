@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
@@ -9,6 +9,7 @@ const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isAdmin] = useAdmin();
   const [cart] = useCart();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogOut = () => {
     logOut()
@@ -16,35 +17,38 @@ const NavBar = () => {
       .catch((error) => console.log(error));
   };
 
+  const handleOptionClick = () => {
+    setDropdownOpen(false); // Close the dropdown menu
+  };
+
   const navOptions = (
     <>
       <div className="flex lg:flex-row flex-col items-center gap-2">
         <li>
-          <Link to="/">artworks</Link>
+          <Link to="/" onClick={handleOptionClick}>artworks</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/auction">auction</Link>
+          <Link to="/auction" onClick={handleOptionClick}>auction</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/exhibition">online exhibition</Link>
+          <Link to="/exhibition" onClick={handleOptionClick}>online exhibition</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/services">services</Link>
+          <Link to="/services" onClick={handleOptionClick}>services</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/about">about</Link>
+          <Link to="/about" onClick={handleOptionClick}>about</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/event">Events</Link>
+          <Link to="/event" onClick={handleOptionClick}>Events</Link>
         </li>
-
         <span className="hidden lg:inline-block text-red-500">|</span>
-        {isAdmin && <li><Link to='/dashboard'>Dashboard</Link></li>}
+        {isAdmin && <li><Link to="/dashboard" onClick={handleOptionClick}>Dashboard</Link></li>}
         <li>
           <button className="btn">
             <FaShoppingCart className="m-2" />
@@ -55,18 +59,16 @@ const NavBar = () => {
         </li>
         {user?.email ? (
           <>
-
             <li>
-              <button onClick={handleLogOut}>Log Out</button>
+              <button onClick={() => { handleLogOut(); handleOptionClick(); }}>Log Out</button>
             </li>
             <li>
               <span>{user?.displayName}</span>
             </li>
-
           </>
         ) : (
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login" onClick={handleOptionClick}>Login</Link>
           </li>
         )}
       </div>
@@ -75,13 +77,14 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 relative z-50">
         <div className="navbar-start">
           <div className="dropdown">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost lg:hidden"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,14 +101,16 @@ const NavBar = () => {
                 />
               </svg>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-vertical bg-base-100 dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              {navOptions}
-            </ul>
+            {dropdownOpen && (
+              <ul
+                tabIndex={0}
+                className="menu menu-vertical bg-base-100 dropdown-content rounded-box z-50 mt-3 w-52 p-2 shadow"
+              >
+                {navOptions}
+              </ul>
+            )}
           </div>
-          <div className="text-2xl text-center ">
+          <div className="text-2xl text-center">
             <Link to="/">
               <span className="text-red-600">a</span>rt
               <span className="text-red-600">s</span>ense

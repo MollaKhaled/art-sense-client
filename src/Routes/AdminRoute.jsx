@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { Navigate, useLocation } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
+import LoadingSpinner from "../pages/Shared/LoadingSpinner/LoadingSpinner";
 
 
 const AdminRoute = ({ children }) => {
@@ -10,7 +11,7 @@ const AdminRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading || isAdminLoading) {
-    return <progress className="progress w-56" ></progress>
+    return <LoadingSpinner/>
   }
   if (user && isAdmin) {
     return children;

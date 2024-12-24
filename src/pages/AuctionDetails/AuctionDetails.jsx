@@ -77,6 +77,11 @@ const AuctionDetails = () => {
     }
   }, []);
   const handlePlaceBid = async () => {
+    if (!user) {
+      Swal.fire("Warning", "You need to be logged in to place a bid", "warning");
+      navigate("/login", { replace: true });
+      return;
+    }
     if (!selectedBid) {
       Swal.fire("Error", "Please select a bid amount", "error");
       return;
@@ -111,7 +116,7 @@ const AuctionDetails = () => {
     }
   };
   if (photos.length === 0) {
-    return <p><LoadingSpinner/></p>;
+    return <p><LoadingSpinner /></p>;
   }
 
   const handlePrev = () => {
@@ -186,7 +191,7 @@ const AuctionDetails = () => {
           <img
             src={currentItem.photoUrl}
             alt={currentItem.title}
-            className="w-full h-auto rounded-md shadow-lg"
+            className="w-full h-auto shadow-lg"
           />
         </div>
 
@@ -202,38 +207,32 @@ const AuctionDetails = () => {
           <p className="text-sm sm:text-base"> {currentItem.media}</p>
           <p className="text-sm sm:text-base"> {currentItem.size}</p>
           <p className="text-sm sm:text-base"> {currentItem.year}</p>
-          <div className="divider"></div>
-          {/* Show bid count with loading state */}
-          <p className="text-sm sm:text-base">
-            {loading ? (
-              <LoadingSpinner/>
-            ) : (
-              <span className="text-green-500">{bidCount} Bids</span>
-            )}
-          </p>
+
+
           <div className="divider"></div>
           <p className="text-sm sm:text-base">
             Lot ID: <span className="text-red-500">{currentItem.lotId}</span>
           </p>
           <div className="divider"></div>
-          <p className="text-sm sm:text-base">
-            Current Bid: <span className="text-red-500">BDT {currentItem.bid}</span>
-          </p>
-
-          <div className="divider"></div>
-          <p className="text-sm sm:text-base">Estimate: BDT {currentItem.estimateBid}</p>
-          <div className="divider"></div>
-          <p className="text-sm sm:text-base">
-            Ending:{" "}
+          <p className="text-sm sm:text-base ">
+            Ending: {" "}
             {currentItem.dates && currentItem.dates[0]?.endDate
               ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
+               
               })
               : "No end date available"}
+          </p>
+          <div className="divider"></div>
+          <p className="text-sm sm:text-base">Estimate: <span >BDT {currentItem.estimateBid}</span></p>
+          <div className="divider"></div>
+          <p className="text-sm sm:text-base">
+            Current Bid: <span className="text-red-500">BDT {currentItem.bid}</span>
+          </p>
+          <p className="text-sm sm:text-base ">
+            <span className="text-green-500 ml-24">{bidCount} Bids</span>
           </p>
           <div className="divider"></div>
           {/* Bid Select */}

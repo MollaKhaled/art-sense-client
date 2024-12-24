@@ -10,8 +10,6 @@ import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 
 const AllBider = () => {
   const [axiosSecure] = useAxiosSecure();
-
-  const [removes, setRemove] = useState([]);
   const { data: bid = [], refetch } = useQuery({
     queryKey: ['bid'],
     queryFn: async () => {
@@ -19,27 +17,36 @@ const AllBider = () => {
       return res.data;
     },
   });
-
+  
   // Sort the bid array by lotId in ascending order
   const sortedBid = [...bid].sort((a, b) => a.lotId - b.lotId);
-
-  const handleDelete = (id) => {
-    const proceed = confirm('Are you sure you want to delete');
-    if (proceed) {
-      fetch(`http://localhost:3000/bid/${id}`, {
-        method: 'DELETE',
+    const handleDelete = (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if(result.isConfirmed)
+        axiosSecure.delete(`bid/${id}`)
+          .then(res => {
+            if (res.data.deletedCount > 0) {
+              refetch();
+              Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Deleted SuccessFully",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+          })
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.deletedCount > 0) {
-            alert('deleted successful');
-            const remaining = removes.filter((remove) => remove._id !== id);
-            setRemove(remaining);
-          }
-        });
+  
     }
-  };
 
   return (
     <div className="w-full">

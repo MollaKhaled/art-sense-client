@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -7,7 +8,6 @@ import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
-  const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   let from = location.state?.from?.pathname || '/';
@@ -17,7 +17,7 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-  
+    console.log(email, password);
     signIn(email, password)
       .then(result => {
         const user = result.user;
@@ -29,30 +29,15 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        // Delay navigation to allow Swal to render
-        setTimeout(() => {
-          navigate(from, { replace: true });
-        }, 1500); // Match the Swal timer duration
+        navigate(from, {replace:true});
       })
-      .catch(error => {
-        console.error(error);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Login Failed",
-          text: "Email or Password Error",
-          showConfirmButton: true,
-        });
-      });
-  };
-  
-
+  }
 
 
   return (
     <>
       <Helmet>
-        <title>artsense | Login</title>
+        <title>Bd Restaurant | Login</title>
       </Helmet>
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
@@ -80,10 +65,10 @@ const Login = () => {
                   <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                 </label>
               </div>
-             
+            
               <div className="form-control mt-6">
-                {/* todo:make button disabled disabled={disabled} */}
-                <input  className="btn btn-primary" type='submit' value="Login">
+               
+                <input  className="btn btn-full" type='submit' value="Login">
                 </input>
               </div>
             </form>
