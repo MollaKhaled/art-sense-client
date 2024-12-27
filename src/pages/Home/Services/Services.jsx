@@ -18,8 +18,8 @@ const Services = () => {
             <span className="text-red-600">i</span>ces
           </h1>
           <p>selling<span className="text-red-600"> | </span>commissioning</p>
-          <p>authenticating<span className="text-red-600">|</span>cateloguing</p>
-          <p>framing<span className="text-red-600">|</span>packaging</p>
+          <p>authenticating<span className="text-red-600"> | </span>cateloguing</p>
+          <p>framing<span className="text-red-600"> | </span>packaging</p>
           <p>restoration by expert </p>
           <p>worldwide courier service</p>
 

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
-import LoadingSpinner from "../Shared/LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 
 const AuctionDetails = () => {
@@ -116,7 +116,9 @@ const AuctionDetails = () => {
     }
   };
   if (photos.length === 0) {
-    return <p><LoadingSpinner /></p>;
+    return <div className="flex justify-center items-center h-screen">
+      <span className="loading loading-spinner text-error"></span>
+    </div>;
   }
 
   const handlePrev = () => {
@@ -174,6 +176,9 @@ const AuctionDetails = () => {
 
   return (
     <>
+      <Helmet>
+        <title>artsense | auction details</title>
+      </Helmet>
       <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8">
         {/* Previous Button outside Image */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
@@ -210,30 +215,34 @@ const AuctionDetails = () => {
 
 
           <div className="divider"></div>
-          <p className="text-sm sm:text-base">
-            Lot ID: <span className="text-red-500">{currentItem.lotId}</span>
+         <div className="">
+         <p className="text-sm sm:text-base flex">
+            lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
           </p>
           <div className="divider"></div>
-          <p className="text-sm sm:text-base ">
+          <p className="text-sm sm:text-base flex ">
             Ending: {" "}
+            <p className="ml-14">
             {currentItem.dates && currentItem.dates[0]?.endDate
               ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-               
+
               })
               : "No end date available"}
+            </p>
           </p>
           <div className="divider"></div>
-          <p className="text-sm sm:text-base">Estimate: <span >BDT {currentItem.estimateBid}</span></p>
+          <p className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >BDT {currentItem.estimateBid}</p></p>
           <div className="divider"></div>
-          <p className="text-sm sm:text-base">
-            Current Bid: <span className="text-red-500">BDT {currentItem.bid}</span>
+          <p className="text-sm sm:text-base flex">
+            Current Bid: <p className="text-red-500 ml-8">BDT {currentItem.bid}</p>
           </p>
           <p className="text-sm sm:text-base ">
-            <span className="text-green-500 ml-24">{bidCount} Bids</span>
+            <span className="text-green-500 ml-32">{bidCount} Bids</span>
           </p>
+         </div>
           <div className="divider"></div>
           {/* Bid Select */}
           <div className="mt-4">

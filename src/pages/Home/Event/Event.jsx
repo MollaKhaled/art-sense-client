@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EventItem from '../EventItem/EventItem';
 import { Helmet } from 'react-helmet-async';
-import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+
 
 const Event = () => {
   const [event, setEvent] = useState([]);
@@ -20,12 +20,14 @@ const Event = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | Event</title>
+        <title>artsense | event</title>
       </Helmet>
       <div>
         {loading ? (
           // Show spinner when loading
-          <LoadingSpinner />
+          <div className="flex justify-center items-center h-screen">
+          <span className="loading loading-spinner text-error"></span>
+         </div>
         ) : (
           <div className="overflow-x-auto w-full">
             <table className="table w-full">

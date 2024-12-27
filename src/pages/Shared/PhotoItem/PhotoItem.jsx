@@ -8,6 +8,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCart from "../../../hooks/useCart";
 import BookingModal from "../BookingModal/BookingModal";
 
+
 const PhotoItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -71,9 +72,11 @@ const PhotoItem = ({ item }) => {
   };
 
   return (
-    <div className="card bg-base-100 sm:w-96 shadow-xl">
+ 
+   
+    <div className="card bg-base-100 sm:w-96">
       <figure
-        className="px-10 pt-10 h-full flex items-center justify-center cursor-pointer"
+        className=" pt-10 h-full flex items-center justify-center cursor-pointer"
         onClick={openModal}
       >
         <img
@@ -105,7 +108,7 @@ const PhotoItem = ({ item }) => {
             <IoMdMail />
           </Link>
         </div>
-        <div className="card-actions">
+        <div>
           <button onClick={() => handleAddToCart(item)} className="btn w-full">
             Available
           </button>
@@ -122,6 +125,8 @@ const PhotoItem = ({ item }) => {
         />
       )}
     </div>
+
+    
   );
 };
 

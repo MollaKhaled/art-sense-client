@@ -31,6 +31,14 @@ import AllAuctionNavbar from "../pages/Dashboard/AllAuctionNavbar/AllAuctionNavb
 import AuctionMenu from "../pages/Dashboard/AuctionMenu/AuctionMenu";
 import AllBider from "../pages/Dashboard/AllAuctionNavbar/AllBider/AllBider";
 import AllAuctionMenu from "../pages/Dashboard/AllAuctionMenu/AllAuctionMenu";
+import AddNavbar from "../pages/AddNavbar/AddNavbar";
+import AllPhotoNavbar from "../pages/AllPhotoNavbar/AllPhotoNavbar";
+import ExhibitionDetails from "../pages/ExhibitionDetails/ExhibitionDetails";
+import AddExhibition from "../pages/Dashboard/AddExhibition/AddExhibition";
+import AllExhibition from "../pages/Dashboard/AllExhibition/AllExhibition";
+import AllExhibitionBooked from "../pages/Dashboard/AllExhibitionBooked/AllExhibitionBooked";
+
+
 
 
 export const router = createBrowserRouter([
@@ -62,6 +70,12 @@ export const router = createBrowserRouter([
       {
         path:'/exhibition',
         element:<Exhibition/>,
+        
+      },
+      {
+        path:'/exhibition/:id',
+        element:<ExhibitionDetails/>,
+        loader:({params}) =>fetch(`http://localhost:3000/exhibition/${params.id}`)
         
       },
       {
@@ -106,6 +120,14 @@ export const router = createBrowserRouter([
         element:<AddItem></AddItem>,
       },
       {
+        path:'addNavbar',
+        element:<AddNavbar/>
+      },         
+      {
+        path:'allPhotoNavbar',
+        element:<AllPhotoNavbar/>
+      },         
+      {
         path:'users',
         element:<AllUsers></AllUsers>,
       },
@@ -122,13 +144,28 @@ export const router = createBrowserRouter([
         element:<AddAuction/>
       },
       {
+        path:'addAuctionNavbar',
+        element:<AddAuctionNavbar/>
+      },
+      {
+        path:'addExhibition',
+        element:<AddExhibition/>
+      },
+    
+      {
         path:'addExhibitionNavbar',
         element:<AddExhibitionNavbar/>
       },
       {
-        path:'addAuctionNavbar',
-        element:<AddAuctionNavbar/>
+        path:'allExhibition',
+        element:<AllExhibition/>
       },
+      {
+        path:'allExhibitionBooked',
+        element:<AllExhibitionBooked/>
+      },
+    
+      
       {
         path:'allExhibitionNavbar',
         element:<AllExhibitionNavbar/>

@@ -4,23 +4,25 @@ import { Helmet } from 'react-helmet-async';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaTrash, FaUserShield } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../../../providers/AuthProvider';
 
-const AllExhibitionNavbar = () => {
+import { useContext, useState } from 'react';
+
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { AuthContext } from '../../providers/AuthProvider';
+
+const AllPhotoNavbar = () => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [removes,setRemove] = useState([]);
   const {data: users =[], refetch} = useQuery({ queryKey: ['users'], queryFn: async () => {
-      const res = await axiosSecure.get('/exhibitionNavbar');
+      const res = await axiosSecure.get('/addNavbar');
       return res.data;
     }
   });
   const handleDelete = (id) =>{
     const proceed = confirm('Are you sure you want to delete')
     if(proceed){
-      fetch(`http://https://art-sense-server.vercel.appexhibitionNavbar/${id}`,{
+      fetch(`http://localhost:3000/addNavbar/${id}`,{
         method:'DELETE'
       })
       .then(res=>res.json())
@@ -42,7 +44,7 @@ const AllExhibitionNavbar = () => {
   return (
     <div className='w-full'>
       <Helmet>
-        <title>artsense | All ExhibitionNavbar</title>
+        <title>artsense | All Auction Navbar</title>
       </Helmet>
       <h3 className='text-3xl font-semibold m-4'>Total Photo:{users.length}</h3>
       <div className="overflow-x-auto">
@@ -78,4 +80,4 @@ const AllExhibitionNavbar = () => {
   );
 };
 
-export default AllExhibitionNavbar;
+export default AllPhotoNavbar;

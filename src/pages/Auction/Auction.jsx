@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AuctionCard from '../AuctionCard/AuctionCard';
 import AuctionBanner from './AuctionBanner';
-import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
+import { Helmet } from 'react-helmet-async';
+
 
 const Auction = () => {
   const [auctionPhoto, setAuctionPhoto] = useState([]);
@@ -19,6 +20,9 @@ const Auction = () => {
 
   return (
     <>
+      <Helmet>
+        <title>artsense | auction</title>
+      </Helmet>
       <div>
         <AuctionBanner />
       </div>
@@ -26,11 +30,11 @@ const Auction = () => {
         {loading ? (
           // Display spinner while loading
           <div className="flex justify-center items-center h-screen">
-            <LoadingSpinner />
+            <span className="loading loading-spinner text-error"></span>
           </div>
         ) : auctionPhoto.length > 0 ? (
           // Display auction items if data exists
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
             {auctionPhoto.map((item) => (
               <AuctionCard key={item._id} item={item} />
             ))}

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FaBook, FaUsers } from "react-icons/fa6";
 import { FaHome } from 'react-icons/fa';
-
 import { Helmet } from 'react-helmet-async';
 import useCart from '../hooks/useCart';
 import useAdmin from '../hooks/useAdmin';
@@ -43,22 +42,39 @@ const Dashboard = () => {
                   <NavLink to="/dashboard/addItem"><FaBook /> Add an Item</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/dashboard/addNavbar"><FaBook /> Add Photo Navbar</NavLink>
+                </li>
+                <li>
                   <NavLink to="/dashboard/addAuction"><FaBook /> Add an Auction</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/addEvent"><FaBook /> Add Event</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/addExhibitionNavbar"><FaBook /> Add Exhibition Navbar</NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/addAuctionNavbar"><FaBook /> Add Auction Navbar</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/dashboard/addExhibition"><FaBook /> Add Exhibition </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/addExhibitionNavbar"><FaBook /> Add Exhibition Navbar</NavLink>
+                </li>
+               
+                <li>
+                  <NavLink to="/dashboard/addEvent"><FaBook /> Add Event</NavLink>
+                </li>
+             
+                <li>
                   <NavLink to="/dashboard/users"><FaUsers /> All Users</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/dashboard/allPhotoNavbar"><FaUsers /> All Photo Navbar</NavLink>
+                </li>
+                <li>
                   <NavLink to="/dashboard/allInquire"><FaUsers /> All Inquire</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/allExhibition"><FaUsers />All Exhibition </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/allExhibitionBooked"><FaUsers />All Exhibition Booked </NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/allExhibitionNavbar"><FaUsers /> All Exhibition Navbar</NavLink>

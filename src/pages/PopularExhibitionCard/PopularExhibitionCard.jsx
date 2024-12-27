@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import ExhibitionModal from '../Shared/ExhibitionModal/ExhibitionModal';
 import useCart from '../../hooks/useCart';
+import { Link } from 'react-router-dom';
 
-const handleAddToCart =()=>{
-
-}
 
 const PopularExhibitionCard = ({item}) => {
   const { _id, artist, title, size, stockCode, photoUrl, media, price } = item;
@@ -17,9 +15,9 @@ const PopularExhibitionCard = ({item}) => {
     setIsOpen(true);
   };
   return (
-    <div className="card bg-base-100 sm:w-96 shadow-xl">
+    <div className="card bg-base-100 sm:w-96 ">
       <figure
-        className="px-10 pt-10 h-full flex items-center justify-center cursor-pointer"
+        className=" pt-10 h-full flex items-center justify-center cursor-pointer"
         onClick={openModal}
       >
         <img
@@ -42,10 +40,10 @@ const PopularExhibitionCard = ({item}) => {
         <div className="flex items-center justify-center gap-2">
          
         </div>
-        <div className="card-actions">
-          <button onClick={() => handleAddToCart(item)} className="btn w-full">
-            Available
-          </button>
+        <div >
+        <Link to={`/exhibition/${_id}`} state={{ item }}>
+          <button className="btn w-full">View Details</button>
+        </Link>
         </div>
       </div>
           {/* Booking Modal */}

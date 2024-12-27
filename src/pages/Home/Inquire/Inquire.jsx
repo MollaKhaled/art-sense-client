@@ -78,22 +78,6 @@ const Inquire = () => {
 
         <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
           <form onSubmit={handleBookService} className="card-body p-6 sm:p-8 md:p-10">
-            <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-700">
-              Book Service: {id}
-            </h2>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-600"></span>
-              </label>
-              <input
-                type="text"
-                name="id"
-                placeholder="*id"
-                className="input input-bordered"
-                defaultValue={id}
-                required
-              />
-            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column */}
               <div>

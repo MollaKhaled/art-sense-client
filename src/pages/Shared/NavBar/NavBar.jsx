@@ -45,10 +45,10 @@ const NavBar = () => {
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/event" onClick={handleOptionClick}>Events</Link>
+          <Link to="/event" onClick={handleOptionClick}>events</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
-        {isAdmin && <li><Link to="/dashboard" onClick={handleOptionClick}>Dashboard</Link></li>}
+        {isAdmin && <li><Link to="/dashboard" onClick={handleOptionClick}>dashboard</Link></li>}
         <li>
           <button className="btn">
             <FaShoppingCart className="m-2" />
@@ -60,7 +60,7 @@ const NavBar = () => {
         {user?.email ? (
           <>
             <li>
-              <button onClick={() => { handleLogOut(); handleOptionClick(); }}>Log Out</button>
+              <button onClick={() => { handleLogOut(); handleOptionClick(); }}>log out</button>
             </li>
             <li>
               <span>{user?.displayName}</span>
@@ -68,7 +68,7 @@ const NavBar = () => {
           </>
         ) : (
           <li>
-            <Link to="/login" onClick={handleOptionClick}>Login</Link>
+            <Link to="/login" onClick={handleOptionClick}>login</Link>
           </li>
         )}
       </div>

@@ -15,7 +15,7 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 
   useEffect(() => {
     if (isOpen) {
-      fetch("http://localhost:3000/exhibition") // Update with your API URL
+      fetch("https://art-sense-server.vercel.app/exhibition") // Update with your API URL
         .then((res) => res.json())
         .then((data) => {
           // Ensure bookingInfo is the starting photo
