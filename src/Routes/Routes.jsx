@@ -37,6 +37,7 @@ import ExhibitionDetails from "../pages/ExhibitionDetails/ExhibitionDetails";
 import AddExhibition from "../pages/Dashboard/AddExhibition/AddExhibition";
 import AllExhibition from "../pages/Dashboard/AllExhibition/AllExhibition";
 import AllExhibitionBooked from "../pages/Dashboard/AllExhibitionBooked/AllExhibitionBooked";
+import AllPhoto from "../pages/Dashboard/AllPhoto/AllPhoto";
 
 
 
@@ -122,6 +123,10 @@ export const router = createBrowserRouter([
       {
         path:'addNavbar',
         element:<AddNavbar/>
+      },         
+      {
+        path:'allPhoto',
+        element:<AllPhoto/>
       },         
       {
         path:'allPhotoNavbar',

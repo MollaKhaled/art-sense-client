@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
 
         {/* Contact Information */}
-        <div className='lg:justify-items-end'>
+        <div className='lg:justify-items-end lg:ml-12'>
           <h1 className="block mb-1">+880 1718 876332</h1>
           <h1>artsensebdgallery@gmail.com</h1>
         </div>

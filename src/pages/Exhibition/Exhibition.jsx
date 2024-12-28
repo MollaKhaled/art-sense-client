@@ -24,7 +24,9 @@ const Exhibition = () => {
         <Helmet>
           <title>artsense | exhibition</title>
         </Helmet>
-      <Banner />
+     <div className='pt-8'>
+     <Banner />
+     </div>
       <div className="my-10">
         {loading ? (
           // Display a loading spinner while data is being fetched

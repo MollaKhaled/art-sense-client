@@ -11,31 +11,39 @@ import { AuthContext } from '../../../providers/AuthProvider';
 const AllAuctionNavbar = () => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
-  const [removes,setRemove] = useState([]);
+
   const {data: users =[], refetch} = useQuery({ queryKey: ['users'], queryFn: async () => {
       const res = await axiosSecure.get('/AuctionNavbar');
       return res.data;
     }
   });
-  const handleDelete = (id) =>{
-    const proceed = confirm('Are you sure you want to delete')
-    if(proceed){
-      fetch(`http://localhost:3000/auctionNavbar/${id}`,{
-        method:'DELETE'
-      })
-      .then(res=>res.json())
-      .then(data => {
-        console.log(data);
-        if(data.deletedCount > 0){
-          alert('deleted successful')
-          const remaining = removes.filter(remove => remove._id !== id);
-          setRemove(remaining)
-        }
-        
-      })
-        
-    }
-  }
+   const handleDelete = (id) => {
+       Swal.fire({
+         title: "Are you sure?",
+         text: "You want to delete this!",
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#3085d6",
+         cancelButtonColor: "#d33",
+         confirmButtonText: "Yes, delete it!"
+       }).then((result) => {
+         if(result.isConfirmed)
+         axiosSecure.delete(`auctionNavbar/${id}`)
+           .then(res => {
+             if (res.data.deletedCount > 0) {
+               refetch();
+               Swal.fire({
+                 position: "center",
+                 icon: "success",
+                 title: "Deleted SuccessFully",
+                 showConfirmButton: false,
+                 timer: 1500
+               });
+             }
+           })
+       })
+   
+     }
 
 
 
@@ -69,8 +77,6 @@ const AllAuctionNavbar = () => {
       </tr>)
      }
 
-     
-     
     </tbody>
   </table>
 </div>

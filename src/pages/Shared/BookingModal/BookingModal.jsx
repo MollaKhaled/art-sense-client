@@ -14,7 +14,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
   useEffect(() => {
     if (isOpen) {
       // If there are multiple photos to display
-      fetch("https://art-sense-server.vercel.app/photo") // Update with your API URL
+      fetch("http://localhost:3000/photo") // Update with your API URL
         .then((res) => res.json())
         .then((data) => {
           // Ensure bookingInfo is the starting photo

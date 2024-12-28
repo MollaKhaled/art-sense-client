@@ -23,7 +23,7 @@ const Auction = () => {
       <Helmet>
         <title>artsense | auction</title>
       </Helmet>
-      <div>
+      <div className='pt-8'>
         <AuctionBanner />
       </div>
       <div className="my-10">

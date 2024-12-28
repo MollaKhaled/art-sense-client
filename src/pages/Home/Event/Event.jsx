@@ -20,7 +20,7 @@ const Event = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | event</title>
+        <title>artsense | events</title>
       </Helmet>
       <div>
         {loading ? (

@@ -13,25 +13,34 @@ const AllInquire = () => {
       .then(res => res.json())
       .then(data => setInquire(data))
   }, []);
-  const handleDelete = id =>{
-    const proceed = confirm('Are you sure you want to delete')
-    if(proceed){
-      fetch(`http://localhost:3000/inquire/${id}`,{
-        method:'DELETE'
-      })
-      .then(res=>res.json())
-      .then(data => {
-        console.log(data);
-        if(data.deletedCount > 0){
-          alert('deleted successful')
-          const remaining = inquires.filter(inquire => inquire._id !== id);
-            setInquire(remaining)
-        }
-        
-      })
-        
-    }
-  }
+   const handleDelete = (id) => {
+       Swal.fire({
+         title: "Are you sure?",
+         text: "You want to delete this!",
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#3085d6",
+         cancelButtonColor: "#d33",
+         confirmButtonText: "Yes, delete it!"
+       }).then((result) => {
+         if(result.isConfirmed)
+         axiosSecure.delete(`inquire/${id}`)
+           .then(res => {
+             if (res.data.deletedCount > 0) {
+               refetch();
+               Swal.fire({
+                 position: "center",
+                 icon: "success",
+                 title: "Deleted SuccessFully",
+                 showConfirmButton: false,
+                 timer: 1500
+               });
+             }
+           })
+       })
+   
+     }
+  
   return (
   <>
   <Helmet>

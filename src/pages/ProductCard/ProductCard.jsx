@@ -5,7 +5,7 @@ import {  useParams } from "react-router-dom";
 const ProductCard = () => {
   const {  id } = useParams();
   const phoneNumber = "+8801727079377"; // Replace with your WhatsApp number
-  const fixedMessage = "Inquire about artwork";
+  const fixedMessage = "";
   const productMessage = `${fixedMessage} id ${id }`;
 
   const handleInquireClick = () => {

@@ -65,6 +65,9 @@ const Dashboard = () => {
                   <NavLink to="/dashboard/users"><FaUsers /> All Users</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/dashboard/allPhoto"><FaUsers /> All Photo </NavLink>
+                </li>
+                <li>
                   <NavLink to="/dashboard/allPhotoNavbar"><FaUsers /> All Photo Navbar</NavLink>
                 </li>
                 <li>

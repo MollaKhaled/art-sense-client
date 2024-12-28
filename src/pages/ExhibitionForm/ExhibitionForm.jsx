@@ -1,23 +1,27 @@
-import { useParams, useNavigate, useLocation, useLoaderData } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
-import { useContext, useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
-import useCart from "../../hooks/useCart";
 
 const ExhibitionForm = () => {
-  const loadedExhibitionData = useLoaderData();
-
-  // Destructure price and discount from the loaded data
-  const { artworkId} = loadedExhibitionData;
-  const [cart, refetch] = useCart();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const initialExhibitionData = useLoaderData();
+  const [loadedExhibitionData, setLoadedExhibitionData] = useState(initialExhibitionData);
   const [loading, setLoading] = useState(false);
+
+  // Fetch booking status on component load
+  useEffect(() => {
+    fetch(`http://localhost:3000/bookedExhibition/${initialExhibitionData.artworkId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLoadedExhibitionData((prev) => ({ ...prev, booked: data.booked }));
+      })
+      .catch((error) => console.error("Error fetching booking status:", error));
+  }, [initialExhibitionData.artworkId]);
 
   const handleBookExhibitionProduct = (event) => {
     event.preventDefault();
     setLoading(true);
+
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
@@ -25,7 +29,8 @@ const ExhibitionForm = () => {
     const address = form.address.value;
 
     const bookedExhibition = {
-       id:artworkId,
+      id: loadedExhibitionData.artworkId,
+      price:loadedExhibitionData.price,
       customerName: name,
       email,
       phone,
@@ -45,25 +50,20 @@ const ExhibitionForm = () => {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: `Booked Successfully`,
+            title: "Booked Successfully",
             showConfirmButton: false,
             timer: 1500,
           });
+
+          setLoadedExhibitionData((prev) => ({ ...prev, booked: true }));
           form.reset();
-          refetch();
-        } else {
+        } else if (data.error) {
           Swal.fire({
-            title: "You are not Logged In",
-            text: "Please login to inquire!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, login!",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/login", { state: { from: location } });
-            }
+            position: "center",
+            icon: "error",
+            title: "Booking Failed",
+            text: data.error,
+            showConfirmButton: true,
           });
         }
       })
@@ -126,12 +126,12 @@ const ExhibitionForm = () => {
             <div>
               <button
                 className={`btn w-full font-semibold py-2 px-4 mb-2 rounded border-black ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
+                  loadedExhibitionData?.booked ? "cursor-not-allowed" : ""
                 }`}
                 type="submit"
-                disabled={loading}
+                disabled={loadedExhibitionData?.booked || loading}
               >
-                {loading ? "Booking..." : "Book"}
+                {loadedExhibitionData?.booked ? "Already Booked" : loading ? "Booking..." : "Book"}
               </button>
             </div>
           </form>

@@ -1,18 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { Helmet } from 'react-helmet-async';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FaTrash, FaUserShield } from 'react-icons/fa6';
-import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useContext, useState } from 'react';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { AuthContext } from '../../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
-const AllExhibitionNavbar = () => {
+const AllPhoto = () => {
   const [axiosSecure] = useAxiosSecure();
-  const { user } = useContext(AuthContext);
-  const {data: users =[], refetch} = useQuery({ queryKey: ['users'], queryFn: async () => {
-      const res = await axiosSecure.get('/exhibitionNavbar');
+  const { user: photo } = useContext(AuthContext);
+
+  const {data: photos =[], refetch} = useQuery({ queryKey: ['photos'], queryFn: async () => {
+      const res = await axiosSecure.get('/photo');
       return res.data;
     }
   });
@@ -27,7 +26,7 @@ const AllExhibitionNavbar = () => {
        confirmButtonText: "Yes, delete it!"
      }).then((result) => {
        if(result.isConfirmed)
-       axiosSecure.delete(`exhibitionNavbar/${id}`)
+       axiosSecure.delete(`photo/${id}`)
          .then(res => {
            if (res.data.deletedCount > 0) {
              refetch();
@@ -49,9 +48,9 @@ const AllExhibitionNavbar = () => {
   return (
     <div className='w-full'>
       <Helmet>
-        <title>artsense | All ExhibitionNavbar</title>
+        <title>artsense | All Auction Navbar</title>
       </Helmet>
-      <h3 className='text-3xl font-semibold m-4'>Total Photo:{users.length}</h3>
+      <h3 className='text-3xl font-semibold m-4'>Total Photo:{photos.length}</h3>
       <div className="overflow-x-auto">
   <table className="table">
     {/* head */}
@@ -65,19 +64,21 @@ const AllExhibitionNavbar = () => {
     <tbody>
    
    {
-      users.map((user, index) => <tr
-      key={user._id}
+      photos.map((photo, index) => <tr
+      key={photo._id}
       >
         <th>{index + 1}</th>
         <td>
-          <img src={user.photoUrl} alt="" />
+          <img 
+          src={photo.photoUrl} 
+          alt="photo" 
+          className='w-32 h-32'
+          />
         </td>
-        <td><button onClick={() => handleDelete(user._id)} className='btn btn-ghost bg-red-600 text-white'><FaTrashAlt /></button></td>
+        <td><button onClick={() => handleDelete(photo._id)} className='btn btn-ghost bg-red-600 text-white'><FaTrashAlt /></button></td>
       </tr>)
      }
 
-     
-     
     </tbody>
   </table>
 </div>
@@ -85,4 +86,4 @@ const AllExhibitionNavbar = () => {
   );
 };
 
-export default AllExhibitionNavbar;
+export default AllPhoto;
