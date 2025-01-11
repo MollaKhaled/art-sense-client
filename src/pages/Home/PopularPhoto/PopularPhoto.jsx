@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PhotoItem from "../../Shared/PhotoItem/PhotoItem";
-import PhotoBanner from "../../Shared/PhotoItem/PhotoBanner";
+
 
 
 
@@ -20,9 +20,6 @@ const PopularPhoto = () => {
 
   return (
     <>
-    <div className="pt-8">
-    <PhotoBanner/>
-    </div>
     <div className="my-10">
       {loading ? (
         // Show spinner while data is being fetched
@@ -31,7 +28,7 @@ const PopularPhoto = () => {
         </div>
       ) : photos.length > 0 ? (
         // Show photos if available
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {photos.map((item) => (
             <PhotoItem key={item._id} item={item} />
           ))}

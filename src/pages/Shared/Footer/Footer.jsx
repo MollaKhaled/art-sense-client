@@ -15,9 +15,9 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="block mb-2"
           >
-            <span className="text-red-500">f</span>/artsense
+            <span className="text-red-500">f</span>/<span className="text-red-500">a</span>rt<span className="text-red-500">s</span>ense
           </Link>
-          <h1>&copy; 02.02.2024 by artsense</h1>
+          <h1>&copy; 02.02.2024 by <span className="text-red-500">a</span>rt<span className="text-red-500">s</span>ense</h1>
         </div>
 
         {/* Powered By Section */}

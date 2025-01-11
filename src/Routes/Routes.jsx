@@ -38,6 +38,7 @@ import AddExhibition from "../pages/Dashboard/AddExhibition/AddExhibition";
 import AllExhibition from "../pages/Dashboard/AllExhibition/AllExhibition";
 import AllExhibitionBooked from "../pages/Dashboard/AllExhibitionBooked/AllExhibitionBooked";
 import AllPhoto from "../pages/Dashboard/AllPhoto/AllPhoto";
+import Category from "../pages/Home/Category/Category";
 
 
 
@@ -45,161 +46,167 @@ import AllPhoto from "../pages/Dashboard/AllPhoto/AllPhoto";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element:<Main></Main>,
-    children:[
+    element: <Main></Main>,
+    children: [
       {
-        path:"/",
-        element:<Home></Home>,
-        loader:() =>fetch('http://localhost:3000/photoCount'),
+        path: "/",
+        element: <Home></Home>,
+        loader: () => fetch('http://localhost:3000/photoCount'),
       },
       {
-        path:'/login',
-        element:<Login/>
-      },
-      {
-        path:'/signup',
-        element:<SignUp/>
-      },
-      {
-        path:'/auction',
-        element:<Auction/>
-      },
-      {
-        path:'/auction/:id',
-        element:<AuctionDetails/>
-      },
-      {
-        path:'/exhibition',
-        element:<Exhibition/>,
+        path: '/photo/:artist',
+        element: <Category />,
         
       },
+      
       {
-        path:'/exhibition/:id',
-        element:<ExhibitionDetails/>,
-        loader:({params}) =>fetch(`http://localhost:3000/exhibition/${params.id}`)
-        
+        path: '/login',
+        element: <Login />
       },
       {
-        path:'/photoCount',
-        element:<BookingModal/>,
-       
+        path: '/signup',
+        element: <SignUp />
+      },
+      {
+        path: '/auction',
+        element: <Auction />
+      },
+      {
+        path: '/auction/:id',
+        element: <AuctionDetails />
+      },
+      {
+        path: '/exhibition',
+        element: <Exhibition />,
 
       },
       {
-        path:'/about',
-        element:<About></About>,
+        path: '/exhibition/:id',
+        element: <ExhibitionDetails />,
+        loader: ({ params }) => fetch(`http://localhost:3000/exhibition/${params.id}`)
+
       },
       {
-        path:'/services',
-        element:<Services></Services>,
+        path: '/photoCount',
+        element: <BookingModal />,
+
+
       },
       {
-        path:'/event',
-        element:<Event></Event>,
+        path: '/about',
+        element: <About></About>,
       },
       {
-        path:'/inquire/:id',
-        element:<Inquire></Inquire>,
-        loader:({params}) =>fetch(`http://localhost:3000/photo/${params.id}`)
+        path: '/services',
+        element: <Services></Services>,
       },
       {
-        path:'/product/:id',
-        element:<ProductCard/>,
+        path: '/event',
+        element: <Event></Event>,
       },
       {
-        path:'/users/:id',
-        element:<AllUsers></AllUsers>,
+        path: '/inquire/:id',
+        element: <Inquire></Inquire>,
+        loader: ({ params }) => fetch(`http://localhost:3000/photo/${params.id}`)
+      },
+      {
+        path: '/product/:id',
+        element: <ProductCard />,
+      },
+      {
+        path: '/users/:id',
+        element: <AllUsers></AllUsers>,
       },
     ]
   },
   {
-    path:'dashboard',
-    element:<AdminRoute><Dashboard></Dashboard></AdminRoute>,
+    path: 'dashboard',
+    element: <AdminRoute><Dashboard></Dashboard></AdminRoute>,
     children: [
       {
-        path:'addItem',
-        element:<AddItem></AddItem>,
+        path: 'addItem',
+        element: <AddItem></AddItem>,
       },
       {
-        path:'addNavbar',
-        element:<AddNavbar/>
-      },         
-      {
-        path:'allPhoto',
-        element:<AllPhoto/>
-      },         
-      {
-        path:'allPhotoNavbar',
-        element:<AllPhotoNavbar/>
-      },         
-      {
-        path:'users',
-        element:<AllUsers></AllUsers>,
+        path: 'addNavbar',
+        element: <AddNavbar />
       },
       {
-        path:'allInquire',
-        element:<AllInquire></AllInquire>
+        path: 'allPhoto',
+        element: <AllPhoto />
       },
       {
-        path:'addEvent',
-        element:<AddEvent/>
+        path: 'allPhotoNavbar',
+        element: <AllPhotoNavbar />
       },
       {
-        path:'addAuction',
-        element:<AddAuction/>
+        path: 'users',
+        element: <AllUsers></AllUsers>,
       },
       {
-        path:'addAuctionNavbar',
-        element:<AddAuctionNavbar/>
+        path: 'allInquire',
+        element: <AllInquire></AllInquire>
       },
       {
-        path:'addExhibition',
-        element:<AddExhibition/>
-      },
-    
-      {
-        path:'addExhibitionNavbar',
-        element:<AddExhibitionNavbar/>
+        path: 'addEvent',
+        element: <AddEvent />
       },
       {
-        path:'allExhibition',
-        element:<AllExhibition/>
+        path: 'addAuction',
+        element: <AddAuction />
       },
       {
-        path:'allExhibitionBooked',
-        element:<AllExhibitionBooked/>
-      },
-    
-      
-      {
-        path:'allExhibitionNavbar',
-        element:<AllExhibitionNavbar/>
+        path: 'addAuctionNavbar',
+        element: <AddAuctionNavbar />
       },
       {
-        path:'allExhibitionNavbar/:id',
-        element:<AllExhibitionNavbar/>
+        path: 'addExhibition',
+        element: <AddExhibition />
+      },
+
+      {
+        path: 'addExhibitionNavbar',
+        element: <AddExhibitionNavbar />
       },
       {
-        path:'allAuctionNavbar',
-        element:<AllAuctionNavbar/>
+        path: 'allExhibition',
+        element: <AllExhibition />
       },
       {
-        path:'allAuctionNavbar/:id',
-        element:<AllAuctionNavbar/>
+        path: 'allExhibitionBooked',
+        element: <AllExhibitionBooked />
+      },
+
+
+      {
+        path: 'allExhibitionNavbar',
+        element: <AllExhibitionNavbar />
       },
       {
-        path:'auctionMenu',
-        element:<AuctionMenu/>
+        path: 'allExhibitionNavbar/:id',
+        element: <AllExhibitionNavbar />
       },
       {
-        path:'allAuctionMenu',
-        element:<AllAuctionMenu/>
+        path: 'allAuctionNavbar',
+        element: <AllAuctionNavbar />
       },
       {
-        path:'bid',
-        element:<AllBider/>
+        path: 'allAuctionNavbar/:id',
+        element: <AllAuctionNavbar />
       },
-      
+      {
+        path: 'auctionMenu',
+        element: <AuctionMenu />
+      },
+      {
+        path: 'allAuctionMenu',
+        element: <AllAuctionMenu />
+      },
+      {
+        path: 'bid',
+        element: <AllBider />
+      },
+
     ]
   }
 ]);

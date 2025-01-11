@@ -60,7 +60,7 @@ const PhotoItem = ({ item }) => {
   };
 
   const handleWhatsAppClick = () => {
-    const message = `${fixedMessage} for artwork "${title}" (ID: ${_id}).`;
+    const message = `${fixedMessage} "${title}" (ID: ${_id}).`;
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(url, "_blank");
@@ -74,9 +74,9 @@ const PhotoItem = ({ item }) => {
   return (
  
    
-    <div className="card bg-base-100 sm:w-96">
+    <div className="card ">
       <figure
-        className=" pt-10 h-full flex items-center justify-center cursor-pointer"
+        className="pt-10 h-full flex items-center justify-center cursor-pointer"
         onClick={openModal}
       >
         <img
@@ -108,12 +108,13 @@ const PhotoItem = ({ item }) => {
             <IoMdMail />
           </Link>
         </div>
-        <div>
+        
+      </div>
+      <div>
           <button onClick={() => handleAddToCart(item)} className="btn w-full">
             Available
           </button>
         </div>
-      </div>
 
       {/* Booking Modal */}
       {selectedPhoto && (
