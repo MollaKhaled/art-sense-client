@@ -4,69 +4,42 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
+import useBidCount from "../../hooks/useBidCount";
+import useRemainingTime from "../../hooks/useRemainingTime";
 
 
 const AuctionDetails = () => {
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
-  const navigate = useNavigate(); // Hook for programmatic navigation
+  const navigate = useNavigate();
   const [photos, setPhotos] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedBid, setSelectedBid] = useState(null); // State to track the selected bid
-  const [bidCount, setBidCount] = useState(0);
+  const [selectedBid, setSelectedBid] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const currentItem = photos[currentIndex];
+  const { lotId } = currentItem || {};
+  const { bidCount, incrementBidCount, loading: bidCountLoading } = useBidCount(lotId);
+  const remainingTime = useRemainingTime(currentItem?.dates?.[0]?.endDate);
 
 
   // Fetch photos and item data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPhotos = async () => {
       try {
-        const photosRes = await fetch("http://localhost:3000/auction");
-        const photosData = await photosRes.json();
-        setPhotos(photosData);
+        const response = await fetch("http://localhost:3000/auction");
+        const data = await response.json();
+        setPhotos(data);
 
-        // Set the initial index based on the current item ID
-        const initialIndex = photosData.findIndex((photo) => photo._id === id);
+        const initialIndex = data.findIndex((photo) => photo._id === id);
         setCurrentIndex(initialIndex !== -1 ? initialIndex : 0);
-
-        // Fetch bid count for the current photo using lotId
-        const currentLotId = photosData[currentIndex]?.lotId;
-        if (currentLotId) {
-          const bidCountRes = await fetch(`http://localhost:3000/bid/${currentLotId}/bid-count`);
-          const bidCountData = await bidCountRes.json();
-          setBidCount(bidCountData.bidCount);  // Set bid count
-          setLoading(false);  // Set loading to false once data is fetched
-        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching photos:", error);
       }
     };
 
-    fetchData();
+    fetchPhotos();
   }, [id]);
-  // Update bid count when the current item changes
-  // Fetch bid count when currentIndex changes
-  useEffect(() => {
-    const fetchBidCount = async () => {
-      if (photos.length > 0 && photos[currentIndex]?.lotId) {
-        setLoading(true);
-        try {
-          const currentLotId = photos[currentIndex]?.lotId;
-          const bidCountRes = await fetch(
-            `http://localhost:3000/bid/${currentLotId}/bid-count`
-          );
-          const bidCountData = await bidCountRes.json();
-          setBidCount(bidCountData.bidCount || 0);
-        } catch (error) {
-          console.error("Error fetching bid count:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchBidCount();
-  }, [currentIndex, photos]);
 
   // Load selected bid from localStorage when component mounts
   useEffect(() => {
@@ -90,7 +63,7 @@ const AuctionDetails = () => {
     const bidData = {
       bidAmount: selectedBid,
       email: user?.email,
-      lotId: photos[currentIndex]?.lotId,  // Use lotId for the specific photo
+      lotId,
     };
 
     try {
@@ -106,7 +79,7 @@ const AuctionDetails = () => {
 
       if (response.ok && result.insertedId) {
         Swal.fire("Success", "Bid placed successfully!", "success");
-        setBidCount(bidCount + 1);  // Increment bid count locally
+        incrementBidCount(); // Update bid count using the hook
       } else {
         Swal.fire("Error", result.message || "Failed to place bid. Try again!", "error");
       }
@@ -140,9 +113,6 @@ const AuctionDetails = () => {
   const handleBidChange = (e) => {
     const newBid = e.target.value;
     setSelectedBid(newBid);
-
-    // // Save selected bid to localStorage
-    // localStorage.setItem("selectedBid", newBid);
   };
 
   // Generate bid options based on the item's current bid and estimated bid
@@ -171,7 +141,7 @@ const AuctionDetails = () => {
   };
 
 
-  const currentItem = photos[currentIndex];
+ 
   const bidOptions = generateBidOptions(currentItem.bid, currentItem.estimateBid);
 
   return (
@@ -220,9 +190,10 @@ const AuctionDetails = () => {
             lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
           </p>
           <div className="divider"></div>
+          <div>
           <p className="text-sm sm:text-base flex ">
             Ending: {" "}
-            <p className="ml-14">
+            <p className="ml-14" >
             {currentItem.dates && currentItem.dates[0]?.endDate
               ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
                 year: "numeric",
@@ -232,12 +203,19 @@ const AuctionDetails = () => {
               })
               : "No end date available"}
             </p>
+            
           </p>
+          {remainingTime && (
+            <p className="text-sm sm:text-base ml-28 text-gray-500">
+              {remainingTime}
+            </p>
+          )}
+          </div>
           <div className="divider"></div>
           <p className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >BDT {currentItem.estimateBid}</p></p>
           <div className="divider"></div>
           <p className="text-sm sm:text-base flex">
-            Current Bid: <p className="text-red-500 ml-8">BDT {currentItem.bid}</p>
+            Open Bid: <p className="text-red-500 ml-8">BDT {currentItem.bid}</p>
           </p>
           <p className="text-sm sm:text-base ">
             <span className="text-green-500 ml-32">{bidCount} Bids</span>
