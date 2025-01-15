@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import { formatCurrency } from '../../../utils/currencyFormatter';
 
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
@@ -42,23 +43,27 @@ const AddAuction = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist,birth,lotId,lotDetails, title, media, size, year,  stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory } = data;
+          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory } = data;
+
+          // Format currency values
+          const formattedBid = formatCurrency(bid);
+          const formattedMinEstimateBid = formatCurrency(minEstimateBid);
+          const formattedMaxEstimateBid = formatCurrency(maxEstimateBid);
 
           // Combine the range as a single string
-          const estimateBid = `${minEstimateBid}-${maxEstimateBid}`;
-  
+          const estimateBid = `${formattedMinEstimateBid} - ${formattedMaxEstimateBid}`;
+
           // Extract individual start and end dates
           const startDate = dates[0].startDate;
           const endDate = dates[0].endDate;
           const newItem = {
-            artist, title, media, size,birth,lotId,lotDetails,auctionCategory,
+            artist, title, media, size, birth, lotId, lotDetails, auctionCategory,
             year: parseFloat(year),
-            bid: parseFloat(bid),
+            bid: formattedBid,
             estimateBid, // Store as a string like "20000-50000"
             dates: dates,
             startDate: { startDate },
             endDate: { endDate },
-
             stockCode, photoUrl: imgURL
           };
           console.log(newItem);
@@ -122,16 +127,16 @@ const AddAuction = () => {
                 {...register("lotId", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
-            
+
           </div>
           <div className="form-control w-full  mb-4 ">
-              <div className="label">
-                <span className="label-text-alt font-semibold">Lot Details*</span>
-              </div>
-              <textarea type="text" placeholder="Lot Details"
-                {...register("lotDetails", { required: true, maxLength: 500})}
-                className="textarea textarea-bordered h-52 " />
+            <div className="label">
+              <span className="label-text-alt font-semibold">Lot Details*</span>
             </div>
+            <textarea type="text" placeholder="Lot Details"
+              {...register("lotDetails", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-52 " />
+          </div>
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">
@@ -162,12 +167,12 @@ const AddAuction = () => {
 
           </div>
           <div className="form-control w-full mb-4 ">
-          <div className="label">
-                <span className="label-text-alt font-semibold">bid*</span>
-              </div>
-              <input type="number" placeholder="bid" {...register("bid", { required: true, maxLength: 120 })} className="input input-bordered w-full " />
-                 
+            <div className="label">
+              <span className="label-text-alt font-semibold">bid*</span>
             </div>
+            <input type="number" placeholder="bid" {...register("bid", { required: true, maxLength: 120 })} className="input input-bordered w-full " />
+
+          </div>
           <div className="flex">
             <div className="form-control w-full mb-4">
               <div className="label">

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet-async';
+import { formatCurrency } from '../../../utils/currencyFormatter';
 
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
@@ -11,52 +12,57 @@ const AddExhibition = () => {
   const [axiosSecure] = useAxiosSecure()
   const { register, handleSubmit, reset } = useForm();
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
-  
-  
-
 
   const onSubmit = data => {
-
     const formData = new FormData();
-    formData.append('image', data.image[0])
+    formData.append('image', data.image[0]);
 
     fetch(img_hosting_url, {
       method: 'POST',
-      body: formData
+      body: formData,
     })
       .then(res => res.json())
       .then(imgResponse => {
-        if (imgResponse.success) { // Correct variable: `imgResponse`
+        if (imgResponse.success) {
           const imgURL = imgResponse.data.display_url;
-          const { artist, title, media, size, year, price, stockCode,discount,artworkId } = data;
+          const { artist, title, media, size, year, price, stockCode, discount, artworkId } = data;
+
+          // Format the price using the helper function
+          const formattedPrice = formatCurrency(parseFloat(price));
+          const formattedDiscount = formatCurrency(parseFloat(discount));
+
           const newItem = {
-            artworkId , artist, title, media, size,
+            artworkId,
+            artist,
+            title,
+            media,
+            size,
             year: parseFloat(year),
-            price: parseFloat(price),
-            discount: parseFloat(discount),
-            stockCode, photoUrl: imgURL
+            price: formattedPrice,  // Send the formatted price
+            discount: formattedDiscount,  // Send the formatted discount
+            stockCode,
+            photoUrl: imgURL,
           };
+
           console.log(newItem);
+
           axiosSecure.post('/exhibition', newItem)
             .then(data => {
               console.log('After posting photo item', data.data);
               if (data.data.insertedId) {
                 reset();
                 Swal.fire({
-                  position: "top",
-                  icon: "success",
-                  title: "Exhibition Item added successfully",
+                  position: 'top',
+                  icon: 'success',
+                  title: 'Exhibition Item added successfully',
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 1500,
                 });
               }
             });
         }
       });
-
-
   };
-
 
   return (
     <>

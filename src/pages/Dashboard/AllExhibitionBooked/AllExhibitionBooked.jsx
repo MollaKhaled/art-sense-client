@@ -72,7 +72,7 @@ const AllPhotoNavbar = () => {
               >
                 <th>{index + 1}</th>
                 <td>{exhibitionBook.id}</td>
-                <td>{exhibitionBook.price}</td>
+                <td>{exhibitionBook.grandTotal}</td>
                 <td>{exhibitionBook.customerName}</td>
                 <td>{exhibitionBook.email}</td>
                 <td>{exhibitionBook.phone}</td>

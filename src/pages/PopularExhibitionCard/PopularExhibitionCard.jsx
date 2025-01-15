@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 const PopularExhibitionCard = ({item}) => {
-  const { _id, artist, title, size, stockCode, photoUrl, media, price } = item;
+  const { _id, artist, title, size, stockCode, photoUrl, media, price, formattedPrice } = item;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [cart, refetch] = useCart();
@@ -35,7 +35,7 @@ const PopularExhibitionCard = ({item}) => {
           <p className="text-lg">
             {size} <span className="text-red-500">|  </span> {stockCode}
           </p>
-          <h1 className="text-red-500">{price}</h1>
+          <h1 className="text-red-500">{formattedPrice}</h1>
         </div>
         <div className="flex items-center justify-center gap-2">
          

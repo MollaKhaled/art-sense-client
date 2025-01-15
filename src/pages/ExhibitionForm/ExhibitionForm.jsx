@@ -21,22 +21,29 @@ const ExhibitionForm = () => {
   const handleBookExhibitionProduct = (event) => {
     event.preventDefault();
     setLoading(true);
-
+  
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
     const phone = form.phone.value;
     const address = form.address.value;
-
+  
+    // Calculate grand total and format it
+    const priceNumber = parseFloat(loadedExhibitionData.formattedPrice.replace(/[^\d.-]/g, ''));
+    const discountNumber = parseFloat(loadedExhibitionData.discount.replace(/[^\d.-]/g, ''));
+    const grandTotal = priceNumber - discountNumber;
+    const formattedGrandTotal = `BDT ${grandTotal.toLocaleString()}`;
+  
     const bookedExhibition = {
       id: loadedExhibitionData.artworkId,
-      price:loadedExhibitionData.price,
+      price: loadedExhibitionData.formattedPrice,
       customerName: name,
       email,
       phone,
       address,
+      grandTotal: formattedGrandTotal, // Include formatted grand total
     };
-
+  
     fetch(`http://localhost:3000/bookedExhibition`, {
       method: "POST",
       headers: {
@@ -54,7 +61,7 @@ const ExhibitionForm = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-
+  
           setLoadedExhibitionData((prev) => ({ ...prev, booked: true }));
           form.reset();
         } else if (data.error) {
@@ -79,6 +86,7 @@ const ExhibitionForm = () => {
       })
       .finally(() => setLoading(false));
   };
+  
 
   return (
     <>
@@ -125,9 +133,8 @@ const ExhibitionForm = () => {
             </div>
             <div>
               <button
-                className={`btn w-full font-semibold py-2 px-4 mb-2 rounded border-black ${
-                  loadedExhibitionData?.booked ? "cursor-not-allowed" : ""
-                }`}
+                className={`btn w-full font-semibold py-2 px-4 mb-2 rounded border-black ${loadedExhibitionData?.booked ? "cursor-not-allowed" : ""
+                  }`}
                 type="submit"
                 disabled={loadedExhibitionData?.booked || loading}
               >

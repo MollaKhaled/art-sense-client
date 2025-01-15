@@ -2,35 +2,23 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router-dom';
 import ExhibitionForm from '../ExhibitionForm/ExhibitionForm';
+import numberToWords from '../../utils/numberToWords';
 
-// Utility function to convert numbers to words
-const numberToWords = (num) => {
-  const a = [
-    '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen',
-    'eighteen', 'nineteen',
-  ];
-  const b = [
-    '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety',
-  ];
-  const inWords = (n) => {
-    if (n < 20) return a[n];
-    if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');
-    if (n < 1000) return a[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' and ' + inWords(n % 100) : '');
-    if (n < 1000000) return inWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 ? ' ' + inWords(n % 1000) : '');
-    return inWords(Math.floor(n / 1000000)) + ' million' + (n % 1000000 ? ' ' + inWords(n % 1000000) : '');
-  };
-  return num === 0 ? 'zero' : inWords(num);
-};
 
 const ExhibitionDetails = () => {
   const loadedExhibitionData = useLoaderData();
 
   // Destructure price and discount from the loaded data
-  const { price = 0, discount = 0, photoUrl, title, artworkId, artist, media, size, year, lotDetails } = loadedExhibitionData;
+  const { formattedPrice = 0, discount = 0, photoUrl, title, artworkId, artist, media, size, year, lotDetails } = loadedExhibitionData;
+
+  // Extract numeric value from formattedPrice (e.g., "BDT 20,000.00" -> 20000)
+  const priceNumber = parseFloat(formattedPrice.replace(/[^\d.-]/g, ''));
+
+  // Extract numeric value from discount (e.g., "BDT 1,000.00" -> 1000)
+  const discountNumber = parseFloat(discount.replace(/[^\d.-]/g, ''));
 
   // Calculate grand total
-  const grandTotal = price - discount;
+  const grandTotal = priceNumber - discountNumber;
   const grandTotalInWords = numberToWords(grandTotal);
 
   return (
@@ -61,15 +49,15 @@ const ExhibitionDetails = () => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm sm:text-base">
               <span>Amount</span>
-              <span>{price}</span>
+              <span>{formattedPrice}</span>
             </div>
             <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
            
             <div className="mt-4 space-y-2">
-            <div className="flex justify-between text-sm sm:text-base font-bold">
-              <span>Sub Total</span>
-              <span>{price}</span>
-            </div>
+              <div className="flex justify-between text-sm sm:text-base font-bold">
+                <span>Sub Total</span>
+                <span>{formattedPrice}</span>
+              </div>
             </div>
             <div className="flex justify-between text-sm sm:text-base">
               <span>Special Honor</span>
@@ -78,11 +66,11 @@ const ExhibitionDetails = () => {
             
             <div className="flex justify-between text-sm sm:text-base font-bold">
               <span>Grand Total BDT</span>
-              <span>{grandTotal}</span>
+              <span>{`BDT ${grandTotal.toLocaleString()}`}</span> {/* Display grand total */}
             </div>
-            <div className="text-sm sm:text-base ">
+            <div className="text-sm sm:text-base">
               <span>In Words: </span>
-              <span className='font-bold'>{grandTotalInWords.toUpperCase()}</span> BDT only
+              <span className='font-bold'>{grandTotalInWords}</span> BDT only
             </div>
           </div>
 

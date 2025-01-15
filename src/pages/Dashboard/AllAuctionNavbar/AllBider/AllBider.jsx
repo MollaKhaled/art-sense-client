@@ -2,10 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Helmet } from 'react-helmet-async';
 import { FaTrashAlt } from 'react-icons/fa';
-
 import Swal from 'sweetalert2';
-
-import { useContext, useState } from 'react';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 
 const AllBider = () => {
@@ -71,7 +68,7 @@ const AllBider = () => {
               <tr key={user._id}>
                 <th>{index + 1}</th>
                 <td>{user.lotId}</td>
-                <td className="font-bold">BDT {user.bidAmount}</td>
+                <td className="font-bold">{user.bidAmount}</td>
                 <td>{user.email}</td>
                 <td>
                   <button

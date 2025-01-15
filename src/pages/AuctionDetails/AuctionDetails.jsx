@@ -8,6 +8,7 @@ import useBidCount from "../../hooks/useBidCount";
 import useRemainingTime from "../../hooks/useRemainingTime";
 
 
+
 const AuctionDetails = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
@@ -45,23 +46,25 @@ const AuctionDetails = () => {
   useEffect(() => {
     const storedBid = localStorage.getItem("selectedBid");
     if (storedBid) {
-      setSelectedBid(storedBid); // Set the selected bid from localStorage if it exists
-
+      setSelectedBid(parseInt(storedBid, 10)); // Parse as integer
     }
   }, []);
+
   const handlePlaceBid = async () => {
     if (!user) {
       Swal.fire("Warning", "You need to be logged in to place a bid", "warning");
       navigate("/login", { replace: true });
       return;
     }
+
     if (!selectedBid) {
       Swal.fire("Error", "Please select a bid amount", "error");
       return;
     }
-
+    // Format the selected bid as 'BDT <amount>'
+    const formattedBid = `BDT ${selectedBid.toLocaleString()}`;
     const bidData = {
-      bidAmount: selectedBid,
+      bidAmount: formattedBid,
       email: user?.email,
       lotId,
     };
@@ -80,6 +83,10 @@ const AuctionDetails = () => {
       if (response.ok && result.insertedId) {
         Swal.fire("Success", "Bid placed successfully!", "success");
         incrementBidCount(); // Update bid count using the hook
+
+        // Reset selectedBid state and localStorage after successful bid
+        setSelectedBid(null); // Reset state
+        localStorage.removeItem("selectedBid"); // Remove from localStorage
       } else {
         Swal.fire("Error", result.message || "Failed to place bid. Try again!", "error");
       }
@@ -88,11 +95,13 @@ const AuctionDetails = () => {
       Swal.fire("Error", "An error occurred. Try again!", "error");
     }
   };
+
   if (photos.length === 0) {
     return <div className="flex justify-center items-center h-screen">
       <span className="loading loading-spinner text-error"></span>
     </div>;
   }
+
 
   const handlePrev = () => {
     if (currentIndex > 0) {
@@ -111,38 +120,78 @@ const AuctionDetails = () => {
   };
 
   const handleBidChange = (e) => {
-    const newBid = e.target.value;
+    const newBid = parseInt(e.target.value, 10); // Convert to integer
     setSelectedBid(newBid);
+    localStorage.setItem("selectedBid", newBid); // Store in localStorage
   };
 
   // Generate bid options based on the item's current bid and estimated bid
-  const generateBidOptions = (currentBid, estimateBid) => {
-    if (!currentBid || !estimateBid) {
+  const generateBidOptions = (currentBid, estimateBid, selectedBid) => {
+    try {
+      // Validate estimateBid input
+      if (!estimateBid || typeof estimateBid !== "string") {
+        console.error("Invalid estimateBid:", estimateBid);
+        return [];
+      }
+
+      // Remove "BDT" and split the range
+      const [minEstimateStr, maxEstimateStr] = estimateBid
+        .replace(/BDT/g, "") // Remove "BDT"
+        .split("-")
+        .map((str) => str.replace(/,/g, "").trim()); // Remove commas and whitespace
+
+      // Convert the cleaned strings to numbers
+      const minEstimate = parseFloat(minEstimateStr);
+      const maxEstimate = parseFloat(maxEstimateStr);
+
+      // Validate the parsed estimates
+      if (
+        isNaN(minEstimate) ||
+        isNaN(maxEstimate) ||
+        minEstimate <= 0 ||
+        maxEstimate <= 0 ||
+        minEstimate >= maxEstimate
+      ) {
+        console.error("Invalid parsed estimates:", { minEstimate, maxEstimate });
+        return [];
+      }
+
+      // Default currentBid to minEstimate if undefined or invalid
+      const validCurrentBid = typeof currentBid === "number" && currentBid > 0 ? currentBid : minEstimate;
+
+      // If currentBid exceeds maxEstimate, no bids are valid
+      if (validCurrentBid >= maxEstimate) {
+        console.warn("Current bid exceeds max estimate:", validCurrentBid);
+        return [];
+      }
+
+      // Generate bid options
+      const increment = 5000;
+      const options = [];
+      let bid = Math.max(validCurrentBid, minEstimate); // Start from max(currentBid, minEstimate)
+
+      // If selectedBid is held by the local host, prevent it from appearing in the options
+      while (bid <= maxEstimate) {
+        if (bid !== selectedBid) {
+          options.push(bid);
+        }
+        bid += increment;
+      }
+
+      // Check if the selected bid is within the valid range
+      if (!options.includes(selectedBid) && selectedBid > 0 && selectedBid <= maxEstimate) {
+        options.push(selectedBid); // Add the held bid if it's valid but excluded
+      }
+
+      return options;
+    } catch (error) {
+      console.error("Error in generateBidOptions:", error);
       return [];
     }
-
-    // Extract minimum and maximum estimates from the string
-    const [minEstimate, maxEstimate] = estimateBid.split("-").map(Number);
-
-    if (!minEstimate || !maxEstimate || currentBid >= maxEstimate) {
-      return [];
-    }
-
-    // Generate bid options with an increment of 5000 or adjust as needed
-    const increment = 5000;
-    const options = [];
-    let bid = Math.max(currentBid, minEstimate);
-
-    while (bid <= maxEstimate) {
-      options.push(bid);
-      bid += increment;
-    }
-    return options;
   };
 
+  const bidOptions = generateBidOptions(currentItem?.bid, currentItem?.estimateBid, selectedBid);
 
- 
-  const bidOptions = generateBidOptions(currentItem.bid, currentItem.estimateBid);
 
   return (
     <>
@@ -185,42 +234,42 @@ const AuctionDetails = () => {
 
 
           <div className="divider"></div>
-         <div className="">
-         <p className="text-sm sm:text-base flex">
-            lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
-          </p>
-          <div className="divider"></div>
-          <div>
-          <p className="text-sm sm:text-base flex ">
-            Ending: {" "}
-            <p className="ml-14" >
-            {currentItem.dates && currentItem.dates[0]?.endDate
-              ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
+          <div className="">
+            <p className="text-sm sm:text-base flex">
+              lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
+            </p>
+            <div className="divider"></div>
+            <div>
+              <p className="text-sm sm:text-base flex ">
+                Ending: {" "}
+                <p className="ml-14" >
+                  {currentItem.dates && currentItem.dates[0]?.endDate
+                    ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
 
-              })
-              : "No end date available"}
+                    })
+                    : "No end date available"}
+                </p>
+
+              </p>
+              {remainingTime && (
+                <p className="text-sm sm:text-base ml-28 text-gray-500">
+                  {remainingTime}
+                </p>
+              )}
+            </div>
+            <div className="divider"></div>
+            <p className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></p>
+            <div className="divider"></div>
+            <p className="text-sm sm:text-base flex">
+              Open Bid: <p className="text-red-500 ml-8">{currentItem.bid}</p>
             </p>
-            
-          </p>
-          {remainingTime && (
-            <p className="text-sm sm:text-base ml-28 text-gray-500">
-              {remainingTime}
+            <p className="text-sm sm:text-base ">
+              <span className="text-green-500 ml-32">{bidCount} Bids</span>
             </p>
-          )}
           </div>
-          <div className="divider"></div>
-          <p className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >BDT {currentItem.estimateBid}</p></p>
-          <div className="divider"></div>
-          <p className="text-sm sm:text-base flex">
-            Open Bid: <p className="text-red-500 ml-8">BDT {currentItem.bid}</p>
-          </p>
-          <p className="text-sm sm:text-base ">
-            <span className="text-green-500 ml-32">{bidCount} Bids</span>
-          </p>
-         </div>
           <div className="divider"></div>
           {/* Bid Select */}
           <div className="mt-4">
@@ -236,13 +285,14 @@ const AuctionDetails = () => {
               {bidOptions.length > 0 ? (
                 bidOptions.map((bid, index) => (
                   <option key={index} value={bid}>
-                    BDT {bid}
+                    BDT {bid.toLocaleString()} {/* Format bid with commas */}
                   </option>
                 ))
               ) : (
                 <option>No bid options available</option>
               )}
             </select>
+
           </div>
           <p className="text-sm sm:text-base text-gray-400">*This amount excludes shipping fees</p>
           <div>
