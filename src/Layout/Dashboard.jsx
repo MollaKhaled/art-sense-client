@@ -60,15 +60,21 @@ const Dashboard = () => {
                 <li>
                   <NavLink to="/dashboard/addEvent"><FaBook /> Add Event</NavLink>
                 </li>
+                <li>
+                  <NavLink to="/dashboard/addTotalPhoto"><FaBook /> Add Total Photo</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/totalPhoto"><FaUsers /> Total Photo</NavLink>
+                </li>
              
                 <li>
                   <NavLink to="/dashboard/users"><FaUsers /> All Users</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/dashboard/allPhoto"><FaUsers /> All Photo </NavLink>
+                  <NavLink to="/dashboard/allPhoto"><FaUsers /> ArtWork Photo </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/dashboard/allPhotoNavbar"><FaUsers /> All Photo Navbar</NavLink>
+                  <NavLink to="/dashboard/allPhotoNavbar"><FaUsers /> ArtWork Photo Navbar</NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/allInquire"><FaUsers /> All Inquire</NavLink>

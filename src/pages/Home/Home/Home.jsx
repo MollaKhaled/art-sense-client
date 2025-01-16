@@ -14,7 +14,7 @@ const Home = () => {
     <PhotoBanner/>
     </div>
     <div className='grid grid-cols-1 lg:grid-cols-4 gap-2'>
-      <div className='border'>
+      <div>
         <LeftSideNav></LeftSideNav>
       </div>
       <div className='col-span-3'>

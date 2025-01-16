@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const LeftSideNav = () => {
-  const [photos, setPhotos] = useState([]);
+  const [artists, setArtists] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/photo')
+    fetch('http://localhost:3000/artists')
       .then(res => res.json())
-      .then(data => setPhotos(data))
+      .then(data => setArtists(data))
       .catch(error => console.log(error));
   }, []);
 
   return (
-    <div>
-      <h2>All Category: {photos.length}</h2>
+    <div className='space-y-6'>
+      <h2>All Artists: {artists.length}</h2>
       <div className='ps-4'>
-        {photos.map(photo => (
-          <p key={photo.id}>
-            <Link to={`/photo/${photo.artist}`} className='text-decoration-none text-black'>
-              {photo.artist}
+        {artists.map(artist => (
+          <p key={artist._id}>
+            <NavLink to={`/artists/${artist.id}`}  className='lg:inline-block hover:bg-gray-300 p-2 '>
+              {artist.name}
               
-            </Link>
+            </NavLink >
           </p>
         ))}
       </div>

@@ -11,7 +11,7 @@ const ExhibitionDetails = () => {
   // Destructure price and discount from the loaded data
   const { formattedPrice = 0, discount = 0, photoUrl, title, artworkId, artist, media, size, year, lotDetails } = loadedExhibitionData;
 
-  // Extract numeric value from formattedPrice (e.g., "BDT 20,000.00" -> 20000)
+  // Extract numeric value from formattedPrice (e.g., "BDT 12,000.00" -> 12000)
   const priceNumber = parseFloat(formattedPrice.replace(/[^\d.-]/g, ''));
 
   // Extract numeric value from discount (e.g., "BDT 1,000.00" -> 1000)

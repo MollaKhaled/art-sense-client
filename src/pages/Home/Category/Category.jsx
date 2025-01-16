@@ -1,16 +1,28 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
-import PhotoItem from '../../Shared/PhotoItem/PhotoItem';
+import CategoryCard from '../CategoryCard/CategoryCard';
+
 
 const Category = () => {
-  const { id,artist } = useParams(); 
-  const categoryPhotos = useLoaderData(); // Load data from the loader
-  console.log(categoryPhotos);
+  const { id } = useParams();
+  const artistPhotos = useLoaderData(); // Load data from the loader
+  console.log(artistPhotos);
   return (
-    <div>
-      <h2>This is category: {artist}</h2>
+    <>
       
-    </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        {
+          artistPhotos.map(photo => <CategoryCard
+            key={photo._id}
+            photo={photo}
+          >
+          </CategoryCard>)
+        }
+
+      </div>
+    </>
+
   );
 };
 

@@ -39,6 +39,8 @@ import AllExhibition from "../pages/Dashboard/AllExhibition/AllExhibition";
 import AllExhibitionBooked from "../pages/Dashboard/AllExhibitionBooked/AllExhibitionBooked";
 import AllPhoto from "../pages/Dashboard/AllPhoto/AllPhoto";
 import Category from "../pages/Home/Category/Category";
+import TotalPhoto from "../pages/Dashboard/TotalPhoto/TotalPhoto";
+import AddTotalPhoto from "../assets/dashboard/AddTotalPhoto/AddTotalPhoto";
 
 
 
@@ -54,8 +56,9 @@ export const router = createBrowserRouter([
         loader: () => fetch('http://localhost:3000/photoCount'),
       },
       {
-        path: '/photo/:artist',
+        path: '/artists/:id',
         element: <Category />,
+        loader:({params}) => fetch(`http://localhost:3000/artists/${params.id}`)
         
       },
       
@@ -205,6 +208,14 @@ export const router = createBrowserRouter([
       {
         path: 'bid',
         element: <AllBider />
+      },
+      {
+        path: 'totalPhoto',
+        element: <TotalPhoto />
+      },
+      {
+        path: 'addTotalPhoto',
+        element: <AddTotalPhoto />
       },
 
     ]
