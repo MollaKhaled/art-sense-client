@@ -48,7 +48,7 @@ const AllBider = () => {
   return (
     <div className="w-full">
       <Helmet>
-        <title>artsense | All Users</title>
+        <title>artsense | All Bidder</title>
       </Helmet>
       <h3 className="text-3xl font-semibold m-4">Total Bider: {bid.length}</h3>
       <div className="overflow-x-auto">

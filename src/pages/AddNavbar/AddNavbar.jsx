@@ -54,7 +54,7 @@ const AddNavbar = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddNavbar</title>
+        <title>artsense | Add Navbar</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

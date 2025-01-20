@@ -73,7 +73,6 @@ const PhotoItem = ({ item }) => {
 
   return (
  
-   
     <div className="card ">
       <figure
         className="pt-10 h-full flex items-center justify-center cursor-pointer"

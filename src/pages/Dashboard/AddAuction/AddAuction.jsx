@@ -88,7 +88,7 @@ const AddAuction = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddAuction</title>
+        <title>artsense | Add Auction</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

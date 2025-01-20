@@ -55,7 +55,7 @@ const AddItem = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddItem</title>
+        <title>artsense | Add Item</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

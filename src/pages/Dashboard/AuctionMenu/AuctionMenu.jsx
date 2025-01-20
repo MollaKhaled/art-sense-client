@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuctionMenu from '../../../hooks/useAuctionMenu';
 import AuctionMenuCategory from './AuctionMenuCategory/AuctionMenuCategory';
+import { Helmet } from 'react-helmet-async';
 
 const AuctionMenu = () => {
   const[auctionMenu] = useAuctionMenu();
@@ -31,6 +32,8 @@ const AuctionMenu = () => {
   const auctionY = auctionMenu.filter(item =>item.auctionCategory === 'ASA25');
   const auctionZ = auctionMenu.filter(item =>item.auctionCategory === 'ASA26');
   return (
+    <>
+    <Helmet>artsense | Auction Menu</Helmet>
     <div className='gap-4'>
       <h1 className='text-center font-bold'>AuctionA</h1>
       <AuctionMenuCategory items={auctionA}></AuctionMenuCategory>
@@ -86,6 +89,7 @@ const AuctionMenu = () => {
       <AuctionMenuCategory items={auctionZ}></AuctionMenuCategory>
       
     </div>
+    </>
   );
 };
 

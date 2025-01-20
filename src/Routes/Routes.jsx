@@ -41,6 +41,9 @@ import AllPhoto from "../pages/Dashboard/AllPhoto/AllPhoto";
 import Category from "../pages/Home/Category/Category";
 import TotalPhoto from "../pages/Dashboard/TotalPhoto/TotalPhoto";
 import AddTotalPhoto from "../assets/dashboard/AddTotalPhoto/AddTotalPhoto";
+import AddArtist from "../pages/Dashboard/AddArtist/AddArtist";
+import AllArtists from "../pages/Dashboard/AllArtists/AllArtists";
+import SearchPage from "../pages/SearchPage/SearchPage";
 
 
 
@@ -119,6 +122,10 @@ export const router = createBrowserRouter([
       {
         path: '/users/:id',
         element: <AllUsers></AllUsers>,
+      },
+      {
+        path: '/search',
+        element: <SearchPage/>
       },
     ]
   },
@@ -216,6 +223,14 @@ export const router = createBrowserRouter([
       {
         path: 'addTotalPhoto',
         element: <AddTotalPhoto />
+      },
+      {
+        path: 'addArtists',
+        element: <AddArtist />
+      },
+      {
+        path: 'allArtists',
+        element: <AllArtists />
       },
 
     ]

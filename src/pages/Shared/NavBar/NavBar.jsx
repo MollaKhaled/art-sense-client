@@ -49,22 +49,25 @@ const NavBar = () => {
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         {isAdmin && <li><Link to="/dashboard" onClick={handleOptionClick}>dashboard</Link></li>}
-        <li>
+        {/* <li>
           <button className="btn">
             <FaShoppingCart className="m-2" />
             <div className="badge" style={{ backgroundColor: '#B22222', color: 'white' }}>
               +{cart.length || 0}
             </div>
           </button>
-        </li>
+        </li> */}
+      
         {user?.email ? (
           <>
             <li>
               <button onClick={() => { handleLogOut(); handleOptionClick(); }}>log out</button>
             </li>
+            
             <li>
               <span>{user?.displayName}</span>
             </li>
+           
           </>
         ) : (
           <li>

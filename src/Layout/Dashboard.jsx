@@ -42,7 +42,7 @@ const Dashboard = () => {
                   <NavLink to="/dashboard/addItem"><FaBook /> Add an Item</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/dashboard/addNavbar"><FaBook /> Add Photo Navbar</NavLink>
+                  <NavLink to="/dashboard/addNavbar"><FaBook /> Add Artwork Navbar</NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/addAuction"><FaBook /> Add an Auction</NavLink>
@@ -62,6 +62,12 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink to="/dashboard/addTotalPhoto"><FaBook /> Add Total Photo</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/addArtists"><FaBook /> Add Artists</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/allArtists"><FaUsers /> Total Artists</NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/totalPhoto"><FaUsers /> Total Photo</NavLink>

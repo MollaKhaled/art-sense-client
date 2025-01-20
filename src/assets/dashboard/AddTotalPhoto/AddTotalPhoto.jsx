@@ -72,7 +72,7 @@ const AddExhibition = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddExhibition</title>
+        <title>artsense | Add Total Photo</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

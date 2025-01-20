@@ -48,7 +48,7 @@ const AllPhotoNavbar = () => {
   return (
     <div className='w-full'>
       <Helmet>
-        <title>artsense | All Auction Navbar</title>
+        <title>artsense | All Exhibition</title>
       </Helmet>
       <h3 className='text-3xl font-semibold m-4'>Total Photo:{exhibitions.length}</h3>
       <div className="overflow-x-auto">

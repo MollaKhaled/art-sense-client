@@ -53,7 +53,7 @@ const AddAuctionNavbar = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddAuctionNavbar</title>
+        <title>artsense | Add Auction Navbar</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

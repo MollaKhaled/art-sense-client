@@ -3,16 +3,19 @@ import { AuthContext } from '../../../providers/AuthProvider';
 import AllInquireRow from './AllInquireRow';
 import useCart from '../../../hooks/useCart';
 import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
+
 
 const AllInquire = () => {
-  const { user } = useContext(AuthContext);
-  const [inquires, setInquire] = useState([]);
-  const [cart, refetch] = useCart();
-  useEffect(() => {
-    fetch(`http://localhost:3000/inquire`)
-      .then(res => res.json())
-      .then(data => setInquire(data))
-  }, []);
+  const [axiosSecure] = useAxiosSecure();
+  const { user:inquire } = useContext(AuthContext);
+  const {data: inquires =[], refetch} = useQuery({ queryKey: ['inquires'], queryFn: async () => {
+      const res = await axiosSecure.get('/inquire');
+      return res.data;
+    }
+  });
    const handleDelete = (id) => {
        Swal.fire({
          title: "Are you sure?",

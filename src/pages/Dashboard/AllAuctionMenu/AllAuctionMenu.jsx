@@ -47,7 +47,7 @@ const handleDelete = (id) => {
   return (
     <>
       <Helmet>
-        <title>artsense | AllAuctionMenu</title>
+        <title>artsense | All Auction Menu</title>
       </Helmet>
       <div>
         <h2>All Auction Menu:{auctions.length}</h2>

@@ -67,7 +67,7 @@ const AddExhibition = () => {
   return (
     <>
       <Helmet>
-        <title>artsense | AddExhibition</title>
+        <title>artsense | Add Exhibition</title>
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>

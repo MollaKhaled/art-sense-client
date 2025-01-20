@@ -49,7 +49,7 @@ const AllExhibitionNavbar = () => {
   return (
     <div className='w-full'>
       <Helmet>
-        <title>artsense | All ExhibitionNavbar</title>
+        <title>artsense | All Exhibition Navbar</title>
       </Helmet>
       <h3 className='text-3xl font-semibold m-4'>Total Photo:{users.length}</h3>
       <div className="overflow-x-auto">
