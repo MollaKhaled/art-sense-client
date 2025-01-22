@@ -20,9 +20,8 @@ const EventItem = ({ item }) => {
         throw new Error(`Invalid file type: ${contentType}`);
       }
 
-      // Extract the filename dynamically (assuming the filename is provided in the response headers)
       const disposition = response.headers.get('Content-Disposition');
-      let filename = 'file.pdf'; // Default filename
+      let filename = 'file.pdf';
 
       if (disposition && disposition.indexOf('attachment') !== -1) {
         const matches = disposition.match(/filename="(.+)"/);
@@ -35,7 +34,7 @@ const EventItem = ({ item }) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename; // Dynamically set the filename here
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -44,38 +43,35 @@ const EventItem = ({ item }) => {
     }
   };
 
-
   return (
-    <tbody>
-      <tr>
-        {/* Photo column */}
-        <td>
-          <div className="flex items-center gap-3">
-            <div className="avatar">
-              <div className="rounded h-32 w-32">
-                <img src={photoUrl} alt="Event" />
-              </div>
+    <tr>
+      {/* Photo column */}
+      <td>
+        <div className="flex items-center gap-3">
+          <div className="avatar">
+            <div className="rounded h-32 w-32">
+              <img src={photoUrl} alt="Event" />
             </div>
           </div>
-        </td>
+        </div>
+      </td>
 
-        {/* Title, Description, and Press columns */}
-        <td colSpan={3}>
-          <div className="grid grid-cols-1">
-            <div className="text-red-500 text-xl">{title}</div>
-            <div className="text-lg">{description}</div>
-            <div className="flex items-center">
-              <div className="text-lg text-green-600">{press}</div>
-              <div className="text-lg ml-6">
-                <button onClick={() => handleDownload(item._id)} aria-label={`Download ${title} PDF`}>
-                  <FaDownload />
-                </button>
-              </div>
+      {/* Title, Description, and Press columns */}
+      <td colSpan={3}>
+        <div className="grid grid-cols-1">
+          <div className="text-red-500 text-xl">{title}</div>
+          <div className="text-lg">{description}</div>
+          <div className="flex items-center">
+            <div className="text-lg text-green-600">{press}</div>
+            <div className="text-lg ml-6">
+              <button onClick={() => handleDownload(item._id)} aria-label={`Download ${title} PDF`}>
+                <FaDownload />
+              </button>
             </div>
           </div>
-        </td>
-      </tr>
-    </tbody>
+        </div>
+      </td>
+    </tr>
   );
 };
 

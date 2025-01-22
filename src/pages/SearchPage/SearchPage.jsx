@@ -7,26 +7,49 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);  // State for loading status
   const [error, setError] = useState(null);  // State for error message
   const location = useLocation();  // To access the URL query parameters
-  const query = new URLSearchParams(location.search).get('query');  // Extract 'query' from URL
-  console.log('Query in frontend:', query);
-  useEffect(() => {
-    if (query) {
-      setLoading(true);  // Set loading to true when the search query is present
-      setError(null);  // Clear any previous error messages
   
-      // Fetch the search results from the backend
-      fetch(`http://localhost:3000/searchPhotos?search=${query}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setSearchResults(data);  // Set the fetched data as search results
-          setLoading(false);  // Set loading to false once data is fetched
-        })
-        .catch((err) => {
-          setError('Error fetching data.');  // Handle any errors during the fetch
-          setLoading(false);  // Set loading to false even on error
-        });
-    }
-  }, [query]);  // The effect runs whenever the 'query' changes (from the URL)
+  // Extract 'query', 'year', and 'price' from URL
+  const query = new URLSearchParams(location.search).get('query');
+  const year = new URLSearchParams(location.search).get('year');
+  const price = new URLSearchParams(location.search).get('price');
+  
+  console.log('Full URL:', location.search);  // Log the full URL to check if 'price' is present
+  console.log('Query in frontend:', query);
+  console.log('Year in frontend:', year);
+  console.log('Price in frontend:', price);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);  // Set loading to true when starting to fetch
+      setError(null);  // Clear any previous error messages
+
+      let searchUrl = `http://localhost:3000/searchPhotos`;
+
+      // Construct the URL based on available filters (query, year, price)
+      if (query) {
+        searchUrl += `?search=${query}`;
+      }
+      if (year) {
+        searchUrl += query ? `&year=${year}` : `?year=${year}`;
+      }
+      if (price) {
+        searchUrl += query || year ? `&price=${price}` : `?price=${price}`;
+      }
+
+      try {
+        const res = await fetch(searchUrl);  // Await the fetch response
+        const data = await res.json();  // Parse the response as JSON
+        setSearchResults(data);  // Set the fetched data as search results
+      } catch (err) {
+        setError('Error fetching data.');  // Handle any errors during the fetch
+      } finally {
+        setLoading(false);  // Set loading to false once the data is fetched or error occurs
+      }
+    };
+
+    fetchData();  // Call the async function to fetch data
+
+  }, [query, year, price]);  // The effect runs whenever the 'query', 'year', or 'price' changes
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
@@ -39,7 +62,7 @@ const SearchPage = () => {
           <SearchCard key={photo._id} photo={photo} />  // Display each photo's data
         ))
       ) : (
-        !loading && <p>No results found for "{query}"</p>  // Show message if no results and not loading
+        !loading && <p>No results found for "{query || year || price}"</p>  // Show message if no results and not loading
       )}
     </div>
   );

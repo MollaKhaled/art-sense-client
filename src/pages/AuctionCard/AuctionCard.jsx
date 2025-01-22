@@ -33,26 +33,16 @@ const AuctionCard = ({ item }) => {
             )}
           </div>
         </div>
-        <div className="">
-          <p className="text-sm sm:text-base text-center">
-            Ending:{" "}
-            {item.dates && item.dates[0]?.endDate
-              ? new Date(item.dates[0].endDate).toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })
-              : "No end date available"}
-          </p>
+        <div>
           {remainingTime && (
-            <p className="text-sm sm:text-base text-center text-gray-500">
+            <p className="text-sm sm:text-base text-center ">
               {remainingTime}
             </p>
           )}
         </div>
         <div className="mt-4">
           <Link to={`/auction/${_id}`} state={{ item }}>
-            <button className="btn w-full">Bid</button>
+            <button className="btn w-full">BID</button>
           </Link>
         </div>
       </div>

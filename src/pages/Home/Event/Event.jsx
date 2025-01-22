@@ -30,7 +30,7 @@ const Event = () => {
          </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="table w-full">
+            <table className="table w-full min-h-screen">
               <tbody>
                 {event.map((item) => (
                   <EventItem key={item._id} item={item} />

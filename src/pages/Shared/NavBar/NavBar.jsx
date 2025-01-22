@@ -80,7 +80,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-100 relative z-50">
+      <div className="navbar relative z-50">
         <div className="navbar-start">
           <div className="dropdown">
             <div

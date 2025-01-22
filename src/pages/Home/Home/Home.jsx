@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import LeftSideNav from '../../Shared/LeftSideNav/LeftSideNav';
 import PhotoBanner from '../../Shared/PhotoItem/PhotoBanner';
 
+
 const Home = () => {
   return (
    <>
@@ -13,7 +14,7 @@ const Home = () => {
       <div className="pt-8 pb-8">
     <PhotoBanner/>
     </div>
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-2'>
+    <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
       <div>
         <LeftSideNav></LeftSideNav>
       </div>
