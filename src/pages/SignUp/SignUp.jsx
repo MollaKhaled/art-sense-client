@@ -24,32 +24,53 @@ const SignUp = () => {
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+  
         updateUserProfile(data.name)
           .then(() => {
-            const saveUser = { 
-              name: data.name, 
-              email: data.email 
+            const saveUser = {
+              name: data.name,
+              email: data.email,
             };
-             axiosPublic.post('/users', saveUser)
-            
-              .then(res => {
-                if (res.data.insertedId) {
-                  reset();
-                  Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "User Created Successfully",
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  navigate("/");
-                }
-              })
-              });
-       
-        
+            axiosPublic.post("/users", saveUser).then((res) => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "User Created Successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              } else {
+                // Handle failure to save user in the database
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "User created but failed to save to the database.",
+                });
+              }
+            });
+          })
+          .catch((error) => {
+            // Handle updateUserProfile failure
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to update user profile. Please try again.",
+            });
+          });
+      })
+      .catch((error) => {
+        // Handle createUser failure
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message || "Failed to create user. Please try again.",
+        });
       });
   };
+  
 
   return (
    <>

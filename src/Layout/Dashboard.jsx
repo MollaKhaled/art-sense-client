@@ -106,6 +106,9 @@ const Dashboard = () => {
                 <li>
                   <NavLink to="/dashboard/bid"><FaUsers /> All Bidder</NavLink>
                 </li>
+                <li>
+                  <NavLink to="/dashboard/AllService"><FaUsers /> All services</NavLink>
+                </li>
               </>
             )}
 

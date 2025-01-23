@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
-
+import React, { useContext, useRef } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
+
+
+
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+
+  const { signIn, resetPassword } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const emailRef = useRef(null);
   let from = location.state?.from?.pathname || '/';
 
   const handleLogin = event => {
@@ -29,9 +33,48 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate(from, {replace:true});
+        navigate(from, { replace: true });
       })
   }
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+
+    if (!email) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please provide an email!',
+      });
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Email',
+        text: 'Please provide a valid email address!',
+      });
+      return;
+    }
+
+    resetPassword(email)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Password Reset Email Sent',
+          text: `A password reset email has been sent to ${email}. Please check your inbox.`,
+        });
+      })
+      .catch((error) => {
+        console.error('Error resetting password:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
+      });
+  };
+
 
 
   return (
@@ -54,7 +97,12 @@ const Login = () => {
                 <label className="label">
                   <span className="label-text">Email</span>
                 </label>
-                <input type="email" placeholder="email" name='email' className="input input-bordered" required />
+                <input type="email"
+                  placeholder="email"
+                  ref={emailRef}
+                  name='email'
+                  className="input input-bordered"
+                  required />
               </div>
               <div className="form-control">
                 <label className="label">
@@ -62,13 +110,13 @@ const Login = () => {
                 </label>
                 <input type="password" placeholder="password" name='password' className="input input-bordered" required />
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                  <a onClick={handleForgetPassword} href="#" className="label-text-alt link link-hover">
+                    Forgot password?
+                  </a>
                 </label>
               </div>
-            
               <div className="form-control mt-6">
-               
-                <input  className="btn btn-full" type='submit' value="Login">
+                <input className="btn btn-full" type='submit' value="Login">
                 </input>
               </div>
             </form>

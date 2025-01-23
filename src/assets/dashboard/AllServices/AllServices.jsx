@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
-import AllInquireRow from './AllInquireRow';
-import useCart from '../../../hooks/useCart';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import AllServiceRow from './AllServiceRow';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 
-const AllInquire = () => {
+const AllServices = () => {
   const [axiosSecure] = useAxiosSecure();
-  const { user:inquire } = useContext(AuthContext);
-  const {data: inquires =[], refetch} = useQuery({ queryKey: ['inquires'], queryFn: async () => {
-      const res = await axiosSecure.get('/inquire');
+  const { user:service } = useContext(AuthContext);
+  const {data: services =[], refetch} = useQuery({ queryKey: ['services'], queryFn: async () => {
+      const res = await axiosSecure.get('/service');
       return res.data;
     }
   });
@@ -27,7 +26,7 @@ const AllInquire = () => {
          confirmButtonText: "Yes, delete it!"
        }).then((result) => {
          if(result.isConfirmed)
-         axiosSecure.delete(`inquire/${id}`)
+         axiosSecure.delete(`service/${id}`)
            .then(res => {
              if (res.data.deletedCount > 0) {
                refetch();
@@ -47,32 +46,30 @@ const AllInquire = () => {
   return (
   <>
   <Helmet>
-        <title>artsense | AllInquire</title>
+        <title>artsense | AllServices</title>
       </Helmet>
     <div>
-      <h2>all inquire:{inquires.length}</h2>
+      <h2>all Services:{services.length}</h2>
       <div className="overflow-x-auto w-full">
   <table className="table w-full ">
     {/* head */}
     <thead className='bg-gray-500'>
       <tr>
-        <th>Id</th>
         <th>Name</th>
         <th>Email</th>
         <th>phone</th>
-        <th>address</th>
-        <th>comments</th>
+        <th>Message</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       {/* row 1 */}
         {
-          inquires.map(inquire =><AllInquireRow
+          services.map(inquire =><AllServiceRow
           key={inquire._id}
           inquire={inquire}
           handleDelete={handleDelete}
-          ></AllInquireRow>)
+          ></AllServiceRow>)
         }
      
     </tbody>
@@ -84,4 +81,4 @@ const AllInquire = () => {
   );
 };
 
-export default AllInquire;
+export default AllServices;

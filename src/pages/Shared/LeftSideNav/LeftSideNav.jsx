@@ -36,28 +36,29 @@ const LeftSideNav = () => {
 
   useEffect(() => {
     fetch('http://localhost:3000/prices')
-      .then(res => res.json())
-      .then(data => {
-        // Extract numeric part and sort prices
+      .then((res) => res.json())
+      .then((data) => {
+        // Safely process prices
         const sortedPrices = Array.isArray(data)
           ? data
-            .map(price => {
-              // Remove 'BDT' and commas, then parse the numeric part
-              const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
-              return isNaN(numericPrice) ? null : numericPrice;
-            })
-            .filter(price => price !== null) // Remove invalid prices
-            .sort((a, b) => a - b) // Sort numerically in ascending order
-            .map(price => `BDT ${price.toLocaleString()}`) // Reformat as 'BDT <value>'
+              .map((price) => {
+                if (typeof price !== 'string') return null; // Ensure price is a string
+                const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
+                return isNaN(numericPrice) ? null : numericPrice;
+              })
+              .filter((price) => price !== null) // Remove null or invalid prices
+              .sort((a, b) => a - b) // Sort numerically
+              .map((price) => `BDT ${price.toLocaleString()}`) // Format back as 'BDT <value>'
           : [];
-
-        setPrices(sortedPrices);  // Set the sorted prices in state
+  
+        setPrices(sortedPrices); // Update state with sorted prices
       })
-      .catch(error => {
-        console.log("Error fetching prices:", error);
-        setPrices([]); // Handle error
+      .catch((error) => {
+        console.error('Error fetching prices:', error);
+        setPrices([]); // Set an empty array on error
       });
   }, []);
+  
 
 
 

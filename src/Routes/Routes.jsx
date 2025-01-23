@@ -44,6 +44,7 @@ import AddTotalPhoto from "../assets/dashboard/AddTotalPhoto/AddTotalPhoto";
 import AddArtist from "../pages/Dashboard/AddArtist/AddArtist";
 import AllArtists from "../pages/Dashboard/AllArtists/AllArtists";
 import SearchPage from "../pages/SearchPage/SearchPage";
+import AllServices from "../assets/dashboard/AllServices/AllServices";
 
 
 
@@ -231,6 +232,10 @@ export const router = createBrowserRouter([
       {
         path: 'allArtists',
         element: <AllArtists />
+      },
+      {
+        path: 'AllService',
+        element: <AllServices />
       },
 
     ]

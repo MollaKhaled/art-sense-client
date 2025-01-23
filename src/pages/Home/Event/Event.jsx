@@ -25,7 +25,7 @@ const Event = () => {
       <div>
         {loading ? (
           // Show spinner when loading
-          <div className="flex justify-center items-center h-screen">
+          <div className="flex justify-center items-center min-h-screen">
           <span className="loading loading-spinner text-error"></span>
          </div>
         ) : (
