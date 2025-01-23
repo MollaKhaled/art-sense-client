@@ -21,21 +21,38 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
+  
     console.log(email, password);
+  
     signIn(email, password)
       .then(result => {
         const user = result.user;
         console.log(user);
+  
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "User login Successfully",
+          title: "User login successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
+  
         navigate(from, { replace: true });
       })
-  }
+      .catch(error => {
+        console.error("Login error:", error);
+  
+        // Show error message
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Invalid email or password",
+          // text: error.message, // Optional: include detailed error messages
+          showConfirmButton: true,
+        });
+      });
+  };
+  
   const handleForgetPassword = () => {
     const email = emailRef.current.value;
 
@@ -79,53 +96,70 @@ const Login = () => {
 
   return (
     <>
-      <Helmet>
-        <title>artsense | Login</title>
-      </Helmet>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center md:w-1/2 lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-              quasi. In deleniti eaque aut repudiandae et a id nisi.
-            </p>
-          </div>
-          <div className="card bg-base-100 md:w-1/2 max-w-sm shadow-2xl">
-            <form onSubmit={handleLogin} className="card-body">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input type="email"
-                  placeholder="email"
-                  ref={emailRef}
-                  name='email'
-                  className="input input-bordered"
-                  required />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input type="password" placeholder="password" name='password' className="input input-bordered" required />
-                <label className="label">
-                  <a onClick={handleForgetPassword} href="#" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
-                </label>
-              </div>
-              <div className="form-control mt-6">
-                <input className="btn btn-full" type='submit' value="Login">
-                </input>
-              </div>
-            </form>
-            <p className='text-center'><small>New Here? <Link to='/signup'>Create an account</Link></small></p>
-            <SocialLogin></SocialLogin>
-          </div>
+    <Helmet>
+      <title>artsense | Login</title>
+    </Helmet>
+    <div className="hero bg-base-200 min-h-screen">
+      <div className="hero-content flex-col lg:flex-row-reverse">
+        {/* Move the "Login now!" above the form */}
+        <div className="text-center lg:text-left mb-6">
+          <h1 className="text-5xl font-bold">Login now!</h1>
+        </div>
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <form onSubmit={handleLogin} className="card-body">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                placeholder="Email"
+                ref={emailRef}
+                name="email"
+                className="input input-bordered"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                className="input input-bordered"
+                required
+              />
+              <label className="label">
+                <a
+                  onClick={handleForgetPassword}
+                  href="#"
+                  className="label-text-alt link link-hover"
+                >
+                  Forgot password?
+                </a>
+              </label>
+            </div>
+            <div className="form-control mt-6">
+              <input
+                className="btn w-full"
+                type="submit"
+                value="Login"
+              ></input>
+            </div>
+          </form>
+          <p className="text-center">
+            <small>
+              New here? <Link to="/signup">Create an account</Link>
+            </small>
+          </p>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
-    </>
+    </div>
+  </>
+  
   );
 };
 
