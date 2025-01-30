@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
       {
         path: '/artists/:id',
         element: <Category />,
-        loader: ({ params }) => fetch(`http://localhost:3000/artists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/artists/${params.id}`).then((res) => res.json())
       },
       
       
