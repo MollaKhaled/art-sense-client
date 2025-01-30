@@ -8,7 +8,7 @@ const PhotoBanner = () => {
   const [PhotoBanner, setPhotoBanner] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/addNavbar')
+    fetch('https://art-sense-server.vercel.app/addNavbar')
       .then(res => res.json())
       .then(data => setPhotoBanner(data));
   }, []);

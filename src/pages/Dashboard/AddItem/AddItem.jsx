@@ -24,9 +24,9 @@ const AddItem = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, title, media, size, year, price, stockCode } = data;
+          const { artist, title, media, size, year, price, stockCode,artId } = data;
           const newItem = {
-            artist, title, media, size,
+            artId,artist, title, media, size,
             year: parseFloat(year),
             price: parseFloat(price),
             stockCode, photoUrl: imgURL
@@ -59,6 +59,17 @@ const AddItem = () => {
       </Helmet>
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='flex'>
+            <div className="form-control w-full mb-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">ArtId*</span>
+              </div>
+              <input type="text" placeholder="ArtId"
+                {...register("artId", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
+           
+          </div>
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">

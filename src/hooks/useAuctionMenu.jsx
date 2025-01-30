@@ -4,7 +4,7 @@ const useAuctionMenu = () => {
   const [auctionMenu, setAuctionMenu] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch('http://localhost:3000/auction')
+    fetch('https://art-sense-server.vercel.app/auction')
     .then(res =>res.json())
     .then(data => {
       setAuctionMenu(data);

@@ -10,7 +10,7 @@ const useBidCount = (lotId) => {
 
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/bid/${lotId}/bid-count`);
+        const response = await fetch(`https://art-sense-server.vercel.app/bid/${lotId}/bid-count`);
         const data = await response.json();
         setBidCount(data.bidCount || 0);
       } catch (error) {

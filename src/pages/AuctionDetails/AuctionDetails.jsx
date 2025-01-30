@@ -28,7 +28,7 @@ const AuctionDetails = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auction");
+        const response = await fetch("https://art-sense-server.vercel.app/auction");
         const data = await response.json();
         setPhotos(data);
 
@@ -70,7 +70,7 @@ const AuctionDetails = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/bid", {
+      const response = await fetch("https://art-sense-server.vercel.app/bid", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

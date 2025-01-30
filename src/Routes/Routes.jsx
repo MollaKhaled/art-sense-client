@@ -57,14 +57,15 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:3000/photoCount'),
+        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
       },
       {
         path: '/artists/:id',
         element: <Category />,
-        loader:({params}) => fetch(`http://localhost:3000/artists/${params.id}`)
-        
+        loader: ({ params }) => fetch(`http://localhost:3000/artists/${params.id}`).then((res) => res.json())
       },
+      
+      
       
       {
         path: '/login',
@@ -90,7 +91,7 @@ export const router = createBrowserRouter([
       {
         path: '/exhibition/:id',
         element: <ExhibitionDetails />,
-        loader: ({ params }) => fetch(`http://localhost:3000/exhibition/${params.id}`)
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/exhibition/${params.id}`)
 
       },
       {
@@ -114,7 +115,7 @@ export const router = createBrowserRouter([
       {
         path: '/inquire/:id',
         element: <Inquire></Inquire>,
-        loader: ({ params }) => fetch(`http://localhost:3000/photo/${params.id}`)
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/photo/${params.id}`)
       },
       {
         path: '/product/:id',
@@ -235,8 +236,9 @@ export const router = createBrowserRouter([
       },
       {
         path: 'AllService',
-        element: <AllServices />
+        element: <AllServices />,
       },
+   
 
     ]
   }

@@ -8,7 +8,7 @@ const Event = () => {
   const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    fetch('http://localhost:3000/event')
+    fetch('https://art-sense-server.vercel.app/event')
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);

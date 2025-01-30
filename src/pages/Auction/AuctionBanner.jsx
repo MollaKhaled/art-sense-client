@@ -8,7 +8,7 @@ const AuctionBanner = () => {
   const [banner, setBanner] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auctionNavbar')
+    fetch('https://art-sense-server.vercel.app/auctionNavbar')
       .then(res => res.json())
       .then(data => setBanner(data));
   }, []);

@@ -10,7 +10,7 @@ const EventItem = ({ item }) => {
         throw new Error('Invalid event object or missing _id field');
       }
 
-      const response = await fetch(`http://localhost:3000/event/${eventId}/file`);
+      const response = await fetch(`https://art-sense-server.vercel.app/event/${eventId}/file`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch the file');

@@ -24,7 +24,7 @@ const Services = () => {
 
     console.log(service);
 
-    fetch(`http://localhost:3000/service`, {
+    fetch(`https://art-sense-server.vercel.app/service`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

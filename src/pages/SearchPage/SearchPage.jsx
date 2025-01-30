@@ -23,7 +23,7 @@ const SearchPage = () => {
       setLoading(true);  // Set loading to true when starting to fetch
       setError(null);  // Clear any previous error messages
 
-      let searchUrl = `http://localhost:3000/searchPhotos`;
+      let searchUrl = `https://art-sense-server.vercel.app/searchPhotos`;
 
       // Construct the URL based on available filters (query, year, price)
       if (query) {

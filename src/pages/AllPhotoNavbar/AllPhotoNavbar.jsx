@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { Helmet } from 'react-helmet-async';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FaTrash, FaUserShield } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
 
 import { useContext, useState } from 'react';

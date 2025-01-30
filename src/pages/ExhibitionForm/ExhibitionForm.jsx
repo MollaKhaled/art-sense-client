@@ -10,7 +10,7 @@ const ExhibitionForm = () => {
 
   // Fetch booking status on component load
   useEffect(() => {
-    fetch(`http://localhost:3000/bookedExhibition/${initialExhibitionData.artworkId}`)
+    fetch(`https://art-sense-server.vercel.app/bookedExhibition/${initialExhibitionData.artworkId}`)
       .then((res) => res.json())
       .then((data) => {
         setLoadedExhibitionData((prev) => ({ ...prev, booked: data.booked }));
@@ -44,7 +44,7 @@ const ExhibitionForm = () => {
       grandTotal: formattedGrandTotal, // Include formatted grand total
     };
   
-    fetch(`http://localhost:3000/bookedExhibition`, {
+    fetch(`https://art-sense-server.vercel.app/bookedExhibition`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

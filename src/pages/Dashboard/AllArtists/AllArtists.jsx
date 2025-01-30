@@ -1,17 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { Helmet } from 'react-helmet-async';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FaTrash, FaUserShield } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
-import { useContext, useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useContext } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
+
 
 const AllArtists = () => {
   const [axiosSecure] = useAxiosSecure();
-  const { user } = useContext(AuthContext);
-  const {data: users =[], refetch} = useQuery({ queryKey: ['users'], queryFn: async () => {
+  const { artist } = useContext(AuthContext);
+  const { data: artists = [], refetch } = useQuery({ 
+    queryKey: ['artists'], 
+    queryFn: async () => {
       const res = await axiosSecure.get('/artists');
       return res.data;
     }
@@ -49,7 +50,7 @@ const AllArtists = () => {
       <Helmet>
         <title>artsense | Total Artists</title>
       </Helmet>
-      <h3 className='text-3xl font-semibold m-4'>Total Photo:{users.length}</h3>
+      <h3 className='text-3xl font-semibold m-4'>Total Photo:{artists.length}</h3>
       <div className="overflow-x-auto">
   <table className="table">
     {/* head */}
@@ -62,17 +63,18 @@ const AllArtists = () => {
     </thead>
     <tbody>
    
-   {
-      users.map((user, index) => <tr
-      key={user._id}
-      >
-        <th>{index + 1}</th>
-        <td>
-          {user.name}
-        </td>
-        <td><button onClick={() => handleDelete(user._id)} className='btn btn-ghost bg-red-600 text-white'><FaTrashAlt /></button></td>
-      </tr>)
-     }
+    {artists.map((artist, index) => (
+  <tr key={artist._id}>
+    <th>{index + 1}</th>
+    <td>{artist.artist}</td>
+    <td>
+      <button onClick={() => handleDelete(artist._id)} className='btn btn-ghost bg-red-600 text-white'>
+        <FaTrashAlt />
+      </button>
+    </td>
+  </tr>
+))}
+
 
      
      

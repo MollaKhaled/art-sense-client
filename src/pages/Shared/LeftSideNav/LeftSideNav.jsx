@@ -13,14 +13,14 @@ const LeftSideNav = () => {
   const [prices, setPrices] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/artists')
+    fetch('https://art-sense-server.vercel.app/artists')
       .then(res => res.json())
       .then(data => setArtists(data))
       .catch(error => console.log(error));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/years')
+    fetch('https://art-sense-server.vercel.app/years')
       .then(res => res.json())
       .then(data => {
         
@@ -35,7 +35,7 @@ const LeftSideNav = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:3000/prices')
+    fetch('https://art-sense-server.vercel.app/prices')
       .then((res) => res.json())
       .then((data) => {
         // Safely process prices
@@ -122,10 +122,11 @@ const LeftSideNav = () => {
             {artists.map(artist => (
               <li key={artist._id}>
                 <Link
-                  to={`/artists/${artist.id}`}
+                  to={`/artists/${artist.artistId}`}
                   className="hover:bg-gray-300 p-2 rounded-lg block"
                 >
-                  {artist.name}
+                  {artist.artist}
+                
                 </Link>
               </li>
             ))}

@@ -8,7 +8,7 @@ const Banner = () => {
   const [banner, setBanner] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/exhibitionNavbar')
+    fetch('https://art-sense-server.vercel.app/exhibitionNavbar')
       .then(res => res.json())
       .then(data => setBanner(data));
   }, []);
