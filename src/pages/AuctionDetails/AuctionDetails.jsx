@@ -6,8 +6,10 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import useBidCount from "../../hooks/useBidCount";
 import useRemainingTime from "../../hooks/useRemainingTime";
+import { io } from "socket.io-client";
 
-
+// Use the correct backend URL for Socket.IO
+const socket = io("http://localhost:3000/");
 
 const AuctionDetails = () => {
   const { user } = useContext(AuthContext);
@@ -17,18 +19,70 @@ const AuctionDetails = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBid, setSelectedBid] = useState(null);
   const [loading, setLoading] = useState(true);
+  const currentItem = photos[currentIndex]; // Moved this up to use it in destructuring safely
+  const lotId = currentItem?.lotId || null;
+  const [currentHighestBid, setCurrentHighestBid] = useState('No bids yet');
 
-  const currentItem = photos[currentIndex];
-  const { lotId } = currentItem || {};
   const { bidCount, incrementBidCount, loading: bidCountLoading } = useBidCount(lotId);
   const remainingTime = useRemainingTime(currentItem?.dates?.[0]?.endDate);
 
+  useEffect(() => {
+    const fetchCurrentHighestBid = async () => {
+      if (!lotId) return;
+
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:3000/totalBid/${lotId}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        console.log(data); // Log the response to verify its structure
+
+        // Correctly access the bid amount from the object
+        const highestBid = data?.currentHighestBid || "No bids yet";
+        setCurrentHighestBid(highestBid);
+        console.log("Updated Highest Bid:", highestBid);
+
+      } catch (error) {
+        console.error("Error fetching bid data:", error);
+        setCurrentHighestBid("No bids yet");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCurrentHighestBid();
+  }, [lotId]);
+
+
+  useEffect(() => {
+    socket.on("updateBid", (bidData) => {
+      if (bidData.lotId === currentItem?.lotId) {
+        // Update the photos state with the new bid info
+        setPhotos((prevPhotos) => {
+          return prevPhotos.map((photo) =>
+            photo.lotId === bidData.lotId
+              ? { ...photo, bid: bidData.bidAmount }
+              : photo
+          );
+        });
+        incrementBidCount(); // Corrected bid count update
+      }
+    });
+
+    return () => {
+      socket.off("updateBid"); // Clean up listener on unmount
+    };
+  }, [currentItem, incrementBidCount]);
 
   // Fetch photos and item data
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await fetch("https://art-sense-server.vercel.app/auction");
+        const response = await fetch("http://localhost:3000/auction");
         const data = await response.json();
         setPhotos(data);
 
@@ -51,9 +105,12 @@ const AuctionDetails = () => {
   }, []);
 
   const handlePlaceBid = async () => {
+    const selectedBidValue = parseInt(selectedBid.toString().replace(/[^0-9]/g, ""), 10);
+const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^0-9]/g, ""), 10);
+
     if (!user) {
       Swal.fire("Warning", "You need to be logged in to place a bid", "warning");
-      navigate("/login", { replace: true });
+      navigate("/login");
       return;
     }
 
@@ -61,20 +118,24 @@ const AuctionDetails = () => {
       Swal.fire("Error", "Please select a bid amount", "error");
       return;
     }
-    // Format the selected bid as 'BDT <amount>'
-    const formattedBid = `BDT ${selectedBid.toLocaleString()}`;
+    if (selectedBidValue <= currentHighestBidValue) {
+      Swal.fire("Error", "Your bid must be higher than the current bid", "error");
+      return;
+   }
+
+
     const bidData = {
-      bidAmount: formattedBid,
+      bidAmount: `BDT ${selectedBid.toLocaleString()}`,
       email: user?.email,
-      lotId,
+      lotId: lotId,
     };
 
     try {
-      const response = await fetch("https://art-sense-server.vercel.app/bid", {
+      setLoading(true); // ✅ Set loading state to true
+
+      const response = await fetch("http://localhost:3000/bid", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bidData),
       });
 
@@ -82,48 +143,32 @@ const AuctionDetails = () => {
 
       if (response.ok && result.insertedId) {
         Swal.fire("Success", "Bid placed successfully!", "success");
-        incrementBidCount(); // Update bid count using the hook
 
-        // Reset selectedBid state and localStorage after successful bid
-        setSelectedBid(null); // Reset state
-        localStorage.removeItem("selectedBid"); // Remove from localStorage
+        // Emit bid event to server
+        socket.emit("newBid", bidData);
+
+        setSelectedBid(null);
+        localStorage.removeItem("selectedBid");
+        // ✅ Directly update the currentHighestBid based on the selected bid
+        setCurrentHighestBid(`BDT ${selectedBid.toLocaleString()}`);
+
+
       } else {
-        Swal.fire("Error", result.message || "Failed to place bid. Try again!", "error");
+        Swal.fire("Error", "Already placed a bid!", "error");
       }
     } catch (error) {
-      console.error("Error placing bid:", error);
       Swal.fire("Error", "An error occurred. Try again!", "error");
+    } finally {
+      setLoading(false); // ✅ Reset loading state
     }
   };
+
 
   if (photos.length === 0) {
     return <div className="flex justify-center items-center h-screen">
       <span className="loading loading-spinner text-error"></span>
     </div>;
   }
-
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      const prevIndex = currentIndex - 1;
-      setCurrentIndex(prevIndex);
-      navigate(`/auction/${photos[prevIndex]._id}`, { replace: true }); // Change URL to previous item
-    }
-  };
-
-  const handleNext = () => {
-    if (currentIndex < photos.length - 1) {
-      const nextIndex = currentIndex + 1;
-      setCurrentIndex(nextIndex);
-      navigate(`/auction/${photos[nextIndex]._id}`, { replace: true }); // Change URL to next item
-    }
-  };
-
-  const handleBidChange = (e) => {
-    const newBid = parseInt(e.target.value, 10); // Convert to integer
-    setSelectedBid(newBid);
-    localStorage.setItem("selectedBid", newBid); // Store in localStorage
-  };
 
   // Generate bid options based on the item's current bid and estimated bid
   const generateBidOptions = (currentBid, estimateBid, selectedBid) => {
@@ -192,6 +237,29 @@ const AuctionDetails = () => {
 
   const bidOptions = generateBidOptions(currentItem?.bid, currentItem?.estimateBid, selectedBid);
 
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1;
+      setCurrentIndex(prevIndex);
+      navigate(`/auction/${photos[prevIndex]._id}`, { replace: true }); // Change URL to previous item
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < photos.length - 1) {
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+      navigate(`/auction/${photos[nextIndex]._id}`, { replace: true }); // Change URL to next item
+    }
+  };
+
+  const handleBidChange = (e) => {
+    const newBid = parseInt(e.target.value, 10); // Convert to integer
+    setSelectedBid(newBid);
+    localStorage.setItem("selectedBid", newBid); // Store in localStorage
+  };
+
+
 
   return (
     <>
@@ -234,13 +302,13 @@ const AuctionDetails = () => {
 
 
           <div className="divider"></div>
-          <div className="">
-            <p className="text-sm sm:text-base flex">
+          <div>
+            <div className="text-sm sm:text-base flex">
               lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
-            </p>
+            </div>
             <div className="divider"></div>
             <div>
-              <p className="text-sm sm:text-base flex ">
+              <div className="text-sm sm:text-base flex ">
                 Ending: {" "}
                 <p className="ml-14" >
                   {currentItem.dates && currentItem.dates[0]?.endDate
@@ -253,7 +321,7 @@ const AuctionDetails = () => {
                     : "No end date available"}
                 </p>
 
-              </p>
+              </div>
               {remainingTime && (
                 <p className="text-sm sm:text-base ml-28 text-gray-500">
                   {remainingTime}
@@ -261,14 +329,15 @@ const AuctionDetails = () => {
               )}
             </div>
             <div className="divider"></div>
-            <p className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></p>
+            <div className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
             <div className="divider"></div>
-            <p className="text-sm sm:text-base flex">
-              Open Bid: <p className="text-red-500 ml-8">{currentItem.bid}</p>
-            </p>
-            <p className="text-sm sm:text-base ">
+            <div className="text-sm sm:text-base flex">
+              Current Bid: <p className="text-red-500 ml-8 font-semibold">{currentHighestBid}</p>
+            </div>
+            <div className="text-sm sm:text-base">
               <span className="text-green-500 ml-32">{bidCount} Bids</span>
-            </p>
+            </div>
+
           </div>
           <div className="divider"></div>
           {/* Bid Select */}
@@ -315,8 +384,6 @@ const AuctionDetails = () => {
             <IoIosArrowForward size={20} />
           </button>
         </div>
-
-        <div></div>
       </div>
       <div className="p-4">
         <div className="divider"></div>
@@ -343,7 +410,6 @@ const AuctionDetails = () => {
       </div>
 
     </>
-
   );
 };
 

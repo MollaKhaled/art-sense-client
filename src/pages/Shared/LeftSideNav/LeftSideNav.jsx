@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus,FaMinus } from "react-icons/fa6";
 
 const LeftSideNav = () => {
   const [artists, setArtists] = useState([]);
@@ -11,6 +11,16 @@ const LeftSideNav = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
+
+  
+    const [artistOpen, setArtistOpen] = useState(false);
+    const [priceOpen, setPriceOpen] = useState(false);
+    const [yearOpen, setYearOpen] = useState(false);
+  
+    // Toggle functions
+    const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
+    const togglePriceDropdown = () => setPriceOpen(!priceOpen);
+    const toggleYearDropdown = () => setYearOpen(!yearOpen);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/artists')
@@ -85,7 +95,7 @@ const LeftSideNav = () => {
 
   return (
     <div className='space-y-6'>
-      <section className=''>
+      <section>
         <label className="input input-bordered flex items-center gap-2">
           <input
             id="search-field"
@@ -95,107 +105,106 @@ const LeftSideNav = () => {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <FaSearch />
+          <FaSearch onClick={handleSearch}  />
         </label>
-        <div className="mt-2 flex justify-center">
-          <button onClick={handleSearch} className="btn">Search</button>
-        </div>
+       
       </section>
 
+      <div >
       {/* Artist Dropdown */}
-      <div>
-        <h1 className='font-semi-bold  mb-2 text-[24px]'>Filter by</h1>
+      <div className='mb-2'>
+        <h1 className='font-semi-bold mb-2 text-[24px]'>Filter by</h1>
         <div className="divider"></div>
         <div className="dropdown w-full">
           <div
             tabIndex={0}
             role="button"
             className="btn w-full flex items-center justify-between gap-2"
+            onClick={toggleArtistDropdown} // Toggle the artist dropdown
           >
             <span>Artist</span>
-            <FaPlus />
+            {artistOpen ? <FaMinus /> : <FaPlus />}
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow"
-          >
-            {artists.map(artist => (
-              <li key={artist._id}>
-                <Link
-                  to={`/artists/${artist.artistId}`}
-                  className="hover:bg-gray-300 p-2 rounded-lg block"
-                >
-                  {artist.artist}
-                
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {artistOpen && (
+            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+              {artists.map(artist => (
+                <li key={artist._id}>
+                  <Link
+                    to={`/artists/${artist.artistId}`}
+                    className="hover:bg-gray-300 p-2 rounded-lg block"
+                  >
+                    {artist.artist}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
       {/* Price Dropdown */}
+      <div className='mb-2'>
+        <div className="dropdown w-full">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn w-full flex items-center justify-between gap-2"
+            onClick={togglePriceDropdown} // Toggle the price dropdown
+          >
+            <span>Price</span>
+            {priceOpen ? <FaMinus /> : <FaPlus />}
+          </div>
+          {priceOpen && (
+            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+              {prices.map((price, index) => (
+                <li key={index}>
+                  <button
+                    value={price}
+                    onClick={handlePriceChange}
+                    className="hover:bg-gray-300 p-2 rounded-lg block"
+                  >
+                    {price}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* Year Dropdown */}
       <div>
         <div className="dropdown w-full">
           <div
             tabIndex={0}
             role="button"
             className="btn w-full flex items-center justify-between gap-2"
-          >
-            <span>Price</span>
-            <FaPlus />
-          </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow"
-          >
-            {prices.map((price, index) => (
-              <li key={index}>
-                <button
-                  value={price}
-                  onClick={handlePriceChange}
-                  className="hover:bg-gray-300 p-2 rounded-lg block"
-                >
-                  {price}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Year Dropdown */}
-      <div>
-        <div className="dropdown w-full ">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn w-full flex items-center justify-between gap-2"
+            onClick={toggleYearDropdown} // Toggle the year dropdown
           >
             <span>Year</span>
-            <FaPlus />
+            {yearOpen ? <FaMinus /> : <FaPlus />}
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow"
-          >
-            {Array.isArray(years) && years.length > 0 ? (
-              years.map((year, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => handleYearChange(year)} // Handle year selection
-                    className="hover:bg-gray-300 p-2 rounded-lg block"
-                  >
-                    {year}
-                  </button>
-                </li>
-              ))
-            ) : (
-              <li>No years available</li>
-            )}
-          </ul>
+          {yearOpen && (
+            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+              {Array.isArray(years) && years.length > 0 ? (
+                years.map((year, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handleYearChange(year)} // Handle year selection
+                      className="hover:bg-gray-300 p-2 rounded-lg block"
+                    >
+                      {year}
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <li>No years available</li>
+              )}
+            </ul>
+          )}
         </div>
       </div>
+    </div>
 
     </div>
   );

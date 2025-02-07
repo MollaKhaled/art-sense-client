@@ -2,15 +2,10 @@ import React from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 
 const AllAuctionMenuRow = ({auction, handleDelete}) => {
-  const {_id, artId, customerName, email, phone, address, comments,photoUrl} = auction;
+  const {_id, artId, customerName, email, phone, address, comments,photoUrl,lotId} = auction;
  
   return (
     <tr>
-    <th>
-      <label>
-        <input type="checkbox" className="checkbox" />
-      </label>
-    </th>
     <td>
       <div className="flex items-center gap-3">
         <div className="avatar">
@@ -21,6 +16,9 @@ const AllAuctionMenuRow = ({auction, handleDelete}) => {
           </div>
         </div>
       </div>
+    </td>
+    <td>
+    {lotId}
     </td>
    
    

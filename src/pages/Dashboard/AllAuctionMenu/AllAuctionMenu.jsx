@@ -54,14 +54,11 @@ const handleDelete = (id) => {
         <div className="overflow-x-auto w-full">
           <table className="table w-full ">
             {/* head */}
-            <thead className='bg-gray-500'>
+            <thead className='bg-gray-500 text-white'>
               <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
+            
                 <th>Photo</th>
+                <th>LotID</th>
                 <th>Delete</th>
               </tr>
             </thead>

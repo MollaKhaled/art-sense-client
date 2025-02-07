@@ -78,8 +78,8 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                 </button>
 
                 {currentPhoto && (
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="w-full md:w-2/3">
+                  <div className=" gap-6">
+                    <div className="w-full ">
                       <img
                         src={currentPhoto.photoUrl}
                         alt={currentPhoto.title}
@@ -87,23 +87,21 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                       />
                     </div>
 
-                    <div className="w-full md:w-1/4 flex items-end justify-end mb-6">
-                      <div>
-                        <p className="text-lg font-bold">{currentPhoto.artist}</p>
-                        <p className="text-lg">{currentPhoto.title}</p>
-                        <p className="text-lg">{currentPhoto.media}</p>
-                        <p className="text-lg">{currentPhoto.size}</p>
-                        <p className="text-lg">
-                          {currentPhoto.year}{" "}
-                          <span className="text-red-500 text-2xl">|</span>{" "}
-                          {currentPhoto.stockCode}
-                        </p>
-                      </div>
-                    </div>
 
-                    <div className="items-end flex space-x-2 text-sm">
+                    <div className=" flex flex-col items-center justify-center text-center mb-2">
+                      <p className="text-lg font-bold mt-3">{currentPhoto.artist}</p>
+                      <p className="text-lg">{currentPhoto.title}</p>
+                      <p className="text-lg">{currentPhoto.media}</p>
+                      <p className="text-lg">{currentPhoto.size}</p>
+                      <p className="text-lg">
+                        {currentPhoto.year}{" "}
+                        <span className="text-red-500 text-2xl ">|</span>{" "}
+                        {currentPhoto.stockCode}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center">
                       <button
-                        className="flex items-center space-x-1 px-2 py-1 border border-gray-300 rounded-md hover:bg-gray-100 transition duration-150"
+                        className="flex items-center  px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                         onClick={handlePrevPage}
                         disabled={currentPage === 0}
                       >
@@ -112,7 +110,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                       </button>
                       <span className="text-red-500 text-3xl">|</span>
                       <button
-                        className="flex items-center space-x-1 px-2 py-1 border border-gray-300 rounded-md hover:bg-gray-100 transition duration-150"
+                        className="flex items-center space-x-1 px-2 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                         onClick={handleNextPage}
                         disabled={currentPage === photos.length - 1}
                       >

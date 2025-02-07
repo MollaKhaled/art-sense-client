@@ -43,7 +43,7 @@ const AddAuction = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory } = data;
+          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory,artistId } = data;
 
           // Format currency values
           const formattedBid = formatCurrency(bid);
@@ -57,7 +57,7 @@ const AddAuction = () => {
           const startDate = dates[0].startDate;
           const endDate = dates[0].endDate;
           const newItem = {
-            artist, title, media, size, birth, lotId, lotDetails, auctionCategory,
+            artist, artistId,  title, media, size, birth, lotId, lotDetails, auctionCategory,
             year: parseFloat(year),
             bid: formattedBid,
             estimateBid, // Store as a string like "20000-50000"
@@ -99,6 +99,14 @@ const AddAuction = () => {
               </div>
               <input type="text" placeholder="Artist"
                 {...register("artist", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
+            <div className="form-control w-full ml-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Artist id*</span>
+              </div>
+              <input type="text" placeholder="Artist id"
+                {...register("artistId", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
             <div className="form-control w-full ml-4 mb-4 ">

@@ -81,7 +81,8 @@ export const router = createBrowserRouter([
       },
       {
         path: '/auction/:id',
-        element: <AuctionDetails />
+        element: <AuctionDetails />,
+       
       },
       {
         path: '/exhibition',
