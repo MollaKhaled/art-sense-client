@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaPlus,FaMinus } from "react-icons/fa6";
+import { FaPlus, FaMinus } from "react-icons/fa6";
 
 const LeftSideNav = () => {
   const [artists, setArtists] = useState([]);
@@ -12,15 +12,15 @@ const LeftSideNav = () => {
   const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
 
-  
-    const [artistOpen, setArtistOpen] = useState(false);
-    const [priceOpen, setPriceOpen] = useState(false);
-    const [yearOpen, setYearOpen] = useState(false);
-  
-    // Toggle functions
-    const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
-    const togglePriceDropdown = () => setPriceOpen(!priceOpen);
-    const toggleYearDropdown = () => setYearOpen(!yearOpen);
+
+  const [artistOpen, setArtistOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
+  const [yearOpen, setYearOpen] = useState(false);
+
+  // Toggle functions
+  const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
+  const togglePriceDropdown = () => setPriceOpen(!priceOpen);
+  const toggleYearDropdown = () => setYearOpen(!yearOpen);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/artists')
@@ -33,7 +33,7 @@ const LeftSideNav = () => {
     fetch('https://art-sense-server.vercel.app/years')
       .then(res => res.json())
       .then(data => {
-        
+
         const sortedYears = Array.isArray(data) ? data.sort((a, b) => a - b) : [];
         setYears(sortedYears);
       })
@@ -51,16 +51,16 @@ const LeftSideNav = () => {
         // Safely process prices
         const sortedPrices = Array.isArray(data)
           ? data
-              .map((price) => {
-                if (typeof price !== 'string') return null; // Ensure price is a string
-                const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
-                return isNaN(numericPrice) ? null : numericPrice;
-              })
-              .filter((price) => price !== null) // Remove null or invalid prices
-              .sort((a, b) => a - b) // Sort numerically
-              .map((price) => `BDT ${price.toLocaleString()}`) // Format back as 'BDT <value>'
+            .map((price) => {
+              if (typeof price !== 'string') return null; // Ensure price is a string
+              const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
+              return isNaN(numericPrice) ? null : numericPrice;
+            })
+            .filter((price) => price !== null) // Remove null or invalid prices
+            .sort((a, b) => a - b) // Sort numerically
+            .map((price) => `BDT ${price.toLocaleString()}`) // Format back as 'BDT <value>'
           : [];
-  
+
         setPrices(sortedPrices); // Update state with sorted prices
       })
       .catch((error) => {
@@ -68,7 +68,7 @@ const LeftSideNav = () => {
         setPrices([]); // Set an empty array on error
       });
   }, []);
-  
+
 
 
 
@@ -87,51 +87,50 @@ const LeftSideNav = () => {
     setSelectedPrice(cleanPrice);
     navigate(`/search?price=${cleanPrice}`);  // Send the cleaned price
   };
-  
+
   const handleYearChange = (year) => {
     setSelectedYear(year);
     navigate(`/search?year=${year}`); // Navigate with the selected year
   };
 
   return (
-    <div className='space-y-6'>
+    <div className="space-y-6 p-4 md:p-6">
+      {/* Search Section */}
       <section>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 w-full">
           <input
             id="search-field"
             type="text"
-            className="grow"
+            className="grow text-sm md:text-base"
             placeholder="Search photos..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <FaSearch onClick={handleSearch}  />
+          <FaSearch onClick={handleSearch} className="cursor-pointer text-lg md:text-xl" />
         </label>
-       
       </section>
 
-      <div >
-      {/* Artist Dropdown */}
-      <div className='mb-2'>
-        <h1 className='font-semi-bold mb-2 text-[24px]'>Filter by</h1>
+      {/* Filters Section */}
+      <div className="space-y-3">
+        <h1 className="font-semibold text-lg md:text-xl">Filter by</h1>
         <div className="divider"></div>
-        <div className="dropdown w-full">
-          <div
-            tabIndex={0}
-            role="button"
+
+        {/* Artist Dropdown */}
+        <div className="relative">
+          <button
+            onClick={toggleArtistDropdown}
             className="btn w-full flex items-center justify-between gap-2"
-            onClick={toggleArtistDropdown} // Toggle the artist dropdown
           >
             <span>Artist</span>
             {artistOpen ? <FaMinus /> : <FaPlus />}
-          </div>
+          </button>
           {artistOpen && (
-            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
-              {artists.map(artist => (
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+              {artists.map((artist) => (
                 <li key={artist._id}>
                   <Link
                     to={`/artists/${artist.artistId}`}
-                    className="hover:bg-gray-300 p-2 rounded-lg block"
+                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
                   >
                     {artist.artist}
                   </Link>
@@ -140,28 +139,24 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
-      </div>
 
-      {/* Price Dropdown */}
-      <div className='mb-2'>
-        <div className="dropdown w-full">
-          <div
-            tabIndex={0}
-            role="button"
+        {/* Price Dropdown */}
+        <div className="relative">
+          <button
+            onClick={togglePriceDropdown}
             className="btn w-full flex items-center justify-between gap-2"
-            onClick={togglePriceDropdown} // Toggle the price dropdown
           >
             <span>Price</span>
             {priceOpen ? <FaMinus /> : <FaPlus />}
-          </div>
+          </button>
           {priceOpen && (
-            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
               {prices.map((price, index) => (
                 <li key={index}>
                   <button
                     value={price}
                     onClick={handlePriceChange}
-                    className="hover:bg-gray-300 p-2 rounded-lg block"
+                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
                   >
                     {price}
                   </button>
@@ -170,35 +165,31 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
-      </div>
 
-      {/* Year Dropdown */}
-      <div>
-        <div className="dropdown w-full">
-          <div
-            tabIndex={0}
-            role="button"
+        {/* Year Dropdown */}
+        <div className="relative">
+          <button
+            onClick={toggleYearDropdown}
             className="btn w-full flex items-center justify-between gap-2"
-            onClick={toggleYearDropdown} // Toggle the year dropdown
           >
             <span>Year</span>
             {yearOpen ? <FaMinus /> : <FaPlus />}
-          </div>
+          </button>
           {yearOpen && (
-            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
               {Array.isArray(years) && years.length > 0 ? (
                 years.map((year, index) => (
                   <li key={index}>
                     <button
-                      onClick={() => handleYearChange(year)} // Handle year selection
-                      className="hover:bg-gray-300 p-2 rounded-lg block"
+                      onClick={() => handleYearChange(year)}
+                      className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
                     >
                       {year}
                     </button>
                   </li>
                 ))
               ) : (
-                <li>No years available</li>
+                <li className="text-gray-500 text-sm">No years available</li>
               )}
             </ul>
           )}
@@ -206,7 +197,6 @@ const LeftSideNav = () => {
       </div>
     </div>
 
-    </div>
   );
 };
 

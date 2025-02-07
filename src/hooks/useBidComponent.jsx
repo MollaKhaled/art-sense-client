@@ -7,14 +7,14 @@ const BidComponent = ({ lotId }) => {
 
   // ✅ Fetch disabled bids on page load
   useEffect(() => {
-    axios.get(`http://localhost:3000/disabled-bids/${lotId}`) // Fetch from API
+    axios.get(`https://art-sense-server.vercel.app/disabled-bids/${lotId}`) // Fetch from API
       .then((res) => setDisabledBids(res.data))
       .catch((err) => console.error("Error fetching disabled bids:", err));
   }, [lotId]);
 
   // ✅ Handle placing a bid
   const handlePlaceBid = (selectedBid) => {
-    axios.post("http://localhost:3000/bid", { bidAmount: selectedBid, email: "user@example.com", lotId })
+    axios.post("https://art-sense-server.vercel.app/bid", { bidAmount: selectedBid, email: "user@example.com", lotId })
       .then(() => {
         setDisabledBids([...disabledBids, selectedBid]); // Update UI immediately
       })

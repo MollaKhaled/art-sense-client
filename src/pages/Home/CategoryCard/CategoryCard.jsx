@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const CategoryCard = ({ photo }) => {
   const { _id, artistsId, artist, title, media, size, year, stockCode, photoUrl, formattedPrice } = photo
   return (
-    <div className="card bg-base-100 sm:w-96">
+    <div>
       <figure className="pt-10  flex items-center justify-center cursor-pointer">
         <img src={photoUrl} alt="Art" />
       </figure>

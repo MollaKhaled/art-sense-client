@@ -10,7 +10,7 @@ const useLastBid = (lotId) => {
 
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/bid/${lotId}/last-bid`);
+        const response = await fetch(`https://art-sense-server.vercel.app/bid/${lotId}/last-bid`);
         const data = await response.json();
         setLastBid(data.highestBid || "No bids yet");
       } catch (error) {

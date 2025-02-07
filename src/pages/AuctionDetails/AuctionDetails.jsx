@@ -9,7 +9,7 @@ import useRemainingTime from "../../hooks/useRemainingTime";
 import { io } from "socket.io-client";
 
 // Use the correct backend URL for Socket.IO
-const socket = io("http://localhost:3000/");
+const socket = io("https://art-sense-server.vercel.app/");
 
 const AuctionDetails = () => {
   const { user } = useContext(AuthContext);
@@ -32,7 +32,7 @@ const AuctionDetails = () => {
 
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/totalBid/${lotId}`);
+        const response = await fetch(`https://art-sense-server.vercel.app/totalBid/${lotId}`);
 
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -82,7 +82,7 @@ const AuctionDetails = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auction");
+        const response = await fetch("https://art-sense-server.vercel.app/auction");
         const data = await response.json();
         setPhotos(data);
 
@@ -133,7 +133,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
     try {
       setLoading(true); // ✅ Set loading state to true
 
-      const response = await fetch("http://localhost:3000/bid", {
+      const response = await fetch("https://art-sense-server.vercel.app/bid", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bidData),

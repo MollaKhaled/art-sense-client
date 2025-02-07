@@ -107,7 +107,7 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 
                   <div className="flex items-center justify-center">
                     <button
-                      className="flex items-center  px-2 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
+                      className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                       onClick={handlePrevPage}
                       disabled={currentPage === 0}
                     >
@@ -116,7 +116,7 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                     </button>
                     <span className="text-red-500 text-3xl">|</span>
                     <button
-                      className="flex items-center  px-2 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
+                      className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                       onClick={handleNextPage}
                       disabled={currentPage === photos.length - 1}
                     >
