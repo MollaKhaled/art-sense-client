@@ -28,14 +28,14 @@ const PopularPhoto = () => {
         </div>
       ) : photos.length > 0 ? (
         // Show photos if available
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
           {photos.map((item) => (
-            <PhotoItem key={item._id} item={item} />
+            <PhotoItem className='text-sm' key={item._id} item={item} />
           ))}
         </div>
       ) : (
         // Show message if no photos are available
-        <p className="text-center text-gray-500"></p>
+        <p className="text-center text-gray-500">No photos available at the moment.</p>
       )}
     </div>
     </>

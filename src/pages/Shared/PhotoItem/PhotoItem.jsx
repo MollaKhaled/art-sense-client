@@ -60,7 +60,7 @@ const PhotoItem = ({ item }) => {
   };
 
   const handleWhatsAppClick = () => {
-    const message = `${fixedMessage} "${title}" (ID: ${_id}).`;
+    const message = `${fixedMessage} "${title}" (StockCode - ${stockCode}).`;
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(url, "_blank");
@@ -72,25 +72,25 @@ const PhotoItem = ({ item }) => {
   };
 
   return (
- 
-    <div className="card ">
-      <figure
-        className="pt-10 h-full flex items-center justify-center cursor-pointer"
-        onClick={openModal}
-      >
+
+    <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden">
+      {/* Image Container */}
+      <figure className="px-10 h-[250px] flex items-center justify-center">
         <img
+          onClick={openModal}
           src={photoUrl}
-          alt="Art"     
+          alt="Artwork"
+          className="w-full h-full object-contain rounded-sm "
         />
       </figure>
 
       <div className="card-body text-center p-5">
-        <div className="text-center">
-          <p className="text-lg font-bold">{artist}</p>
-          <p className="text-lg">
+        <div className="text-center text-sm">
+          <p className=" font-bold">{artist}</p>
+          <p>
             {title} <span className="text-red-500">|</span> {media}
           </p>
-          <p className="text-lg">
+          <p>
             {size} <span className="text-red-500">| </span> {stockCode}
           </p>
         </div>
@@ -103,17 +103,17 @@ const PhotoItem = ({ item }) => {
             <FaWhatsapp />
           </button>
           <span className="text-red-500">|</span>
-          <Link to={`/inquire/${_id}`}>
+          <Link to={`/inquire/${_id}/${stockCode}`}>
             <IoMdMail />
           </Link>
         </div>
-        
+
       </div>
       <div>
-          <button onClick={() => handleAddToCart(item)} className="btn w-full">
-            Available
-          </button>
-        </div>
+        <button onClick={() => handleAddToCart(item)} className="btn w-full">
+          Available
+        </button>
+      </div>
 
       {/* Booking Modal */}
       {selectedPhoto && (
@@ -126,7 +126,7 @@ const PhotoItem = ({ item }) => {
       )}
     </div>
 
-    
+
   );
 };
 

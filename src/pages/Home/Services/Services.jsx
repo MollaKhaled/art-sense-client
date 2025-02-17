@@ -69,36 +69,36 @@ const Services = () => {
       <Helmet>
         <title>artsense | services</title>
       </Helmet>
-      <div className="flex flex-wrap md:flex-nowrap gap-6 mt-16 items-start">
-        {/* Services Section */}
-        <div className="text-right w-full md:w-1/2 mb-4">
-          <h1 className="text-lg">
-            <span className="text-red-600"></span>serv
-            <span className="text-red-600">i</span>ces
-          </h1>
-          <p>selling<span className="text-red-600"> | </span>commissioning</p>
-          <p>authenticating<span className="text-red-600"> | </span>cataloguing</p>
-          <p>framing<span className="text-red-600"> | </span>packaging</p>
-          <p>restoration by expert </p>
-          <p>worldwide courier service</p>
-        </div>
+      <div className="flex flex-wrap md:flex-nowrap gap-6 mt-8 items-start text-sm">
+  {/* Services Section */}
+  <div className="text-center md:text-right w-full md:w-1/2 mb-4">
+    <h1 className="text-lg">
+      <span className="text-red-600"></span>serv
+      <span className="text-red-600">i</span>ces
+    </h1>
+    <p>selling<span className="text-red-600"> | </span>commissioning</p>
+    <p>authenticating<span className="text-red-600"> | </span>cataloguing</p>
+    <p>framing<span className="text-red-600"> | </span>packaging</p>
+    <p>restoration by expert </p>
+    <p>worldwide courier service</p>
+  </div>
 
-        {/* Contact Section */}
-        <div className="w-full md:w-1/2 mt-40">
-          <h1 className="text-lg">
-            <span className="text-red-600"></span>con
-            <span className="text-red-600">t</span>act us
-          </h1>
-          <div>
-            <h1>
-              <p>
-                <span className="text-red-600">a</span>rt
-                <span className="text-red-600">s</span>ense
-                <span className="text-red-600"> | </span>House 29, Road 13, Baridhara, Dhaka 1212 <br />
-                +880 1718 876332<span className="text-red-600"> | </span>artsensebdgallery@gmail.com
-              </p>
-            </h1>
-          </div>
+  {/* Contact Section */}
+  <div className="w-full md:w-1/2 lg:mt-40">
+    <h1 className="text-lg text-center md:text-left">
+      <span className="text-red-600"></span>con
+      <span className="text-red-600">t</span>act us
+    </h1>
+    <div>
+      <h1>
+        <p className="text-center md:text-left">
+          <span className="text-red-600">a</span>rt
+          <span className="text-red-600">s</span>ense
+          <span className="text-red-600"> | </span>House 29, Road 13, Baridhara, Dhaka 1212 <br />
+          +880 1718 876332<span className="text-red-600"> | </span>artsensebdgallery@gmail.com
+        </p>
+      </h1>
+    </div>
           <div>
             <div className="flex items-center justify-center p-4">
               <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">

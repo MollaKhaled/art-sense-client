@@ -114,8 +114,8 @@ export const router = createBrowserRouter([
         element: <Event></Event>,
       },
       {
-        path: '/inquire/:id',
-        element: <Inquire></Inquire>,
+        path: '/inquire/:id/:stockCode',
+        element: <Inquire />,
         loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/photo/${params.id}`)
       },
       {

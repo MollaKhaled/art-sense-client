@@ -21,11 +21,11 @@ const AuctionMenuItem = ({ item }) => {
 
         <div className="card-body text-center p-5">
           <div className="text-center">
-            <p className="text-lg font-bold">{artist}</p>
-            <p className="text-lg">
+            <p className=" font-bold">{artist}</p>
+            <p >
               {title} <span className="text-red-500">|</span> {media}
             </p>
-            <p className="text-lg">
+            <p >
               {size} <span className="text-red-500">| </span> {stockCode}
             </p>
 

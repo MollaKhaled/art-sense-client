@@ -14,8 +14,8 @@ const Home = () => {
       <div className="pt-8 pb-8">
     <PhotoBanner/>
     </div>
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
-      <div>
+    <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 text-sm'>
+      <div className='text-sm'>
         <LeftSideNav></LeftSideNav>
       </div>
       <div className='col-span-3'>

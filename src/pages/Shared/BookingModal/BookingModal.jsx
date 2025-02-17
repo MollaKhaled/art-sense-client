@@ -41,91 +41,99 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
   const currentPhoto = photos[currentPage];
 
   return (
+    
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
-        <TransitionChild
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </TransitionChild>
+    <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <TransitionChild
+        as={Fragment}
+        enter="ease-out duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        <div className="fixed inset-0 bg-black bg-opacity-25" />
+      </TransitionChild>
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <TransitionChild
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <DialogPanel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all relative">
-                <button
-                  className="absolute right-1 bg-white text-red-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-                  onClick={() => {
-                    closeModal();
-                    refetch && refetch();
-                  }}
-                >
-                  <IoMdClose size={16} />
-                </button>
+      <div className="fixed inset-0 overflow-y-auto">
+        <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <DialogPanel className=" max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all relative">
+              <button
+                className="absolute top-2 right-2 bg-white text-red-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                onClick={() => {
+                  closeModal();
+                  refetch && refetch();
+                }}
+              >
+                <IoMdClose size={16} />
+              </button>
 
-                {currentPhoto && (
-                  <div className=" gap-6">
-                    <div className="w-full ">
-                      <img
-                        src={currentPhoto.photoUrl}
-                        alt={currentPhoto.title}
-                        className="w-full h-auto rounded-md"
-                      />
-                    </div>
+              {currentPhoto && (
+                <div className=" sm:w-96 ">
+                  <figure>
+                    <img
+                      src={currentPhoto.photoUrl}
+                      alt={currentPhoto.title}
 
-
-                    <div className=" flex flex-col items-center justify-center text-center mb-2">
-                      <p className="text-lg font-bold mt-3">{currentPhoto.artist}</p>
-                      <p className="text-lg">{currentPhoto.title}</p>
-                      <p className="text-lg">{currentPhoto.media}</p>
-                      <p className="text-lg">{currentPhoto.size}</p>
-                      <p className="text-lg">
-                        {currentPhoto.year}{" "}
-                        <span className="text-red-500 text-2xl ">|</span>{" "}
-                        {currentPhoto.stockCode}
+                    />
+                  </figure>
+                  <div className="card-body text-center p-5">
+                    <div className="text-center text-sm">
+                      <p className=" font-bold">{currentPhoto.artist}</p>
+                      <p >
+                        {currentPhoto.title} <span className="text-red-500">|</span> {currentPhoto.media}
                       </p>
+                      <p>
+                        {currentPhoto.size} <span className="text-red-500">|  </span> {currentPhoto.stockCode}
+                      </p>
+                      <h1 className="text-red-500">{currentPhoto.formattedPrice}</h1>
                     </div>
-                    <div className="flex items-center justify-center">
-                      <button
-                        className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
-                        onClick={handlePrevPage}
-                        disabled={currentPage === 0}
-                      >
-                        <IoIosArrowBack size={16} />
-                        <span>Prev</span>
-                      </button>
-                      <span className="text-red-500 text-3xl">|</span>
-                      <button
-                        className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
-                        onClick={handleNextPage}
-                        disabled={currentPage === photos.length - 1}
-                      >
-                        <span>Next</span>
-                        <IoIosArrowForward size={16} />
-                      </button>
+                    <div className="flex items-center justify-center gap-2">
+
                     </div>
+                    
                   </div>
-                )}
-              </DialogPanel>
-            </TransitionChild>
-          </div>
+                  <div className="flex items-center justify-center gap-4 text-sm">
+                    <button
+                      className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 0}
+                    >
+                      <IoIosArrowBack size={16} />
+                      <span>Prev</span>
+                    </button>
+                   
+                    <button
+                      className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
+                      onClick={handleNextPage}
+                      disabled={currentPage === photos.length - 1}
+                    >
+                      <span>Next</span>
+                      <IoIosArrowForward size={16} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </DialogPanel>
+          </TransitionChild>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </Dialog>
+  </Transition>
+
+
+
+  
   );
 };
 

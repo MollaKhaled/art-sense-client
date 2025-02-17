@@ -52,14 +52,14 @@ const SearchPage = () => {
   }, [query, year, price]);  // The effect runs whenever the 'query', 'year', or 'price' changes
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 min-h-screen">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 min-h-screen text-sm">
       {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}
       {error && <p>{error}</p>} {/* Show error message if any error occurs */}
 
       {/* Display search results if found, otherwise show 'No results found' */}
       {searchResults.length > 0 ? (
         searchResults.map((photo) => (
-          <SearchCard key={photo._id} photo={photo} />  // Display each photo's data
+          <SearchCard  key={photo._id} photo={photo} />  // Display each photo's data
         ))
       ) : (
         !loading && <p>No results found for "{query || year || price}"</p>  // Show message if no results and not loading

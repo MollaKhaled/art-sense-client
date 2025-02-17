@@ -62,7 +62,7 @@ const AddItem = () => {
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">
-                <span className="label-text-alt font-semibold">ArtId*</span>
+                <span className="label-text-alt font-semibold">Artist Id*</span>
               </div>
               <input type="text" placeholder="ArtId"
                 {...register("artId", { required: true, maxLength: 120 })}

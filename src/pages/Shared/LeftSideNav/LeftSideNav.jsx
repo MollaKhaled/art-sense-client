@@ -116,21 +116,21 @@ const LeftSideNav = () => {
         <div className="divider"></div>
 
         {/* Artist Dropdown */}
-        <div className="relative">
+        <div className="relative text-sm">
           <button
             onClick={toggleArtistDropdown}
             className="btn w-full flex items-center justify-between gap-2"
           >
-            <span>Artist</span>
+            <span >Artist</span>
             {artistOpen ? <FaMinus /> : <FaPlus />}
           </button>
           {artistOpen && (
-            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm ">
               {artists.map((artist) => (
                 <li key={artist._id}>
                   <Link
                     to={`/artists/${artist.artistId}`}
-                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
+                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base "
                   >
                     {artist.artist}
                   </Link>

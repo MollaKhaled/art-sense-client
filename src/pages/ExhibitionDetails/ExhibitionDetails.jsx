@@ -9,7 +9,7 @@ const ExhibitionDetails = () => {
   const loadedExhibitionData = useLoaderData();
 
   // Destructure price and discount from the loaded data
-  const { formattedPrice = 0, discount = 0, photoUrl, title, artworkId, artist, media, size, year, lotDetails } = loadedExhibitionData;
+  const { formattedPrice = 0, discount = 0, photoUrl, title, artworkId, artist, media, size, year, lotDetails,condition, history, shipping, payment,artworkDetails } = loadedExhibitionData;
 
   // Extract numeric value from formattedPrice (e.g., "BDT 12,000.00" -> 12000)
   const priceNumber = parseFloat(formattedPrice.replace(/[^\d.-]/g, ''));
@@ -26,7 +26,7 @@ const ExhibitionDetails = () => {
       <Helmet>
         <title>artsense | Exhibition details</title>
       </Helmet>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8 text-sm">
         {/* Image Section */}
         <div className="flex-1 relative lg:mt-8">
           <img
@@ -36,23 +36,23 @@ const ExhibitionDetails = () => {
           />
         </div>
         {/* Item Details Section */}
-        <div>
+        <div className='text-sm'>
           <h2>artwork id <span className='text-red-500'>{artworkId}</span></h2>
-          <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
+          <div className="divider" ></div>
           <h2 className="text-lg sm:text-xl lg:text-xl font-bold mb-2">{artist}</h2>
           <p className="text-sm sm:text-base">{title}</p>
           <p className="text-sm sm:text-base">{media}</p>
           <p className="text-sm sm:text-base">{size}</p>
           <p className="text-sm sm:text-base">{year}</p>
-          
+
           {/* Pricing Section */}
-          <div className="mt-4 space-y-2">
+          <div className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between text-sm sm:text-base">
               <span>Amount</span>
               <span>{formattedPrice}</span>
             </div>
-            <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
-           
+            <div className="divider" ></div>
+
             <div className="mt-4 space-y-2">
               <div className="flex justify-between text-sm sm:text-base font-bold">
                 <span>Sub Total</span>
@@ -63,10 +63,10 @@ const ExhibitionDetails = () => {
               <span>Special Honor</span>
               <span>{discount}</span>
             </div>
-            
+
             <div className="flex justify-between text-sm sm:text-base font-bold">
-              <span>Grand Total BDT</span>
-              <span>{`BDT ${grandTotal.toLocaleString()}`}</span> {/* Display grand total */}
+              <span>Grand Total </span>
+              <span className='text-red-500'>{`BDT ${grandTotal.toLocaleString()}`}</span> {/* Display grand total */}
             </div>
             <div className="text-sm sm:text-base">
               <span>In Words: </span>
@@ -81,28 +81,68 @@ const ExhibitionDetails = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Notes Section */}
-      <div className="p-4">
-        <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
+      <div className="text-sm ">
+        <div className="divider" ></div>
         <h2 className="text-center font-semibold">Notes</h2>
-        <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="divider" ></div>
+        <div className="flex flex-col md:flex-row gap-2">
           {/* About Details Section */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 mx-2">
             <h2 className="font-semibold">About Details</h2>
-            <p className="text-sm sm:text-base">{lotDetails}</p>
+            <p className="text-sm ">{artworkDetails}</p>
           </div>
 
           {/* Additional Details Section */}
           <div className="w-full md:w-1/2">
-            <p>Condition Report</p>
-            <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
-            <p>History and Provenance</p>
-            <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
-            <p>Shipping Information</p>
-            <div className="divider" style={{ backgroundColor: 'black', height: '1px' }}></div>
-            <p>Payment and Return Policies</p>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Condition Report
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{condition}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                History and Provenance
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{history}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Shipping Information
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{shipping}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Payment and Return Policies
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{payment}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

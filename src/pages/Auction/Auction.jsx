@@ -24,7 +24,7 @@ const Auction = () => {
         <title>artsense | auction</title>
       </Helmet>
       <div className='pt-8'>
-        <AuctionBanner />
+        <AuctionBanner/>
       </div>
       <div className="my-10">
         {loading ? (
@@ -34,14 +34,15 @@ const Auction = () => {
           </div>
         ) : auctionPhoto.length > 0 ? (
           // Display auction items if data exists
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 text-sm ">
             {auctionPhoto.map((item) => (
               <AuctionCard key={item._id} item={item} />
             ))}
           </div>
         ) : (
           // Display message if no auction items are available
-          <p className="text-center text-gray-500"></p>
+          <p className="text-center text-gray-500">No auctions available at the moment.</p>
+          
         )}
       </div>
     </>

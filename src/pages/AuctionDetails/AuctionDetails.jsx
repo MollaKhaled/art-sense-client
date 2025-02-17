@@ -56,8 +56,7 @@ const AuctionDetails = () => {
 
     fetchCurrentHighestBid();
   }, [lotId]);
-
-
+  
   useEffect(() => {
     socket.on("updateBid", (bidData) => {
       if (bidData.lotId === currentItem?.lotId) {
@@ -77,6 +76,9 @@ const AuctionDetails = () => {
       socket.off("updateBid"); // Clean up listener on unmount
     };
   }, [currentItem, incrementBidCount]);
+
+
+  
 
   // Fetch photos and item data
   useEffect(() => {
@@ -266,7 +268,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
       <Helmet>
         <title>artsense | auction details</title>
       </Helmet>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8 text-sm">
         {/* Previous Button outside Image */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
           <button
@@ -290,25 +292,25 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
         {/* Item Details Section */}
         <div className="flex-1 p-2 pl-4 rounded-md ">
           <div className="divider"></div>
-          <h2 className="text-lg sm:text-xl lg:text-xl font-bold mb-2">
+          <h2 className="text-sm  font-bold mb-2">
             {currentItem.artist}
           </h2>
-          <p className="text-sm sm:text-base text-gray-400">{currentItem.birth}</p>
+          <p className="text-sm  text-gray-400">{currentItem.birth}</p>
           <div className="divider"></div>
-          <p className="text-sm sm:text-base"> {currentItem.title}</p>
-          <p className="text-sm sm:text-base"> {currentItem.media}</p>
-          <p className="text-sm sm:text-base"> {currentItem.size}</p>
-          <p className="text-sm sm:text-base"> {currentItem.year}</p>
+          <p className="text-sm "> {currentItem.title}</p>
+          <p className="text-sm "> {currentItem.media}</p>
+          <p className="text-sm "> {currentItem.size}</p>
+          <p className="text-sm "> {currentItem.year}</p>
 
 
           <div className="divider"></div>
-          <div>
-            <div className="text-sm sm:text-base flex">
+          <div className="text-sm">
+            <div className="text-sm  flex ">
               lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
             </div>
             <div className="divider"></div>
             <div>
-              <div className="text-sm sm:text-base flex ">
+              <div className="text-sm  flex ">
                 Ending: {" "}
                 <p className="ml-14" >
                   {currentItem.dates && currentItem.dates[0]?.endDate
@@ -323,26 +325,26 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
 
               </div>
               {remainingTime && (
-                <p className="text-sm sm:text-base ml-28 text-gray-500">
+                <p className="text-sm  ml-28 text-gray-500">
                   {remainingTime}
                 </p>
               )}
             </div>
             <div className="divider"></div>
-            <div className="text-sm sm:text-base flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
+            <div className="text-sm  flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
             <div className="divider"></div>
-            <div className="text-sm sm:text-base flex">
+            <div className="text-sm  flex">
               Current Bid: <p className="text-red-500 ml-8 font-semibold">{currentHighestBid}</p>
             </div>
-            <div className="text-sm sm:text-base">
+            <div className="text-sm">
               <span className="text-green-500 ml-32">{bidCount} Bids</span>
             </div>
 
           </div>
           <div className="divider"></div>
           {/* Bid Select */}
-          <div className="mt-4">
-            <label className="block text-sm sm:text-base font-medium mb-2 text-red-500">
+          <div className="mt-4 text-sm">
+            <label className="block text-sm  font-medium mb-2 text-red-500">
               Choose your maximum bid*
             </label>
             <select
@@ -363,7 +365,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
             </select>
 
           </div>
-          <p className="text-sm sm:text-base text-gray-400">*This amount excludes shipping fees</p>
+          <p className="text-sm  text-gray-400">*This amount excludes shipping fees</p>
           <div>
             <button className="btn w-1/2 mt-4" onClick={handlePlaceBid}>
               Place Bid
@@ -385,7 +387,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
           </button>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 text-sm">
         <div className="divider"></div>
         <h2 className="text-center font-semibold">Lot Details</h2>
         <div className="divider"></div>
@@ -393,18 +395,58 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
           {/* About Details Section */}
           <div className="w-full md:w-1/2">
             <h2 className="font-semibold">About Details</h2>
-            <p className="text-sm sm:text-base"> {currentItem.lotDetails}</p>
+            <p className="text-sm "> {currentItem.lotDetails}</p>
           </div>
 
           {/* Additional Details Section */}
           <div className="w-full md:w-1/2">
-            <p>Condition Report</p>
-            <div className="divider"></div>
-            <p>History and Provenance</p>
-            <div className="divider"></div>
-            <p>Shipping Information</p>
-            <div className="divider"></div>
-            <p>Payment and Return Policies</p>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Condition Report
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{currentItem.condition}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                History and Provenance
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{currentItem.history}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Shipping Information
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{currentItem.shipping}</p>
+              </div>
+            </div>
+            <div className="divider" ></div>
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div
+                className="collapse-title">
+                Payment and Return Policies
+              </div>
+              <div
+                className="collapse-content  ">
+                <p>{currentItem.payment}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

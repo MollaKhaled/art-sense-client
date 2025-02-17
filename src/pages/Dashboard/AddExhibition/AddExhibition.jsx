@@ -25,7 +25,7 @@ const AddExhibition = () => {
       .then(imgResponse => {
         if (imgResponse.success) {
           const imgURL = imgResponse.data.display_url;
-          const { artist, title, media, size, year, price, stockCode, discount, artworkId } = data;
+          const { artist, title, media, size, year, price, stockCode, discount, artworkId,condition, history,shipping,payment,artworkDetails,artistId } = data;
 
           // Format the price using the helper function
           const formattedPrice = formatCurrency(parseFloat(price));
@@ -34,6 +34,7 @@ const AddExhibition = () => {
           const newItem = {
             artworkId,
             artist,
+            artistId,
             title,
             media,
             size,
@@ -42,6 +43,8 @@ const AddExhibition = () => {
             discount: formattedDiscount,  // Send the formatted discount
             stockCode,
             photoUrl: imgURL,
+            artworkDetails,
+            condition, history,shipping,payment,
           };
 
           console.log(newItem);
@@ -72,6 +75,14 @@ const AddExhibition = () => {
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex'>
+          <div className="form-control w-full mb-4 mr-2">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Artist Id*</span>
+              </div>
+              <input type="text" placeholder="Artist Id"
+                {...register("artistId", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
             <div className="form-control w-full mb-4 ">
               <div className="label">
                 <span className="label-text-alt font-semibold">Artist*</span>
@@ -143,6 +154,14 @@ const AddExhibition = () => {
                 className="input input-bordered w-full " />
             </div>
           </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Artwork Details*</span>
+            </div>
+            <textarea type="text" placeholder="Artwork Details"
+              {...register("artworkDetails", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-32 " />
+          </div>
           <div className="form-control w-full mb-4 ">
             <div className="label">
               <span className="label-text-alt font-semibold">StockCode*</span>
@@ -157,6 +176,39 @@ const AddExhibition = () => {
             </div>
             <input type="file" {...register("image", { required: true })} className="file-input file-input-bordered w-full " />
           </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Condition Report*</span>
+            </div>
+            <textarea type="text" placeholder="Condition Report"
+              {...register("condition", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">History and Provenance*</span>
+            </div>
+            <textarea type="text" placeholder="History and Provenance"
+              {...register("history", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Shipping Information*</span>
+            </div>
+            <textarea type="text" placeholder="Shipping Information"
+              {...register("shipping", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Payment and Return Policies*</span>
+            </div>
+            <textarea type="text" placeholder="Payment and Return Policies"
+              {...register("payment", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          
           <input className='btn btn-sm mt-4 font-semibold' type="submit" value="Add Item" />
         </form>
       </div>

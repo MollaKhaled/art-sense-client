@@ -43,7 +43,7 @@ const AddAuction = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory,artistId } = data;
+          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory,artistId,condition,history,shipping,payment } = data;
 
           // Format currency values
           const formattedBid = formatCurrency(bid);
@@ -64,7 +64,8 @@ const AddAuction = () => {
             dates: dates,
             startDate: { startDate },
             endDate: { endDate },
-            stockCode, photoUrl: imgURL
+            stockCode, photoUrl: imgURL,
+            condition,history,shipping,payment,
           };
           console.log(newItem);
           axiosSecure.post('/auction', newItem)
@@ -93,6 +94,14 @@ const AddAuction = () => {
       <div className='w-full p-10'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex'>
+          <div className="form-control w-full mr-4 ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Artist id*</span>
+              </div>
+              <input type="text" placeholder="Artist id"
+                {...register("artistId", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
             <div className="form-control w-full mb-4 ">
               <div className="label">
                 <span className="label-text-alt font-semibold">Artist*</span>
@@ -101,29 +110,14 @@ const AddAuction = () => {
                 {...register("artist", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
-            <div className="form-control w-full ml-4 ">
-              <div className="label">
-                <span className="label-text-alt font-semibold">Artist id*</span>
-              </div>
-              <input type="text" placeholder="Artist id"
-                {...register("artistId", { required: true, maxLength: 120 })}
-                className="input input-bordered w-full " />
-            </div>
-            <div className="form-control w-full ml-4 mb-4 ">
-              <div className="label">
-                <span className="label-text-alt font-semibold">Title*</span>
-              </div>
-              <input type="text" placeholder="title"
-                {...register("title", { required: true, maxLength: 120 })}
-                className="input input-bordered w-full " />
-            </div>
+            
           </div>
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">
                 <span className="label-text-alt font-semibold">Birth*</span>
               </div>
-              <input type="text" placeholder="birth"
+              <input type="text" placeholder="Birth"
                 {...register("birth", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
@@ -145,6 +139,14 @@ const AddAuction = () => {
               {...register("lotDetails", { required: true, maxLength: 500 })}
               className="textarea textarea-bordered h-52 " />
           </div>
+          <div className="form-control w-full  ">
+              <div className="label">
+                <span className="label-text-alt font-semibold">Title*</span>
+              </div>
+              <input type="text" placeholder="Title"
+                {...register("title", { required: true, maxLength: 120 })}
+                className="input input-bordered w-full " />
+            </div>
           <div className='flex'>
             <div className="form-control w-full mb-4 ">
               <div className="label">
@@ -176,7 +178,7 @@ const AddAuction = () => {
           </div>
           <div className="form-control w-full mb-4 ">
             <div className="label">
-              <span className="label-text-alt font-semibold">bid*</span>
+              <span className="label-text-alt font-semibold">Bid*</span>
             </div>
             <input type="number" placeholder="bid" {...register("bid", { required: true, maxLength: 120 })} className="input input-bordered w-full " />
 
@@ -242,6 +244,38 @@ const AddAuction = () => {
               <span className="label-text font-semibold mb-4 ">Item Image*</span>
             </div>
             <input type="file" {...register("image", { required: true })} className="file-input file-input-bordered w-full " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Condition Report*</span>
+            </div>
+            <textarea type="text" placeholder="Condition Report"
+              {...register("condition", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">History and Provenance*</span>
+            </div>
+            <textarea type="text" placeholder="History and Provenance"
+              {...register("history", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Shipping Information*</span>
+            </div>
+            <textarea type="text" placeholder="Shipping Information"
+              {...register("shipping", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
+          </div>
+          <div className="form-control w-full  mb-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Payment and Return Policies*</span>
+            </div>
+            <textarea type="text" placeholder="Payment and Return Policies"
+              {...register("payment", { required: true, maxLength: 500 })}
+              className="textarea textarea-bordered h-28 " />
           </div>
 
           <input className='btn btn-sm mt-4 font-semibold' type="submit" value="Add Auction" />

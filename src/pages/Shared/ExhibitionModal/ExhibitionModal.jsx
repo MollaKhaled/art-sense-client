@@ -68,9 +68,9 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all relative">
+            <DialogPanel className=" max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all relative">
               <button
-                className="absolute right-1 bg-white text-red-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                className="absolute top-2 right-2 bg-white text-red-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                 onClick={() => {
                   closeModal();
                   refetch && refetch();
@@ -80,32 +80,31 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
               </button>
 
               {currentPhoto && (
-                <div className=" gap-6">
-                <div className="w-full ">
-                  <img
-                    src={currentPhoto.photoUrl}
-                    alt={currentPhoto.title}
-                    className="w-full h-auto rounded-md"
-                  />
-                </div>
+                <div className=" sm:w-96 ">
+                  <figure>
+                    <img
+                      src={currentPhoto.photoUrl}
+                      alt={currentPhoto.title}
 
-                  <div className="flex flex-col items-center justify-center text-center mb-2">
-                    <div>
-                      <p className="text-lg font-bold mt-3">
-                        {currentPhoto.artist}
+                    />
+                  </figure>
+                  <div className="card-body text-center p-5 ">
+                    <div className="text-center text-sm">
+                      <p className=" font-bold">{currentPhoto.artist}</p>
+                      <p >
+                        {currentPhoto.title} <span className="text-red-500">|</span> {currentPhoto.media}
                       </p>
-                      <p className="text-lg">{currentPhoto.title}</p>
-                      <p className="text-lg">{currentPhoto.media}</p>
-                      <p className="text-lg">{currentPhoto.size}</p>
-                      <p className="text-lg">
-                        {currentPhoto.year}{" "}
-                        <span className="text-red-500 text-2xl ">|</span>{" "}
-                        {currentPhoto.stockCode}
+                      <p>
+                        {currentPhoto.size} <span className="text-red-500">|  </span> {currentPhoto.stockCode}
                       </p>
+                      <h1 className="text-red-500">{currentPhoto.formattedPrice}</h1>
                     </div>
-                  </div>
+                    <div className="flex items-center justify-center gap-2">
 
-                  <div className="flex items-center justify-center">
+                    </div>
+                    
+                  </div>
+                  <div className="flex items-center justify-center gap-4 text-sm">
                     <button
                       className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                       onClick={handlePrevPage}
@@ -114,7 +113,7 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                       <IoIosArrowBack size={16} />
                       <span>Prev</span>
                     </button>
-                    <span className="text-red-500 text-3xl">|</span>
+                   
                     <button
                       className="flex items-center space-x-1 px-1 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
                       onClick={handleNextPage}

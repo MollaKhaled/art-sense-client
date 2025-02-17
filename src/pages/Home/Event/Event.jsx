@@ -25,12 +25,12 @@ const Event = () => {
       <div>
         {loading ? (
           // Show spinner when loading
-          <div className="flex justify-center items-center min-h-screen">
+          <div className="flex justify-center items-center min-h-screen text-sm">
           <span className="loading loading-spinner text-error"></span>
          </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="table w-full min-h-screen">
+            <table className="table w-full min-h-screen text-sm">
               <tbody>
                 {event.map((item) => (
                   <EventItem key={item._id} item={item} />

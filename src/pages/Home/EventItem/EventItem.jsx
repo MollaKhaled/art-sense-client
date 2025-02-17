@@ -47,7 +47,7 @@ const EventItem = ({ item }) => {
     <tr>
       {/* Photo column */}
       <td>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <div className="avatar">
             <div className="rounded h-32 w-32">
               <img src={photoUrl} alt="Event" />
@@ -58,11 +58,11 @@ const EventItem = ({ item }) => {
 
       {/* Title, Description, and Press columns */}
       <td colSpan={3}>
-        <div className="grid grid-cols-1">
-          <div className="text-red-500 text-xl">{title}</div>
-          <div className="text-lg">{description}</div>
+        <div className="grid grid-cols-1 text-sm">
+          <div className="text-red-500 text-lg">{title}</div>
+          <div className="">{description}</div>
           <div className="flex items-center">
-            <div className="text-lg text-green-600">{press}</div>
+            <div className=" text-green-600">{press}</div>
             <div className="text-lg ml-6">
               <button onClick={() => handleDownload(item._id)} aria-label={`Download ${title} PDF`}>
                 <FaDownload />

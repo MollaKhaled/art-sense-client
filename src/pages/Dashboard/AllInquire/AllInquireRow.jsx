@@ -2,12 +2,12 @@ import React from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 
 const AllInquireRow = ({inquire, handleDelete}) => {
-  const {_id, artId, customerName, email, phone, address, comments} = inquire;
+  const {_id, artId, customerName, email, phone, address, comments, stockCode} = inquire;
  
   return (
     <tr>
    
-    <td>{_id}</td>
+    <td>{stockCode}</td>
     <td>{customerName}</td>
     <td>{email}</td>
     <td>{phone}</td>
