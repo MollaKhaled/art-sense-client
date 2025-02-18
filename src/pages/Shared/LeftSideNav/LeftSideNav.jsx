@@ -25,8 +25,15 @@ const LeftSideNav = () => {
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/artists')
       .then(res => res.json())
-      .then(data => setArtists(data))
-      .catch(error => console.log(error));
+      .then(data => {
+        // Sort alphabetically by artist name
+        const sortedArtists = Array.isArray(data) ? data.sort((a, b) => a.artist.localeCompare(b.artist)) : [];
+        setArtists(sortedArtists);
+      })
+      .catch(error => {
+        console.log("Error fetching artists:", error);
+        setArtists([]);
+      });
   }, []);
 
   useEffect(() => {

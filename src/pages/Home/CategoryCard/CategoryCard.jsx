@@ -21,7 +21,10 @@ const CategoryCard = ({ photo }) => {
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
-            {size} <span className="text-red-500">| </span> {stockCode}
+            {size} <span className="text-red-500">| </span>{year}  <span className="text-red-500"> | {formattedPrice}</span> 
+          </p>
+          <p >
+            <span className="text-green-600">{stockCode}</span> 
           </p>
           <div className="mt-2" >
             <Link >

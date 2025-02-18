@@ -5,7 +5,7 @@ import CategoryCard from '../CategoryCard/CategoryCard';
 const Category = () => {
   const { id } = useParams();
   const artistPhotos = useLoaderData(); // Load data from the loader
-
+ 
   console.log("Loaded artist photos:", artistPhotos); // Debugging: Check the received data
   
   if (!artistPhotos) {
