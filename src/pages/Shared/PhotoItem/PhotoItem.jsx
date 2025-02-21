@@ -12,7 +12,7 @@ import BookingModal from "../BookingModal/BookingModal";
 const PhotoItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const { _id, artist, title, size, stockCode, photoUrl, media } = item;
+  const { _id, artist, title, size, stockCode, photoUrl, media, year } = item;
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,22 +84,22 @@ const PhotoItem = ({ item }) => {
         />
       </figure>
 
-      <div className="card-body text-center p-5">
+      <div className="card text-center p-5 text-sm">
         <div className="text-center text-sm">
           <p className=" font-bold">{artist}</p>
           <p>
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
-            {size} <span className="text-red-500">| </span> {stockCode}
+            {size} <span className="text-red-500">| </span> {year}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 mt-1">
           <button
             onClick={handleWhatsAppClick}
             className="flex items-center gap-1 text-green-600"
           >
-            <p>Ask for Price</p>
+            <span className="text-gray-800">{stockCode}</span><span className="text-red-500">| </span> <p>Ask for Price</p>
             <FaWhatsapp />
           </button>
           <span className="text-red-500">|</span>
@@ -107,12 +107,16 @@ const PhotoItem = ({ item }) => {
             <IoMdMail />
           </Link>
         </div>
-
+        <div className='mt-3'>
+          <Link>
+            <button className="btn w-3/4 ">Available</button>
+          </Link>
+        </div>
+       
       </div>
+     
       <div>
-        <button onClick={() => handleAddToCart(item)} className="btn w-full">
-          Available
-        </button>
+
       </div>
 
       {/* Booking Modal */}

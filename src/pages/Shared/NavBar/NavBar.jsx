@@ -23,7 +23,7 @@ const NavBar = () => {
 
   const navOptions = (
     <>
-      <div className="flex lg:flex-row flex-col items-center gap-2">
+      <div className="flex lg:flex-row flex-col items-center gap-2 ">
         <li>
           <Link to="/" onClick={handleOptionClick}>artworks</Link>
         </li>
@@ -57,17 +57,17 @@ const NavBar = () => {
             </div>
           </button>
         </li> */}
-      
+
         {user?.email ? (
           <>
             <li>
               <button onClick={() => { handleLogOut(); handleOptionClick(); }}>log out</button>
             </li>
-            
+
             <li>
               <span>{user?.displayName}</span>
             </li>
-           
+
           </>
         ) : (
           <li>
@@ -80,7 +80,8 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="navbar relative z-50">
+      <div className="navbar sticky top-0 z-10 bg-opacity-30 max-w-screen-xl mx-auto px-4">
+
         <div className="navbar-start">
           <div className="dropdown">
             <div

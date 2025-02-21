@@ -11,7 +11,7 @@ const Home = () => {
     <Helmet>
         <title>artsense</title>
       </Helmet>
-      <div className="pt-8 pb-8">
+      <div className="pb-8">
     <PhotoBanner/>
     </div>
     <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 text-sm'>

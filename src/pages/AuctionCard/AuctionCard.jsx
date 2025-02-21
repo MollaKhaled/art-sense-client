@@ -9,7 +9,7 @@ const AuctionCard = ({ item }) => {
   const remainingTime = useRemainingTime(item.dates?.[0]?.endDate);
 
   return (
-    <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden">
+    <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden text-sm">
     {/* Image Container */}
     <figure className="px-10 h-[250px] flex items-center justify-center">
       <img
@@ -19,7 +19,7 @@ const AuctionCard = ({ item }) => {
       />
     </figure>
 
-      <div className="card-body text-center p-5 ">
+      <div className="card text-center p-5 text-sm ">
         <div className="text-center text-sm">
           <p className="font-bold">{artist}</p>
           <p className=" text-gray-400">{birth}</p>
@@ -27,7 +27,7 @@ const AuctionCard = ({ item }) => {
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
-            {size} <span className="text-red-500">|</span> {stockCode}
+            {size} <span className="text-red-500">|</span> {year} <span className="text-red-500">|</span> {stockCode}
           </p>
           <div className="mt-2">
             <h1 className="text-red-500">{bid}</h1>
@@ -45,8 +45,8 @@ const AuctionCard = ({ item }) => {
             </p>
           )}
         </div>
-        <div className="mt-4">
-          <Link to={`/auction/${_id}`} state={{ item }}>
+        <div className="mt-2">
+          <Link to={`/auction/${_id}`}>
             <button className="btn w-3/4">BID</button>
           </Link>
         </div>

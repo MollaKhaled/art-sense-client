@@ -26,7 +26,7 @@ const ExhibitionDetails = () => {
       <Helmet>
         <title>artsense | Exhibition details</title>
       </Helmet>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8 text-sm">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-32 p-4 lg:p-8 text-sm">
         {/* Image Section */}
         <div className="flex-1 relative lg:mt-8">
           <img
@@ -39,44 +39,45 @@ const ExhibitionDetails = () => {
         <div className='text-sm'>
           <h2>artwork id <span className='text-red-500'>{artworkId}</span></h2>
           <div className="divider" ></div>
-          <h2 className="text-lg sm:text-xl lg:text-xl font-bold mb-2">{artist}</h2>
-          <p className="text-sm sm:text-base">{title}</p>
-          <p className="text-sm sm:text-base">{media}</p>
-          <p className="text-sm sm:text-base">{size}</p>
-          <p className="text-sm sm:text-base">{year}</p>
+          <h2 className=" font-bold mb-2">{artist}</h2>
+          <p>{title}</p>
+          <p>{media}</p>
+          <p>{size}</p>
+          <p>{year}</p>
 
           {/* Pricing Section */}
           <div className="mt-4 space-y-2 text-sm">
-            <div className="flex justify-between text-sm sm:text-base">
+            <div className="flex justify-between">
               <span>Amount</span>
               <span>{formattedPrice}</span>
             </div>
             <div className="divider" ></div>
 
             <div className="mt-4 space-y-2">
-              <div className="flex justify-between text-sm sm:text-base font-bold">
+              <div className="flex justify-between font-bold">
                 <span>Sub Total</span>
                 <span>{formattedPrice}</span>
               </div>
             </div>
-            <div className="flex justify-between text-sm sm:text-base">
+            <div className="flex justify-between">
               <span>Special Honor</span>
               <span>{discount}</span>
             </div>
 
-            <div className="flex justify-between text-sm sm:text-base font-bold">
+            <div className="flex justify-between font-bold">
               <span>Grand Total </span>
               <span className='text-red-500'>{`BDT ${grandTotal.toLocaleString()}`}</span> {/* Display grand total */}
             </div>
-            <div className="text-sm sm:text-base">
+            <div>
               <span>In Words: </span>
               <span className='font-bold'>{grandTotalInWords}</span> BDT only
             </div>
+            <div className="divider" ></div>
           </div>
 
           {/* Booking Form */}
           <div className="mt-6">
-            <h2 className='text-black mb-2 font-semibold'>Booking Form</h2>
+            <h2 className='mb-2 font-semibold'>Booking Form</h2>
             <ExhibitionForm />
           </div>
         </div>
@@ -90,7 +91,7 @@ const ExhibitionDetails = () => {
         <div className="flex flex-col md:flex-row gap-2">
           {/* About Details Section */}
           <div className="w-full md:w-1/2 mx-2">
-            <h2 className="font-semibold">About Details</h2>
+            <h2 className="font-semibold mb-2">About Details</h2>
             <p className="text-sm ">{artworkDetails}</p>
           </div>
 

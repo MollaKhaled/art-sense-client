@@ -24,7 +24,8 @@ const useRemainingTime = (endDate) => {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
       // setRemainingTime(`${days} days, ${hours} hours, ${minutes} minutes remaining`);
-      setRemainingTime(`${days} days remaining`);
+      setRemainingTime(<span className="text-sm">{`${days} Days Remaining`}</span>);
+
     };
 
     // Calculate time initially

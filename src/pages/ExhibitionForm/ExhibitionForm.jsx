@@ -101,7 +101,7 @@ const ExhibitionForm = () => {
                 type="text"
                 name="name"
                 placeholder="*Name"
-                className="input input-bordered border-black"
+                className="input input-bordered"
                 required
               />
             </div>
@@ -110,7 +110,7 @@ const ExhibitionForm = () => {
                 type="email"
                 name="email"
                 placeholder="*Email"
-                className="input input-bordered border-black"
+                className="input input-bordered "
                 required
               />
             </div>
@@ -119,7 +119,7 @@ const ExhibitionForm = () => {
                 type="text"
                 name="phone"
                 placeholder="*Phone"
-                className="input input-bordered border-black"
+                className="input input-bordered"
                 required
               />
             </div>
@@ -127,13 +127,13 @@ const ExhibitionForm = () => {
               <textarea
                 name="address"
                 placeholder="*Address"
-                className="textarea textarea-bordered h-28 resize-none border-black"
+                className="textarea textarea-bordered h-28 resize-none"
                 required
               ></textarea>
             </div>
             <div>
               <button
-                className={`btn w-full font-semibold py-2 px-4 mb-2 rounded border-black ${loadedExhibitionData?.booked ? "cursor-not-allowed" : ""
+                className={`btn w-full font-semibold py-2 px-4 mb-2 rounded  ${loadedExhibitionData?.booked ? "cursor-not-allowed" : ""
                   }`}
                 type="submit"
                 disabled={loadedExhibitionData?.booked || loading}

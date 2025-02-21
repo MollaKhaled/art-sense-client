@@ -52,7 +52,7 @@ const SearchPage = () => {
   }, [query, year, price]);  // The effect runs whenever the 'query', 'year', or 'price' changes
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 min-h-screen text-sm">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm mt-12 min-h-screen">
       {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}
       {error && <p>{error}</p>} {/* Show error message if any error occurs */}
 

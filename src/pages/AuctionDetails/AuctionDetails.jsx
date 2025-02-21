@@ -7,12 +7,14 @@ import { Helmet } from "react-helmet-async";
 import useBidCount from "../../hooks/useBidCount";
 import useRemainingTime from "../../hooks/useRemainingTime";
 import { io } from "socket.io-client";
+import useCart from "../../hooks/useCart";
 
 // Use the correct backend URL for Socket.IO
 const socket = io("https://art-sense-server.vercel.app/");
 
 const AuctionDetails = () => {
   const { user } = useContext(AuthContext);
+  const [cart, refetch] = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
   const [photos, setPhotos] = useState([]);
@@ -23,7 +25,7 @@ const AuctionDetails = () => {
   const lotId = currentItem?.lotId || null;
   const [currentHighestBid, setCurrentHighestBid] = useState('No bids yet');
 
-  const { bidCount, incrementBidCount, loading: bidCountLoading } = useBidCount(lotId);
+  const { bidCount, incrementBidCount, error } = useBidCount(lotId);
   const remainingTime = useRemainingTime(currentItem?.dates?.[0]?.endDate);
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const AuctionDetails = () => {
 
     fetchCurrentHighestBid();
   }, [lotId]);
-  
+
   useEffect(() => {
     socket.on("updateBid", (bidData) => {
       if (bidData.lotId === currentItem?.lotId) {
@@ -78,7 +80,7 @@ const AuctionDetails = () => {
   }, [currentItem, incrementBidCount]);
 
 
-  
+
 
   // Fetch photos and item data
   useEffect(() => {
@@ -105,8 +107,10 @@ const AuctionDetails = () => {
       setSelectedBid(parseInt(storedBid, 10)); // Parse as integer
     }
   }, []);
+ 
 
   const handlePlaceBid = async () => {
+    incrementBidCount();
     const selectedBidValue = parseInt(selectedBid.toString().replace(/[^0-9]/g, ""), 10);
 const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^0-9]/g, ""), 10);
 
@@ -164,6 +168,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
       setLoading(false); // ✅ Reset loading state
     }
   };
+
 
 
   if (photos.length === 0) {
@@ -268,7 +273,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
       <Helmet>
         <title>artsense | auction details</title>
       </Helmet>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-4 lg:p-8 text-sm">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-32 p-4 lg:p-8 text-sm">
         {/* Previous Button outside Image */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
           <button
@@ -297,22 +302,22 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
           </h2>
           <p className="text-sm  text-gray-400">{currentItem.birth}</p>
           <div className="divider"></div>
-          <p className="text-sm "> {currentItem.title}</p>
-          <p className="text-sm "> {currentItem.media}</p>
-          <p className="text-sm "> {currentItem.size}</p>
-          <p className="text-sm "> {currentItem.year}</p>
+          <p> {currentItem.title}</p>
+          <p> {currentItem.media}</p>
+          <p> {currentItem.size}</p>
+          <p> {currentItem.year}</p>
 
 
           <div className="divider"></div>
           <div className="text-sm">
-            <div className="text-sm  flex ">
+            <div className=" flex ">
               lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
             </div>
             <div className="divider"></div>
             <div>
               <div className="text-sm  flex ">
                 Ending: {" "}
-                <p className="ml-14" >
+                <p className="ml-16" >
                   {currentItem.dates && currentItem.dates[0]?.endDate
                     ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
                       year: "numeric",
@@ -325,26 +330,26 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
 
               </div>
               {remainingTime && (
-                <p className="text-sm  ml-28 text-gray-500">
+                <p className="ml-28 text-gray-500">
                   {remainingTime}
                 </p>
               )}
             </div>
             <div className="divider"></div>
-            <div className="text-sm  flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
+            <div className="flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
             <div className="divider"></div>
-            <div className="text-sm  flex">
-              Current Bid: <p className="text-red-500 ml-8 font-semibold">{currentHighestBid}</p>
+            <div className="flex">
+              Current Bid: <p className="text-red-500 ml-8">{currentHighestBid}</p>
             </div>
-            <div className="text-sm">
-              <span className="text-green-500 ml-32">{bidCount} Bids</span>
+            <div>
+              <span className="text-green-500 ml-28">{bidCount} Bids</span>
             </div>
 
           </div>
           <div className="divider"></div>
           {/* Bid Select */}
           <div className="mt-4 text-sm">
-            <label className="block text-sm  font-medium mb-2 text-red-500">
+            <label className="block font-medium mb-2 text-red-500">
               Choose your maximum bid*
             </label>
             <select
@@ -365,14 +370,14 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
             </select>
 
           </div>
-          <p className="text-sm  text-gray-400">*This amount excludes shipping fees</p>
+          <p className="text-gray-400">*This amount excludes shipping fees</p>
           <div>
             <button className="btn w-1/2 mt-4" onClick={handlePlaceBid}>
               Place Bid
             </button>
           </div>
           <div>
-            <button className="btn btn-outline mt-4 w-1/2">ADD TO WATCH LIST</button>
+            <button className="btn btn-outline border-gray-400 mt-4 w-1/2">ADD TO WATCH LIST</button>
           </div>
         </div>
 
@@ -394,8 +399,8 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           {/* About Details Section */}
           <div className="w-full md:w-1/2">
-            <h2 className="font-semibold">About Details</h2>
-            <p className="text-sm "> {currentItem.lotDetails}</p>
+            <h2 className="font-semibold mb-2">About Details</h2>
+            <p className="text-sm"> {currentItem.lotDetails}</p>
           </div>
 
           {/* Additional Details Section */}

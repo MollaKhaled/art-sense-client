@@ -43,13 +43,13 @@ const AddAuction = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid, auctionCategory,artistId,condition,history,shipping,payment } = data;
+          const { artist, birth, lotId, lotDetails, title, media, size, year, stockCode, minEstimateBid, maxEstimateBid, bid,price, auctionCategory,artistId,condition,history,shipping,payment } = data;
 
           // Format currency values
           const formattedBid = formatCurrency(bid);
           const formattedMinEstimateBid = formatCurrency(minEstimateBid);
           const formattedMaxEstimateBid = formatCurrency(maxEstimateBid);
-
+          const formattedPrice = formatCurrency(parseFloat(price));
           // Combine the range as a single string
           const estimateBid = `${formattedMinEstimateBid} - ${formattedMaxEstimateBid}`;
 
@@ -60,6 +60,8 @@ const AddAuction = () => {
             artist, artistId,  title, media, size, birth, lotId, lotDetails, auctionCategory,
             year: parseFloat(year),
             bid: formattedBid,
+            price:parseFloat(price),
+            formattedPrice, 
             estimateBid, // Store as a string like "20000-50000"
             dates: dates,
             startDate: { startDate },
@@ -176,12 +178,21 @@ const AddAuction = () => {
             </div>
 
           </div>
+          <div className="flex">
           <div className="form-control w-full mb-4 ">
             <div className="label">
               <span className="label-text-alt font-semibold">Bid*</span>
             </div>
             <input type="number" placeholder="bid" {...register("bid", { required: true, maxLength: 120 })} className="input input-bordered w-full " />
 
+          </div>
+          <div className="form-control w-full ml-4 ">
+            <div className="label">
+              <span className="label-text-alt font-semibold">Price*</span>
+            </div>
+            <input type="number" placeholder="price" {...register("price", { required: true, maxLength: 120 })} className="input input-bordered w-full " />
+
+          </div>
           </div>
           <div className="flex">
             <div className="form-control w-full mb-4">

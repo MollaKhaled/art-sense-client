@@ -27,7 +27,7 @@ const SearchCard = ({ photo }) => {
           </p>
           <div className="mt-2" >
             <Link >
-              <button className="btn w-3/4 ">Available</button>
+              <button className="btn w-3/4">Available</button>
             </Link>
           </div>
         </div>

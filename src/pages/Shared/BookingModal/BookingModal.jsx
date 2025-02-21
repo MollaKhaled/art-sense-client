@@ -67,7 +67,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className=" max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all relative">
+            <DialogPanel className=" max-w-3xl transform overflow-hidden  bg-white p-3 text-left align-middle shadow-xl transition-all relative">
               <button
                 className="absolute top-2 right-2 bg-white text-red-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                 onClick={() => {

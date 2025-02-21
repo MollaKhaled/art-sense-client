@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
-import CategoryCard from '../CategoryCard/CategoryCard';
+import ExhibitionCategoryCard from './ExhibitionCategoryCard';
 
-const Category = () => {
+const ExhibitionCategory = () => {
   const { id } = useParams();
   const artistPhotos = useLoaderData(); // Load data from the loader
- 
+
   console.log("Loaded artist photos:", artistPhotos); // Debugging: Check the received data
-  
+
   if (!artistPhotos) {
     return <p>No photos found for this artist.</p>; // Handle empty or missing data
   }
@@ -17,7 +17,7 @@ const Category = () => {
       {
         artistPhotos.length > 0 ? (
           artistPhotos.map(photo => (
-            <CategoryCard key={photo._id} photo={photo} />
+            <ExhibitionCategoryCard key={photo._id} photo={photo} />
           ))
         ) : (
           <p>No photos found for this artist.</p>
@@ -27,4 +27,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default ExhibitionCategory;

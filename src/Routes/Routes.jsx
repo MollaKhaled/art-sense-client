@@ -45,6 +45,10 @@ import AddArtist from "../pages/Dashboard/AddArtist/AddArtist";
 import AllArtists from "../pages/Dashboard/AllArtists/AllArtists";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import AllServices from "../assets/dashboard/AllServices/AllServices";
+import ExhibitionSearchPage from "../pages/Exhibition/ExhibitionSearchPage/ExhibitionSearchPage";
+import ExhibitionCategory from "../pages/Exhibition/ExhibitionCategory/ExhibitionCategory";
+import AuctionSearchPage from "../pages/Auction/AuctionSearchPage/AuctionSearchPage";
+import AuctionCategory from "../pages/Auction/AuctionCategory/AuctionCategory";
 
 
 
@@ -57,12 +61,22 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
+        loader: () => fetch('http://localhost:3000/photoCount'),
       },
       {
         path: '/artists/:id',
         element: <Category />,
-        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/artists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`http://localhost:3000/artists/${params.id}`).then((res) => res.json())
+      },
+      {
+        path: '/exhibitionArtists/:id',
+        element: <ExhibitionCategory />,
+        loader: ({ params }) => fetch(`http://localhost:3000/exhibitionArtists/${params.id}`).then((res) => res.json())
+      },
+      {
+        path: '/auctionArtists/:id',
+        element: <AuctionCategory/>,
+        loader: ({ params }) => fetch(`http://localhost:3000/auctionArtists/${params.id}`).then((res) => res.json())
       },
       
       
@@ -129,6 +143,14 @@ export const router = createBrowserRouter([
       {
         path: '/search',
         element: <SearchPage/>
+      },
+      {
+        path: '/exhibitionSearch',
+        element: <ExhibitionSearchPage/>,
+      },
+      {
+        path: '/auctionSearch',
+        element: <AuctionSearchPage/>,
       },
     ]
   },

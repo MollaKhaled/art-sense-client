@@ -101,7 +101,7 @@ const LeftSideNav = () => {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-6  p-4 md:p-6">
       {/* Search Section */}
       <section>
         <label className="input input-bordered flex items-center gap-2 w-full">
@@ -109,17 +109,17 @@ const LeftSideNav = () => {
             id="search-field"
             type="text"
             className="grow text-sm md:text-base"
-            placeholder="Search photos..."
+            placeholder="Search by Artist or Title..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <FaSearch onClick={handleSearch} className="cursor-pointer text-lg md:text-xl" />
+          <FaSearch onClick={handleSearch} className="cursor-pointer" />
         </label>
       </section>
 
       {/* Filters Section */}
       <div className="space-y-3">
-        <h1 className="font-semibold text-lg md:text-xl">Filter by</h1>
+        <h1 className="text-lg md:text-xl">Filter by</h1>
         <div className="divider"></div>
 
         {/* Artist Dropdown */}
@@ -128,7 +128,7 @@ const LeftSideNav = () => {
             onClick={toggleArtistDropdown}
             className="btn w-full flex items-center justify-between gap-2"
           >
-            <span >Artist</span>
+            <span className="text-sm">Artist</span>
             {artistOpen ? <FaMinus /> : <FaPlus />}
           </button>
           {artistOpen && (
