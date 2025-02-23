@@ -4,7 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-base-300 text-base-content text-sm p-4 h-32  ">
+    <footer className="bg-base-300 text-base-content text-sm p-4 h-28">
       <div className="flex flex-col items-center md:items-end ">
       <p >
           +880 1718 876332

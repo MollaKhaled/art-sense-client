@@ -55,28 +55,29 @@ const AuctionCard = ({ item }) => {
         <div className="text-center text-sm">
           <p className="font-bold">{artist}</p>
           <p className=" text-gray-400">{birth}</p>
-          <p className="mt-2">
+          <p className="mt-2" >
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
             {size} <span className="text-red-500">|</span> {year} <span className="text-red-500">|</span> {stockCode}
           </p>
-          <div className="">
+          <div className="mt-2">
             <h1 className="text-red-500">{bid}</h1>
             {loading ? (
               <p className="text-green-500 text-center">Loading bids...</p>
             ) : (
               <p className="text-green-500 text-center">{bidCount} Bids</p>
             )}
-          </div>
-        </div>
-        <div>
+            
           {remainingTime && (
             <p className="text-sm sm:text-base text-center ">
               {remainingTime}
             </p>
           )}
         </div>
+          
+        </div>
+        
          <div className='mt-2'>
               {isAdmin ? (
                 <div className="flex justify-center gap-2">

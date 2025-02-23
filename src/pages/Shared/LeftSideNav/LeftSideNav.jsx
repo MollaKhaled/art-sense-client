@@ -12,16 +12,20 @@ const LeftSideNav = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
+  const [medias, setMedias] = useState([]);
+  const [selectedMedia, setSelectedMedia] = useState("");
 
 
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
+  const [mediaOpen, setMediaOpen] = useState(false);
 
   // Toggle functions
   const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
   const togglePriceDropdown = () => setPriceOpen(!priceOpen);
   const toggleYearDropdown = () => setYearOpen(!yearOpen);
+  const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/artists')
@@ -36,6 +40,26 @@ const LeftSideNav = () => {
         setArtists([]);
       });
   }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/media')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          const sortedMedias = data.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+          setMedias(sortedMedias);
+          console.log(sortedMedias);  // This should now log the sorted array
+        } else {
+          setMedias([]);  // Ensure state is empty if data is invalid
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching media:", error);
+        setMedias([]);
+      });
+  }, []);
+
+
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/years')
@@ -101,6 +125,12 @@ const LeftSideNav = () => {
     navigate(`/search?year=${year}`); // Navigate with the selected year
   };
 
+  const handleMediaChange = (media) => {
+    if (!media) return; // Prevent navigation if media is empty or undefined
+    setSelectedMedia(media.trim()); // Trim any unnecessary spaces
+    navigate(`/search?media=${encodeURIComponent(media.trim())}`); // Ensure URL safety
+  };
+
   return (
     <div className="space-y-6  p-4 md:p-6">
       {/* Search Section */}
@@ -126,7 +156,7 @@ const LeftSideNav = () => {
         {/* Artist Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
-           variant="primary"
+            variant="primary"
             onClick={toggleArtistDropdown}
             className=" w-full flex items-center justify-between gap-2"
           >
@@ -149,10 +179,42 @@ const LeftSideNav = () => {
           )}
         </div>
 
+        {/* media Dropdown */}
+        <div className="relative text-sm mb-2">
+          <Button
+            variant="primary"
+            onClick={toggleMediaDropdown}
+            className="w-full flex items-center justify-between gap-2"
+          >
+            <span>Media</span>
+            {mediaOpen ? <FaMinus /> : <FaPlus />}
+          </Button>
+
+          {mediaOpen && (
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-md p-2 shadow-lg z-50 text-sm">
+              {medias?.length > 0 ? (
+                medias.map((media, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handleMediaChange(media)}
+                      className="block w-full p-2 text-left hover:bg-gray-100"
+                    >
+                      {media}
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500 p-2">No media available</li>
+              )}
+            </ul>
+          )}
+        </div>
+
+
         {/* Price Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
-          variant="primary"
+            variant="primary"
             onClick={togglePriceDropdown}
             className=" w-full flex items-center justify-between gap-2"
           >

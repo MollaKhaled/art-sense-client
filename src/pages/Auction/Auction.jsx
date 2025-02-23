@@ -17,18 +17,20 @@ const Auction = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
-
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
-
+    const [medias, setMedias] = useState([]);
+    const [selectedMedia, setSelectedMedia] = useState("");
+const [mediaOpen, setMediaOpen] = useState(false);
   // Toggle functions
   const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
   const togglePriceDropdown = () => setPriceOpen(!priceOpen);
   const toggleYearDropdown = () => setYearOpen(!yearOpen);
+  const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/auction')
+    fetch('http://localhost:3000/auction')
       .then((res) => res.json())
       .then((data) => {
         setAuctionPhoto(data);
@@ -50,6 +52,24 @@ const Auction = () => {
         setArtists([]);
       });
   }, []);
+
+  useEffect(() => {
+      fetch('http://localhost:3000/auctionMedia')
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const sortedMedias = data.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+            setMedias(sortedMedias);
+            console.log(sortedMedias);  // This should now log the sorted array
+          } else {
+            setMedias([]);  // Ensure state is empty if data is invalid
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching media:", error);
+          setMedias([]);
+        });
+    }, []);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/auctionYears')
@@ -106,12 +126,15 @@ const Auction = () => {
   };
 
 
-
-
-
   const handleYearChange = (year) => {
     setSelectedYear(year);
     navigate(`/auctionSearch?year=${year}`); // Navigate with the selected year
+  };
+
+  const handleMediaChange = (media) => {
+    if (!media) return; // Prevent navigation if media is empty or undefined
+    setSelectedMedia(media.trim()); // Trim any unnecessary spaces
+    navigate(`/auctionSearch?media=${encodeURIComponent(media.trim())}`); // Ensure URL safety
   };
 
   // Sort items to move sold items to bottom
@@ -119,6 +142,13 @@ const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
   if (a.isSold === b.isSold) return 0;
   return a.isSold ? 1 : -1;
 });
+
+// Add enter key handler for search
+const handleKeyDown = (e) => {
+  if (e.key === "Enter") {
+    handleSearch();
+  }
+};
 
   return (
     <>
@@ -140,9 +170,10 @@ const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
                 id="search-field"
                 type="text"
                 className="grow text-sm md:text-base"
-                placeholder="Search by Artist or Title..."
+                placeholder="Search by Artist or title..."
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <FaSearch onClick={handleSearch} className="cursor-pointer" />
             </label>
@@ -177,6 +208,37 @@ const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
                 </ul>
               )}
             </div>
+
+            {/* media Dropdown */}
+                    <div className="relative text-sm mb-2">
+                      <Button
+                        variant="primary"
+                        onClick={toggleMediaDropdown}
+                        className="w-full flex items-center justify-between gap-2"
+                      >
+                        <span>Media</span>
+                        {mediaOpen ? <FaMinus /> : <FaPlus />}
+                      </Button>
+            
+                      {mediaOpen && (
+                        <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-md p-2 shadow-lg z-50 text-sm">
+                          {medias?.length > 0 ? (
+                            medias.map((media, index) => (
+                              <li key={index}>
+                                <button
+                                  onClick={() => handleMediaChange(media)}
+                                  className="block w-full p-2 text-left hover:bg-gray-100"
+                                >
+                                  {media}
+                                </button>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="text-gray-500 p-2">No media available</li>
+                          )}
+                        </ul>
+                      )}
+                    </div>
 
             {/* Price Dropdown */}
             <div className="relative">

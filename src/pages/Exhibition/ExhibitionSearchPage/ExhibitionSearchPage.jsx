@@ -14,16 +14,18 @@ const ExhibitionSearchPage = () => {
         return {
             query: params.get('query'),
             year: params.get('year'),
-            price: params.get('price')
+            price: params.get('price'),
+            media: params.get('media'),
         };
     };
     
-    const { query, year, price } = getQueryParams();  // Destructure the query parameters
+    const { query, year, price, media } = getQueryParams();  // Destructure the query parameters
     
     console.log('Full URL:', location.search);  // Log the full URL to check if 'price' is present
     console.log('Query in frontend:', query);
     console.log('Year in frontend:', year);
     console.log('Price in frontend:', price);
+    console.log('Media in frontend:', media);
   
     useEffect(() => {
         const fetchData = async () => {
@@ -35,10 +37,11 @@ const ExhibitionSearchPage = () => {
 
             // Add the available filters (query, year, price)
             if (query) searchParams.append('search', query);
+            if (media) searchParams.append("media", media); 
             if (year) searchParams.append('year', year);
             if (price) searchParams.append('price', price);
 
-            const searchUrl = `https://art-sense-server.vercel.app/exhibitionSearchPhotos?${searchParams.toString()}`;
+            const searchUrl = `http://localhost:3000/exhibitionSearchPhotos?${searchParams.toString()}`;
 
             try {
                 const res = await fetch(searchUrl);  // Await the fetch response
@@ -54,7 +57,7 @@ const ExhibitionSearchPage = () => {
 
         fetchData();  // Call the async function to fetch data
   
-    }, [query, year, price]);  // The effect runs whenever the 'query', 'year', or 'price' changes
+    }, [query, year, price, media]);  // The effect runs whenever the 'query', 'year', or 'price' changes
 
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm mt-12 min-h-screen">
@@ -67,7 +70,7 @@ const ExhibitionSearchPage = () => {
                     <ExhibitionSearchCard key={photo._id} photo={photo} />  // Display each photo's data
                 ))
             ) : (
-                !loading && <p>No results found for "{query || year || price}"</p>  // Show message if no results and not loading
+                !loading && <p>No results found for "{query || year || price || media}"</p>  // Show message if no results and not loading
             )}
         </div>
     );

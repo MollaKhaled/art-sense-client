@@ -89,7 +89,7 @@ const PhotoItem = ({ item }) => {
           </p>
         </div>
 
-        <div className="mt-auto">
+        <div className="mt-2">
           <div className="flex items-center justify-center gap-2 mb-3">
             <button
               onClick={handleWhatsAppClick}

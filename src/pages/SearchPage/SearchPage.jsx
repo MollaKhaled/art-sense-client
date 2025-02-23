@@ -1,68 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import SearchCard from '../SearchCard/SearchCard';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import SearchCard from "../SearchCard/SearchCard";
 
 const SearchPage = () => {
-  const [searchResults, setSearchResults] = useState([]);  // State to hold search results
-  const [loading, setLoading] = useState(false);  // State for loading status
-  const [error, setError] = useState(null);  // State for error message
-  const location = useLocation();  // To access the URL query parameters
-  
-  // Extract 'query', 'year', and 'price' from URL
-  const query = new URLSearchParams(location.search).get('query');
-  const year = new URLSearchParams(location.search).get('year');
-  const price = new URLSearchParams(location.search).get('price');
-  
-  console.log('Full URL:', location.search);  // Log the full URL to check if 'price' is present
-  console.log('Query in frontend:', query);
-  console.log('Year in frontend:', year);
-  console.log('Price in frontend:', price);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const location = useLocation();
+
+  // Extract query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get("query");
+  const year = searchParams.get("year");
+  const price = searchParams.get("price");
+  const media = searchParams.get("media");
+
+  console.log("Full URL:", location.search);
+  console.log("Query Params:", { query, year, price, media });
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);  // Set loading to true when starting to fetch
-      setError(null);  // Clear any previous error messages
+      setLoading(true);
+      setError(null);
 
-      let searchUrl = `https://art-sense-server.vercel.app/searchPhotos`;
+      // Construct URL with valid query parameters
+      const params = new URLSearchParams();
+      if (query) params.append("search", query);
+      if (media) params.append("media", media);
+      if (year) params.append("year", year);
+      if (price) params.append("price", price);
 
-      // Construct the URL based on available filters (query, year, price)
-      if (query) {
-        searchUrl += `?search=${query}`;
-      }
-      if (year) {
-        searchUrl += query ? `&year=${year}` : `?year=${year}`;
-      }
-      if (price) {
-        searchUrl += query || year ? `&price=${price}` : `?price=${price}`;
-      }
+      const searchUrl = `http://localhost:3000/searchPhotos?${params.toString()}`;
 
       try {
-        const res = await fetch(searchUrl);  // Await the fetch response
-        const data = await res.json();  // Parse the response as JSON
-        setSearchResults(data);  // Set the fetched data as search results
+        const res = await fetch(searchUrl);
+        const data = await res.json();
+        setSearchResults(data);
       } catch (err) {
-        setError('Error fetching data.');  // Handle any errors during the fetch
+        setError("Error fetching data.");
       } finally {
-        setLoading(false);  // Set loading to false once the data is fetched or error occurs
+        setLoading(false);
       }
     };
 
-    fetchData();  // Call the async function to fetch data
-
-  }, [query, year, price]);  // The effect runs whenever the 'query', 'year', or 'price' changes
+    fetchData();
+  }, [query, year, price, media]);
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm mt-12 min-h-screen">
-      {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}
-      {error && <p>{error}</p>} {/* Show error message if any error occurs */}
-
-      {/* Display search results if found, otherwise show 'No results found' */}
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       {searchResults.length > 0 ? (
-        searchResults.map((photo) => (
-          <SearchCard  key={photo._id} photo={photo} />  // Display each photo's data
-        ))
+        searchResults.map((photo) => <SearchCard key={photo._id} photo={photo} />)
       ) : (
-        !loading && <p>No results found for "{query || year || price}"</p>  // Show message if no results and not loading
+        !loading && <p>No results found for "{query || media || year || price}"</p>
       )}
     </div>
   );
