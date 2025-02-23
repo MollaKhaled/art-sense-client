@@ -18,6 +18,12 @@ const PopularPhoto = () => {
       .catch(() => setLoading(false)); // Handle errors and ensure spinner stops
   }, []);
 
+  // Sort items to move sold items to bottom
+  const sortedPhotos = photos.sort((a, b) => {
+    if (a.isSold === b.isSold) return 0;
+    return a.isSold ? 1 : -1;
+  });
+
   return (
     <>
     <div className="my-10">
@@ -28,9 +34,9 @@ const PopularPhoto = () => {
         </div>
       ) : photos.length > 0 ? (
         // Show photos if available
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
-          {photos.map((item) => (
-            <PhotoItem className='text-sm' key={item._id} item={item} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6  mt-6">
+          {sortedPhotos.map((item) => (
+            <PhotoItem  key={item._id} item={item} />
           ))}
         </div>
       ) : (

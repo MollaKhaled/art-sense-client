@@ -270,193 +270,174 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
 
   return (
     <>
-      <Helmet>
-        <title>artsense | auction details</title>
-      </Helmet>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-32 p-4 lg:p-8 text-sm">
-        {/* Previous Button outside Image */}
-        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
-          <button
-            className="bg-gray-200 text-gray-600 p-2 rounded-full hover:bg-gray-300 focus:outline-none disabled:opacity-50"
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-          >
-            <IoIosArrowBack size={20} />
-          </button>
-        </div>
-
-        {/* Image Section */}
-        <div className="flex-1 relative lg:mt-8">
-          <img
-            src={currentItem.photoUrl}
-            alt={currentItem.title}
-            className="w-full h-auto shadow-lg"
-          />
-        </div>
-
-        {/* Item Details Section */}
-        <div className="flex-1 p-2 pl-4 rounded-md ">
-          <div className="divider"></div>
-          <h2 className="text-sm  font-bold mb-2">
-            {currentItem.artist}
-          </h2>
-          <p className="text-sm  text-gray-400">{currentItem.birth}</p>
-          <div className="divider"></div>
-          <p> {currentItem.title}</p>
-          <p> {currentItem.media}</p>
-          <p> {currentItem.size}</p>
-          <p> {currentItem.year}</p>
-
-
-          <div className="divider"></div>
-          <div className="text-sm">
-            <div className=" flex ">
-              lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
-            </div>
-            <div className="divider"></div>
-            <div>
-              <div className="text-sm  flex ">
-                Ending: {" "}
-                <p className="ml-16" >
-                  {currentItem.dates && currentItem.dates[0]?.endDate
-                    ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
+    <Helmet>
+      <title>artsense | auction details</title>
+    </Helmet>
+    <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-32 m-4 md:m-12 pl-4 md:pl-20 pr-4 md:pr-20 text-sm">
+      {/* Previous Button outside Image */}
+      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
+        <button
+          className="bg-gray-200 text-gray-600 p-2 rounded-full hover:bg-gray-300 focus:outline-none disabled:opacity-50"
+          onClick={handlePrev}
+          disabled={currentIndex === 0}
+        >
+          <IoIosArrowBack size={20} />
+        </button>
+      </div>
+  
+      {/* Image Section */}
+      <div className="flex-1 relative">
+        <img
+          src={currentItem.photoUrl}
+          alt={currentItem.title}
+          className="w-full h-auto shadow-lg mt-4"
+        />
+      </div>
+  
+      {/* Item Details Section */}
+      <div className="flex-1 rounded-md">
+        <div className="divider h-0.5"></div>
+        <h2 className="text-sm font-bold mb-2">{currentItem.artist}</h2>
+        <p className="text-sm text-gray-400">{currentItem.birth}</p>
+        <div className="divider h-0.5"></div>
+        <p>{currentItem.title}</p>
+        <p>{currentItem.media}</p>
+        <p>{currentItem.size}</p>
+        <p>{currentItem.year}</p>
+  
+        <div className="divider h-0.5"></div>
+        <div className="text-sm">
+          <div className="flex">
+            lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
+          </div>
+          <div className="divider h-0.5"></div>
+          <div>
+            <div className="text-sm flex">
+              Ending:{" "}
+              <p className="ml-16">
+                {currentItem.dates && currentItem.dates[0]?.endDate
+                  ? new Date(currentItem.dates[0].endDate).toLocaleString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-
                     })
-                    : "No end date available"}
-                </p>
-
-              </div>
-              {remainingTime && (
-                <p className="ml-28 text-gray-500">
-                  {remainingTime}
-                </p>
-              )}
+                  : "No end date available"}
+              </p>
             </div>
-            <div className="divider"></div>
-            <div className="flex">Estimate: <p className="ml-12" >{currentItem.estimateBid}</p></div>
-            <div className="divider"></div>
-            <div className="flex">
-              Current Bid: <p className="text-red-500 ml-8">{currentHighestBid}</p>
-            </div>
-            <div>
-              <span className="text-green-500 ml-28">{bidCount} Bids</span>
-            </div>
-
+            {remainingTime && (
+              <p className="ml-28 text-gray-500">{remainingTime}</p>
+            )}
           </div>
-          <div className="divider"></div>
-          {/* Bid Select */}
-          <div className="mt-4 text-sm">
-            <label className="block font-medium mb-2 text-red-500">
-              Choose your maximum bid*
-            </label>
-            <select
-              className="select select-bordered w-full max-w-xs"
-              value={selectedBid || ""}
-              onChange={handleBidChange}
-            >
-              <option value="">Select a bid</option>
-              {bidOptions.length > 0 ? (
-                bidOptions.map((bid, index) => (
-                  <option key={index} value={bid}>
-                    BDT {bid.toLocaleString()} {/* Format bid with commas */}
-                  </option>
-                ))
-              ) : (
-                <option>No bid options available</option>
-              )}
-            </select>
-
+          <div className="divider h-0.5"></div>
+          <div className="flex">
+            Estimate: <p className="ml-12">{currentItem.estimateBid}</p>
           </div>
-          <p className="text-gray-400">*This amount excludes shipping fees</p>
-          <div>
-            <button className="btn w-1/2 mt-4" onClick={handlePlaceBid}>
-              Place Bid
-            </button>
+          <div className="divider h-0.5"></div>
+          <div className="flex">
+            Current Bid: <p className="text-red-500 ml-8">{currentHighestBid}</p>
           </div>
           <div>
-            <button className="btn btn-outline border-gray-400 mt-4 w-1/2">ADD TO WATCH LIST</button>
+            <span className="text-green-500 ml-28">{bidCount} Bids</span>
           </div>
         </div>
-
-        {/* Next Button outside Item Details Section */}
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10">
-          <button
-            className="bg-gray-200 text-gray-600 p-2 rounded-full hover:bg-gray-300 focus:outline-none disabled:opacity-50"
-            onClick={handleNext}
-            disabled={currentIndex === photos.length - 1}
+        <div className="divider h-0.5"></div>
+  
+        {/* Bid Select */}
+        <div className="mt-4 text-sm">
+          <label className="block font-medium mb-2 text-red-500">
+            Choose your maximum bid*
+          </label>
+          <select
+            className="select select-bordered w-full max-w-xs"
+            value={selectedBid || ""}
+            onChange={handleBidChange}
           >
-            <IoIosArrowForward size={20} />
+            <option value="">Select a bid</option>
+            {bidOptions.length > 0 ? (
+              bidOptions.map((bid, index) => (
+                <option key={index} value={bid}>
+                  BDT {bid.toLocaleString()} {/* Format bid with commas */}
+                </option>
+              ))
+            ) : (
+              <option>No bid options available</option>
+            )}
+          </select>
+        </div>
+        <p className="text-gray-400">*This amount excludes shipping fees</p>
+        <div>
+          <button className="btn w-full sm:w-1/2 mt-4" onClick={handlePlaceBid}>
+            Place Bid
+          </button>
+        </div>
+        <div>
+          <button className="btn btn-outline border-gray-400 mt-4 w-full sm:w-1/2">
+            ADD TO WATCH LIST
           </button>
         </div>
       </div>
-      <div className="p-4 text-sm">
-        <div className="divider"></div>
-        <h2 className="text-center font-semibold">Lot Details</h2>
-        <div className="divider"></div>
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
-          {/* About Details Section */}
-          <div className="w-full md:w-1/2">
-            <h2 className="font-semibold mb-2">About Details</h2>
-            <p className="text-sm"> {currentItem.lotDetails}</p>
+  
+      {/* Next Button outside Item Details Section */}
+      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10">
+        <button
+          className="bg-gray-200 text-gray-600 p-2 rounded-full hover:bg-gray-300 focus:outline-none disabled:opacity-50"
+          onClick={handleNext}
+          disabled={currentIndex === photos.length - 1}
+        >
+          <IoIosArrowForward size={20} />
+        </button>
+      </div>
+    </div>
+  
+    <div className="p-4 text-sm m-4 md:m-12">
+      <div className="divider h-0.5"></div>
+      <h2 className="text-center font-semibold">Lot Details</h2>
+      <div className="divider h-0.5"></div>
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        {/* About Details Section */}
+        <div className="w-full md:w-1/2">
+          <h2 className="font-semibold mb-2">About Details</h2>
+          <p className="text-sm">{currentItem.lotDetails}</p>
+        </div>
+  
+        {/* Additional Details Section */}
+        <div className="w-full md:w-1/2">
+          <div className="collapse collapse-arrow">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title">Condition Report</div>
+            <div className="collapse-content">
+              <p>{currentItem.condition}</p>
+            </div>
           </div>
-
-          {/* Additional Details Section */}
-          <div className="w-full md:w-1/2">
-            <div className="collapse collapse-arrow">
-              <input type="checkbox" className="peer" />
-              <div
-                className="collapse-title">
-                Condition Report
-              </div>
-              <div
-                className="collapse-content  ">
-                <p>{currentItem.condition}</p>
-              </div>
+          <div className="divider h-0.5"></div>
+          <div className="collapse collapse-arrow">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title">History and Provenance</div>
+            <div className="collapse-content">
+              <p>{currentItem.history}</p>
             </div>
-            <div className="divider" ></div>
-            <div className="collapse collapse-arrow">
-              <input type="checkbox" className="peer" />
-              <div
-                className="collapse-title">
-                History and Provenance
-              </div>
-              <div
-                className="collapse-content  ">
-                <p>{currentItem.history}</p>
-              </div>
+          </div>
+          <div className="divider h-0.5"></div>
+          <div className="collapse collapse-arrow">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title">Shipping Information</div>
+            <div className="collapse-content">
+              <p>{currentItem.shipping}</p>
             </div>
-            <div className="divider" ></div>
-            <div className="collapse collapse-arrow">
-              <input type="checkbox" className="peer" />
-              <div
-                className="collapse-title">
-                Shipping Information
-              </div>
-              <div
-                className="collapse-content  ">
-                <p>{currentItem.shipping}</p>
-              </div>
-            </div>
-            <div className="divider" ></div>
-            <div className="collapse collapse-arrow">
-              <input type="checkbox" className="peer" />
-              <div
-                className="collapse-title">
-                Payment and Return Policies
-              </div>
-              <div
-                className="collapse-content  ">
-                <p>{currentItem.payment}</p>
-              </div>
+          </div>
+          <div className="divider h-0.5"></div>
+          <div className="collapse collapse-arrow">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title">Payment and Return Policies</div>
+            <div className="collapse-content">
+              <p>{currentItem.payment}</p>
             </div>
           </div>
         </div>
       </div>
-
-    </>
+    </div>
+  </>
+  
   );
 };
 

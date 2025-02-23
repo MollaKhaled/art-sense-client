@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { Button } from '@headlessui/react';
 
 const LeftSideNav = () => {
   const [artists, setArtists] = useState([]);
@@ -118,26 +119,27 @@ const LeftSideNav = () => {
       </section>
 
       {/* Filters Section */}
-      <div className="space-y-3">
+      <div >
         <h1 className="text-lg md:text-xl">Filter by</h1>
-        <div className="divider"></div>
+        <div className="divider h-0.5"></div>
 
         {/* Artist Dropdown */}
-        <div className="relative text-sm">
-          <button
+        <div className="relative text-sm mb-2">
+          <Button
+           variant="primary"
             onClick={toggleArtistDropdown}
-            className="btn w-full flex items-center justify-between gap-2"
+            className=" w-full flex items-center justify-between gap-2"
           >
             <span className="text-sm">Artist</span>
             {artistOpen ? <FaMinus /> : <FaPlus />}
-          </button>
+          </Button>
           {artistOpen && (
             <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm ">
               {artists.map((artist) => (
                 <li key={artist._id}>
                   <Link
                     to={`/artists/${artist.artistId}`}
-                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base "
+                    className="block p-2 hover:bg-gray-200"
                   >
                     {artist.artist}
                   </Link>
@@ -148,22 +150,23 @@ const LeftSideNav = () => {
         </div>
 
         {/* Price Dropdown */}
-        <div className="relative">
-          <button
+        <div className="relative text-sm mb-2">
+          <Button
+          variant="primary"
             onClick={togglePriceDropdown}
-            className="btn w-full flex items-center justify-between gap-2"
+            className=" w-full flex items-center justify-between gap-2"
           >
             <span>Price</span>
             {priceOpen ? <FaMinus /> : <FaPlus />}
-          </button>
+          </Button>
           {priceOpen && (
-            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
               {prices.map((price, index) => (
                 <li key={index}>
                   <button
                     value={price}
                     onClick={handlePriceChange}
-                    className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
+                    className="block p-2 hover:bg-gray-200"
                   >
                     {price}
                   </button>
@@ -174,22 +177,23 @@ const LeftSideNav = () => {
         </div>
 
         {/* Year Dropdown */}
-        <div className="relative">
-          <button
+        < div className="relative text-sm mb-2">
+          <Button
+            variant="primary"
             onClick={toggleYearDropdown}
-            className="btn w-full flex items-center justify-between gap-2"
+            className="w-full flex items-center justify-between gap-2"
           >
             <span>Year</span>
             {yearOpen ? <FaMinus /> : <FaPlus />}
-          </button>
+          </Button>
           {yearOpen && (
-            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
               {Array.isArray(years) && years.length > 0 ? (
                 years.map((year, index) => (
                   <li key={index}>
                     <button
                       onClick={() => handleYearChange(year)}
-                      className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
+                      className="block p-2 hover:bg-gray-200"
                     >
                       {year}
                     </button>

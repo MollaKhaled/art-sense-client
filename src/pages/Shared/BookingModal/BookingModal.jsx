@@ -94,7 +94,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                         {currentPhoto.title} <span className="text-red-500">|</span> {currentPhoto.media}
                       </p>
                       <p>
-                        {currentPhoto.size} <span className="text-red-500">|  </span> {currentPhoto.stockCode}
+                        {currentPhoto.size} <span className="text-red-500">| </span> {currentPhoto.year} <span className="text-red-500">| </span> {currentPhoto.stockCode}
                       </p>
                       <h1 className="text-red-500">{currentPhoto.formattedPrice}</h1>
                     </div>

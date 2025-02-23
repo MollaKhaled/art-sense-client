@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { Button } from '@headlessui/react';
 
 const Auction = () => {
   const [auctionPhoto, setAuctionPhoto] = useState([]);
@@ -27,7 +28,7 @@ const Auction = () => {
   const toggleYearDropdown = () => setYearOpen(!yearOpen);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auction')
+    fetch('https://art-sense-server.vercel.app/auction')
       .then((res) => res.json())
       .then((data) => {
         setAuctionPhoto(data);
@@ -37,7 +38,7 @@ const Auction = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auctionArtists')
+    fetch('https://art-sense-server.vercel.app/auctionArtists')
       .then(res => res.json())
       .then(data => {
         // Sort alphabetically by artist name
@@ -51,7 +52,7 @@ const Auction = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auctionYears')
+    fetch('https://art-sense-server.vercel.app/auctionYears')
       .then(res => res.json())
       .then(data => {
 
@@ -65,7 +66,7 @@ const Auction = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auctionPrices')
+    fetch('https://art-sense-server.vercel.app/auctionPrices')
       .then((res) => res.json())
       .then((data) => {
         // Safely process prices
@@ -113,13 +114,19 @@ const Auction = () => {
     navigate(`/auctionSearch?year=${year}`); // Navigate with the selected year
   };
 
+  // Sort items to move sold items to bottom
+const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
+  if (a.isSold === b.isSold) return 0;
+  return a.isSold ? 1 : -1;
+});
+
   return (
     <>
       <Helmet>
         <title>artsense | Auction</title>
       </Helmet>
 
-      <div className='pt-8'>
+      <div className="mb-10">
         <AuctionBanner />
       </div>
 
@@ -142,18 +149,19 @@ const Auction = () => {
           </section>
           {/* Filters Section */}
           <div className="space-y-3 mt-6">
-            <h1 className="text-lg md:text-xl mt-2 ">Filter by</h1>
-            <div className="divider"></div>
+            <h1 className="text-lg md:text-xl mt-2">Filter by</h1>
+            <div className="divider h-0.5"></div>
 
             {/* Artist Dropdown */}
             <div className="relative text-sm">
-              <button
+              <Button
+                variant="primary"
                 onClick={toggleArtistDropdown}
-                className="btn w-full flex items-center justify-between gap-2"
+                className=" w-full flex items-center justify-between gap-2"
               >
                 <span >Artist</span>
                 {artistOpen ? <FaMinus /> : <FaPlus />}
-              </button>
+              </Button>
               {artistOpen && (
                 <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
                   {artists.map((artist) => (
@@ -172,21 +180,22 @@ const Auction = () => {
 
             {/* Price Dropdown */}
             <div className="relative">
-              <button
+              <Button
+                variant="primary"
                 onClick={togglePriceDropdown}
-                className="btn w-full flex items-center justify-between gap-2"
+                className="w-full flex items-center justify-between gap-2"
               >
                 <span>Price</span>
                 {priceOpen ? <FaMinus /> : <FaPlus />}
-              </button>
+              </Button>
               {priceOpen && (
-                <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+                <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
                   {prices.map((price, index) => (
                     <li key={index}>
                       <button
                         value={price}
                         onClick={handlePriceChange}
-                        className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
+                        className="block p-2 hover:bg-gray-200"
                       >
                         {price}
                       </button>
@@ -198,21 +207,22 @@ const Auction = () => {
 
             {/* Year Dropdown */}
             <div className="relative">
-              <button
+              <Button
+              variant="primary"
                 onClick={toggleYearDropdown}
-                className="btn w-full flex items-center justify-between gap-2"
+                className="w-full flex items-center justify-between gap-2"
               >
                 <span>Year</span>
                 {yearOpen ? <FaMinus /> : <FaPlus />}
-              </button>
+              </Button>
               {yearOpen && (
-                <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50">
+                <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
                   {Array.isArray(years) && years.length > 0 ? (
                     years.map((year, index) => (
                       <li key={index}>
                         <button
                           onClick={() => handleYearChange(year)}
-                          className="hover:bg-gray-300 p-2 rounded-lg block text-sm md:text-base"
+                          className="block p-2 hover:bg-gray-200"
                         >
                           {year}
                         </button>
@@ -226,11 +236,6 @@ const Auction = () => {
             </div>
           </div>
         </div>
-
-
-
-
-
         {/* Main Content (Auction Items) */}
         <div className="lg:col-span-3">
           {loading ? (
@@ -238,8 +243,8 @@ const Auction = () => {
               <span className="loading loading-spinner text-error"></span>
             </div>
           ) : auctionPhoto.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 mt-8">
-              {auctionPhoto.map((item) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+              {sortedAuctionPhoto.map((item) => (
                 <AuctionCard key={item._id} item={item} />
               ))}
             </div>

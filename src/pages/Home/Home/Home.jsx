@@ -11,14 +11,14 @@ const Home = () => {
     <Helmet>
         <title>artsense</title>
       </Helmet>
-      <div className="pb-8">
+      <div className="mb-10">
     <PhotoBanner/>
     </div>
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 text-sm'>
+    <div className='grid grid-cols-1 lg:grid-cols-4 text-sm'>
       <div className='text-sm'>
         <LeftSideNav></LeftSideNav>
       </div>
-      <div className='col-span-3'>
+      <div className='col-span-3 '>
       <PopularPhoto></PopularPhoto>
       </div>
     </div>

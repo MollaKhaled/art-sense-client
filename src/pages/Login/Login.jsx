@@ -99,21 +99,20 @@ const Login = () => {
     <Helmet>
       <title>artsense | Login</title>
     </Helmet>
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        {/* Move the "Login now!" above the form */}
-        <div className="text-center lg:text-left mb-6">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-        </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <form onSubmit={handleLogin} className="card-body">
+    <div className='flex justify-center items-center min-h-screen px-4'>
+  <div className='flex flex-col w-full max-w-xl p-8 rounded-md bg-gray-100 text-gray-900'>
+    <div className='mb-8 text-center'>
+      <h1 className='my-3 text-4xl font-bold'>Login</h1>
+      <p className='text-sm text-gray-400'>Welcome to Artsense</p>
+    </div>
+          <form onSubmit={handleLogin} className="card-body p-4">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="*Email"
                 ref={emailRef}
                 name="email"
                 className="input input-bordered"
@@ -126,7 +125,7 @@ const Login = () => {
               </label>
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="*Password"
                 name="password"
                 className="input input-bordered"
                 required
@@ -157,7 +156,7 @@ const Login = () => {
           <SocialLogin></SocialLogin>
         </div>
       </div>
-    </div>
+    
   </>
   
   );

@@ -13,7 +13,7 @@ const AuctionSearchCard = ({ photo }) => {
           className="w-full h-full object-contain rounded-sm "
         />
       </figure>
-      <div className="card text-center p-5">
+      <div className="text-center p-5">
         <div className="text-center ">
           <p className=" font-bold">{artist}</p>
           <p >

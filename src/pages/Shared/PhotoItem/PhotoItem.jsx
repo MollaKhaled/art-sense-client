@@ -4,9 +4,10 @@ import { FaWhatsapp } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCart from "../../../hooks/useCart";
 import BookingModal from "../BookingModal/BookingModal";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAdmin from "../../../hooks/useAdmin";
 
 
 const PhotoItem = ({ item }) => {
@@ -16,48 +17,41 @@ const PhotoItem = ({ item }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const axiosSecure = useAxiosSecure();
+  const [axiosSecure] = useAxiosSecure();
   const [cart, refetch] = useCart();
   const phoneNumber = "+8801727079377"; // Your WhatsApp number
   const fixedMessage = "Inquire about artwork";
+  const [isSold, setIsSold] = useState(item.isSold); // Track sold status
+  const [isAdmin] = useAdmin();
 
-  const handleAddToCart = (photo) => {
-    if (user && user.email) {
-      const cartItem = {
-        photoId: _id,
-        email: user.email,
-        name: user.name,
-        image: photo.photoUrl,
-        price: photo.price,
-      };
-      axiosSecure.post("/carts", cartItem).then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: `${title} added to your cart`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          refetch();
-        }
+
+
+  const handleMarkAsSold = async () => {
+    try {
+      const response = await axiosSecure.patch(`/photo/${item._id}`, {
+        isSold: !isSold
       });
-    } else {
+
+      if (response.data.success) {
+        setIsSold(!isSold);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
       Swal.fire({
-        title: "You are not Logged In",
-        text: "Please login to add to the cart?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, login!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login", { state: { from: location } });
-        }
+        icon: 'error',
+        title: 'Failed to update status',
+        text: error.response?.data?.message || 'Please try again'
       });
     }
   };
+
 
   const handleWhatsAppClick = () => {
     const message = `${fixedMessage} "${title}" (StockCode - ${stockCode}).`;
@@ -73,20 +67,20 @@ const PhotoItem = ({ item }) => {
 
   return (
 
-    <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden">
+    <div className="card h-full flex flex-col justify-between rounded-lg overflow-hidden">
       {/* Image Container */}
       <figure className="px-10 h-[250px] flex items-center justify-center">
         <img
           onClick={openModal}
           src={photoUrl}
           alt="Artwork"
-          className="w-full h-full object-contain rounded-sm "
+          className="w-full h-full object-contain rounded-sm"
         />
       </figure>
 
-      <div className="card text-center p-5 text-sm">
+      <div className="card-body flex-1 flex flex-col justify-between text-center p-5 text-sm">
         <div className="text-center text-sm">
-          <p className=" font-bold">{artist}</p>
+          <p className="font-bold">{artist}</p>
           <p>
             {title} <span className="text-red-500">|</span> {media}
           </p>
@@ -94,29 +88,41 @@ const PhotoItem = ({ item }) => {
             {size} <span className="text-red-500">| </span> {year}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-2 mt-1">
-          <button
-            onClick={handleWhatsAppClick}
-            className="flex items-center gap-1 text-green-600"
-          >
-            <span className="text-gray-800">{stockCode}</span><span className="text-red-500">| </span> <p>Ask for Price</p>
-            <FaWhatsapp />
-          </button>
-          <span className="text-red-500">|</span>
-          <Link to={`/inquire/${_id}/${stockCode}`}>
-            <IoMdMail />
-          </Link>
-        </div>
-        <div className='mt-3'>
-          <Link>
-            <button className="btn w-3/4 ">Available</button>
-          </Link>
-        </div>
-       
-      </div>
-     
-      <div>
 
+        <div className="mt-auto">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <button
+              onClick={handleWhatsAppClick}
+              className="flex items-center gap-1 "
+            >
+              <span>{stockCode}</span>
+              <span className="text-red-500">| </span>
+              <p className="text-green-500">Ask for Price</p>
+              <FaWhatsapp className="text-green-500" />
+            </button>
+            <span className="text-red-500">|</span>
+            <Link to={`/inquire/${_id}/${stockCode}`}>
+              <IoMdMail />
+            </Link>
+          </div>
+
+          <div>
+            {isAdmin ? (
+              <button
+                onClick={handleMarkAsSold}
+                className={`btn w-3/4 bg-white ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+                  }`}
+              >
+                {isSold ? "Mark as Available" : "Mark as Sold"}
+              </button>
+            ) : (
+              <div className={`w-3/4 mx-auto py-2 px-4 rounded-md ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+                } `}>
+                {isSold ? "Sold" : "Available"}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Booking Modal */}

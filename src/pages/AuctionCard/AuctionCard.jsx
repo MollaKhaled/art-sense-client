@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useBidCount from "../../hooks/useBidCount";
 import useRemainingTime from "../../hooks/useRemainingTime";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAdmin from "../../hooks/useAdmin";
 
 const AuctionCard = ({ item }) => {
+  const [axiosSecure] = useAxiosSecure();
+  const [isSold, setIsSold] = useState(item.isSold);
+  const [isAdmin] = useAdmin();
   const { _id, artist, title, size, stockCode, photoUrl, media, lotId, birth, year, bid } = item;
   const { bidCount, loading } = useBidCount(lotId);
   const remainingTime = useRemainingTime(item.dates?.[0]?.endDate);
+
+  const handleMarkAsSold = async (e) => {
+    e.preventDefault(); // Prevent navigation
+    try {
+      const response = await axiosSecure.patch(`/auction/${item._id}`, {
+        isSold: !isSold
+      });
+
+      if (response.data.success) {
+        setIsSold(!isSold);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to update status',
+        text: error.response?.data?.message || 'Please try again'
+      });
+    }
+  };
 
   return (
     <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden text-sm">
@@ -19,7 +51,7 @@ const AuctionCard = ({ item }) => {
       />
     </figure>
 
-      <div className="card text-center p-5 text-sm ">
+      <div className="card-body text-center p-5 text-sm ">
         <div className="text-center text-sm">
           <p className="font-bold">{artist}</p>
           <p className=" text-gray-400">{birth}</p>
@@ -45,14 +77,41 @@ const AuctionCard = ({ item }) => {
             </p>
           )}
         </div>
-        <div className="mt-2">
-          <Link to={`/auction/${_id}`}>
-            <button className="btn w-3/4">BID</button>
-          </Link>
+         <div className='mt-2'>
+              {isAdmin ? (
+                <div className="flex justify-center gap-2">
+                  <button
+                    onClick={handleMarkAsSold}
+                    className={`btn w-1/3 bg-white ${
+                      isSold ? "text-red-500" : "text-green-500"
+                    } border border-current`}
+                  >
+                    {isSold ? "Mark as Available" : "Mark as Sold"}
+                  </button>
+                  <Link 
+                    to={`/auction/${_id}`} 
+                    state={{ item }}
+                    className="btn w-1/3 bg-white text-blue-500 border border-current"
+                  >
+                    Bid
+                  </Link>
+                </div>
+              ) : (
+                <Link 
+                  to={`/auction/${_id}`} 
+                  state={{ item }}
+                  className={`inline-block w-3/4 py-2 px-4 rounded-md ${
+                    isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+                  } `}
+                >
+                  {isSold ? "Sold" : "Bid"}
+                </Link>
+              )}
+            </div>
         </div>
       </div>
 
-    </div>
+    
   );
 };
 

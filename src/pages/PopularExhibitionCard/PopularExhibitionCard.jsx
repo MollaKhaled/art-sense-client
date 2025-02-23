@@ -2,17 +2,49 @@ import React, { useState } from 'react';
 import ExhibitionModal from '../Shared/ExhibitionModal/ExhibitionModal';
 import useCart from '../../hooks/useCart';
 import { Link } from 'react-router-dom';
+import useAdmin from '../../hooks/useAdmin';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+
 
 
 const PopularExhibitionCard = ({ item }) => {
   const { _id, artist, title, size, stockCode, photoUrl, media, price, formattedPrice, year } = item;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [axiosSecure] = useAxiosSecure();
   const [cart, refetch] = useCart();
-
+  const [isSold, setIsSold] = useState(item.isSold);
+  const [isAdmin] = useAdmin();
   const openModal = () => {
     setSelectedPhoto(item);
     setIsOpen(true);
+  };
+
+  const handleMarkAsSold = async (e) => {
+    e.preventDefault(); // Prevent navigation
+    try {
+      const response = await axiosSecure.patch(`/exhibition/${item._id}`, {
+        isSold: !isSold
+      });
+
+      if (response.data.success) {
+        setIsSold(!isSold);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to update status',
+        text: error.response?.data?.message || 'Please try again'
+      });
+    }
   };
   return (
     <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden text-sm">
@@ -42,10 +74,36 @@ const PopularExhibitionCard = ({ item }) => {
           </p>
 
           <div className='mt-2'>
-            <Link to={`/exhibition/${_id}`} state={{ item }}>
-              <button className="btn w-3/4 ">View Details</button>
-            </Link>
-          </div>
+      {isAdmin ? (
+        <div className="flex justify-center gap-2">
+          <button
+            onClick={handleMarkAsSold}
+            className={`btn w-1/3 bg-white ${
+              isSold ? "text-red-500" : "text-green-500"
+            } border border-current`}
+          >
+            {isSold ? "Mark as Available" : "Mark as Sold"}
+          </button>
+          <Link 
+            to={`/exhibition/${_id}`} 
+            state={{ item }}
+            className="btn w-1/3 bg-white text-blue-500 border border-current"
+          >
+            View Details
+          </Link>
+        </div>
+      ) : (
+        <Link 
+          to={`/exhibition/${_id}`} 
+          state={{ item }}
+          className={`inline-block w-3/4 py-2 px-4 rounded-md ${
+            isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+          } `}
+        >
+          {isSold ? "Sold" : "View Details"}
+        </Link>
+      )}
+    </div>
 
         </div>
 

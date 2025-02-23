@@ -61,22 +61,22 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:3000/photoCount'),
+        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
       },
       {
         path: '/artists/:id',
         element: <Category />,
-        loader: ({ params }) => fetch(`http://localhost:3000/artists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/artists/${params.id}`).then((res) => res.json())
       },
       {
         path: '/exhibitionArtists/:id',
         element: <ExhibitionCategory />,
-        loader: ({ params }) => fetch(`http://localhost:3000/exhibitionArtists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/exhibitionArtists/${params.id}`).then((res) => res.json())
       },
       {
         path: '/auctionArtists/:id',
         element: <AuctionCategory/>,
-        loader: ({ params }) => fetch(`http://localhost:3000/auctionArtists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/auctionArtists/${params.id}`).then((res) => res.json())
       },
       
       
