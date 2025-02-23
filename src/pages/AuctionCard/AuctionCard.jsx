@@ -61,7 +61,7 @@ const AuctionCard = ({ item }) => {
           <p>
             {size} <span className="text-red-500">|</span> {year} <span className="text-red-500">|</span> {stockCode}
           </p>
-          <div className="mt-2">
+          <div className="">
             <h1 className="text-red-500">{bid}</h1>
             {loading ? (
               <p className="text-green-500 text-center">Loading bids...</p>

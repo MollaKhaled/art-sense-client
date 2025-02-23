@@ -67,7 +67,7 @@ const PhotoItem = ({ item }) => {
 
   return (
 
-    <div className="card h-full flex flex-col justify-between rounded-lg overflow-hidden">
+    <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden text-sm">
       {/* Image Container */}
       <figure className="px-10 h-[250px] flex items-center justify-center">
         <img
@@ -78,7 +78,7 @@ const PhotoItem = ({ item }) => {
         />
       </figure>
 
-      <div className="card-body flex-1 flex flex-col justify-between text-center p-5 text-sm">
+      <div className="card text-center p-5 text-sm">
         <div className="text-center text-sm">
           <p className="font-bold">{artist}</p>
           <p>
