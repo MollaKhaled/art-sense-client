@@ -41,7 +41,7 @@ const ExhibitionSearchPage = () => {
             if (year) searchParams.append('year', year);
             if (price) searchParams.append('price', price);
 
-            const searchUrl = `http://localhost:3000/exhibitionSearchPhotos?${searchParams.toString()}`;
+            const searchUrl = `https://art-sense-server.vercel.app/exhibitionSearchPhotos?${searchParams.toString()}`;
 
             try {
                 const res = await fetch(searchUrl);  // Await the fetch response

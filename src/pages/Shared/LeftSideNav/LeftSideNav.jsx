@@ -42,11 +42,13 @@ const LeftSideNav = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/media')
+    fetch('https://art-sense-server.vercel.app/media')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
-          const sortedMedias = data.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+          // Remove duplicates and sort alphabetically
+          const uniqueMedias = [...new Set(data)];
+          const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
           setMedias(sortedMedias);
           console.log(sortedMedias);  // This should now log the sorted array
         } else {
@@ -58,6 +60,7 @@ const LeftSideNav = () => {
         setMedias([]);
       });
   }, []);
+  
 
 
 

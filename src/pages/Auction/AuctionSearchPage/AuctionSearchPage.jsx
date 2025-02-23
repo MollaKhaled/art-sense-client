@@ -37,11 +37,11 @@ const AuctionSearchPage = () => {
 
             // Add the available filters (query, year, price, media)
             if (query) searchParams.append('search', query);
-            if (media) searchParams.append("media", media); 
+            if (media) searchParams.append("media", media);
             if (year) searchParams.append('year', year);
             if (price) searchParams.append('price', price);
 
-            const searchUrl = `http://localhost:3000/auctionSearchPhotos?${searchParams.toString()}`;
+            const searchUrl = `https://art-sense-server.vercel.app/auctionSearchPhotos?${searchParams.toString()}`;
 
             try {
                 const res = await fetch(searchUrl);  // Await the fetch response
@@ -57,7 +57,7 @@ const AuctionSearchPage = () => {
 
         fetchData();  // Call the async function to fetch data
 
-    }, [query, year, price, media]);  
+    }, [query, year, price, media]);
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm mt-12 min-h-screen">
             {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}

@@ -32,7 +32,7 @@ const Exhibition = () => {
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch("http://localhost:3000/exhibition")
+    fetch("https://art-sense-server.vercel.app/exhibition")
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch exhibitions');
@@ -64,22 +64,24 @@ const Exhibition = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/exhibitionMedia')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          const sortedMedias = data.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
-          setMedias(sortedMedias);
-          console.log(sortedMedias);  // This should now log the sorted array
-        } else {
-          setMedias([]);  // Ensure state is empty if data is invalid
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching media:", error);
-        setMedias([]);
-      });
-  }, []);
+       fetch('https://art-sense-server.vercel.app/exhibitionMedia')
+         .then(res => res.json())
+         .then(data => {
+           if (Array.isArray(data)) {
+             // Remove duplicates and sort alphabetically
+             const uniqueMedias = [...new Set(data)];
+             const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+             setMedias(sortedMedias);
+             console.log(sortedMedias);  // This should now log the sorted array
+           } else {
+             setMedias([]);  // Ensure state is empty if data is invalid
+           }
+         })
+         .catch(error => {
+           console.error("Error fetching media:", error);
+           setMedias([]);
+         });
+     }, []);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/exhibitionYears')
