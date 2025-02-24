@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 
 const useArtworkSearchAndFilter = () => {
-  const [artists, setArtists] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [artists, setArtists] = useState([]);
+  const [medias, setMedias] = useState([]);
+  const [selectedMedia, setSelectedMedia] = useState("");
+  const [prices, setPrices] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState("");
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
-  const [prices, setPrices] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,6 +30,26 @@ const useArtworkSearchAndFilter = () => {
       })
       .finally(() => setLoading(false));
   }, []);
+  // Fetch media
+   useEffect(() => {
+      fetch('http://localhost:3000/media')
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            // Remove duplicates and sort alphabetically
+            const uniqueMedias = [...new Set(data)];
+            const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+            setMedias(sortedMedias);
+            console.log(sortedMedias);  // This should now log the sorted array
+          } else {
+            setMedias([]);  // Ensure state is empty if data is invalid
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching media:", error);
+          setMedias([]);
+        });
+    }, []);
 
   // Fetch years
   useEffect(() => {
@@ -68,8 +91,11 @@ const useArtworkSearchAndFilter = () => {
       });
   }, []);
 
+
   return {
     artists,
+    medias,
+    setSelectedMedia,
     searchText,
     setSearchText,
     selectedPrice,

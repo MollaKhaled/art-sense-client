@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SearchCard = ({ photo }) => {
-  const { artist, title, media, size, stockCode, photoUrl, formattedPrice, year } = photo
+  const { artist, title, media, size, stockCode, photoUrl, formattedPrice, year, isSold } = photo
   return (
     <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden">
     {/* Image Container */}
@@ -20,16 +20,23 @@ const SearchCard = ({ photo }) => {
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
-            {size} <span className="text-red-500">| </span>{year}  <span className="text-red-500"> | {formattedPrice}</span> 
+            {size} <span className="text-red-500">| </span>{year}
           </p>
           <p >
             <span className="text-green-600">{stockCode}</span> 
           </p>
-          <div className="mt-2" >
-            <Link >
-              <button className="btn w-3/4">Available</button>
-            </Link>
-          </div>
+          <div className="mt-2">
+                      <Link>
+                        <button
+                          className={`w-3/4 mx-auto py-2 px-4 rounded-md ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+                          } `}
+                          disabled={isSold}
+                        >
+                          
+                          {isSold ? "Sold" : "Available"}
+                        </button>
+                      </Link>
+                    </div>
         </div>
 
 

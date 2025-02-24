@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@headlessui/react';
+import useArtworkSearchAndFilter from '../../../hooks/useArtworkSearchAndFilter';
 
 const LeftSideNav = () => {
-  const [artists, setArtists] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [years, setYears] = useState([]);
-  const [selectedYear, setSelectedYear] = useState("");
+  const {
+    artists,
+    medias,
+    setSelectedMedia,
+    searchText,
+    setSearchText,
+    selectedPrice,
+    setSelectedPrice,
+    years,
+    selectedYear,
+    setSelectedYear,
+    prices,
+    loading
+  } = useArtworkSearchAndFilter(); // Using the custom hook
+
   const navigate = useNavigate();
-  const [prices, setPrices] = useState([]);
-  const [medias, setMedias] = useState([]);
-  const [selectedMedia, setSelectedMedia] = useState("");
-
-
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
@@ -27,87 +33,7 @@ const LeftSideNav = () => {
   const toggleYearDropdown = () => setYearOpen(!yearOpen);
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/artworkArtists')
-      .then(res => res.json())
-      .then(data => {
-        // Sort alphabetically by artist name
-        const sortedArtists = Array.isArray(data) ? data.sort((a, b) => a.artist.localeCompare(b.artist)) : [];
-        setArtists(sortedArtists);
-      })
-      .catch(error => {
-        console.log("Error fetching artists:", error);
-        setArtists([]);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:3000/media')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          // Remove duplicates and sort alphabetically
-          const uniqueMedias = [...new Set(data)];
-          const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
-          setMedias(sortedMedias);
-          console.log(sortedMedias);  // This should now log the sorted array
-        } else {
-          setMedias([]);  // Ensure state is empty if data is invalid
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching media:", error);
-        setMedias([]);
-      });
-  }, []);
-  
-
-
-
-  useEffect(() => {
-    fetch('http://localhost:3000/years')
-      .then(res => res.json())
-      .then(data => {
-
-        const sortedYears = Array.isArray(data) ? data.sort((a, b) => a - b) : [];
-        setYears(sortedYears);
-      })
-      .catch(error => {
-        console.log("Error fetching years:", error);
-        setYears([]);
-      });
-  }, []);
-
-
-  useEffect(() => {
-    fetch('http://localhost:3000/prices')
-      .then((res) => res.json())
-      .then((data) => {
-        // Safely process prices
-        const sortedPrices = Array.isArray(data)
-          ? data
-            .map((price) => {
-              if (typeof price !== 'string') return null; // Ensure price is a string
-              const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
-              return isNaN(numericPrice) ? null : numericPrice;
-            })
-            .filter((price) => price !== null) // Remove null or invalid prices
-            .sort((a, b) => a - b) // Sort numerically
-            .map((price) => `BDT ${price.toLocaleString()}`) // Format back as 'BDT <value>'
-          : [];
-
-        setPrices(sortedPrices); // Update state with sorted prices
-      })
-      .catch((error) => {
-        console.error('Error fetching prices:', error);
-        setPrices([]); // Set an empty array on error
-      });
-  }, []);
-
-
-
-
-
+  // Search handler
   const handleSearch = () => {
     if (searchText.trim()) {
       const encodedSearchText = encodeURIComponent(searchText);
@@ -116,34 +42,35 @@ const LeftSideNav = () => {
     }
   };
 
+  // Price change handler
   const handlePriceChange = (event) => {
-    // Clean the price: Remove 'BDT' and commas
     const cleanPrice = event.target.value.replace(/\s|,/g, '').replace('BDT', '');
     setSelectedPrice(cleanPrice);
-    navigate(`/search?price=${cleanPrice}`);  // Send the cleaned price
+    navigate(`/search?price=${cleanPrice}`);
   };
 
+  // Year change handler
   const handleYearChange = (year) => {
     setSelectedYear(year);
-    navigate(`/search?year=${year}`); // Navigate with the selected year
+    navigate(`/search?year=${year}`);
   };
 
+  // Media change handler
   const handleMediaChange = (media) => {
-    if (!media) return; // Prevent navigation if media is empty or undefined
-    setSelectedMedia(media.trim()); // Trim any unnecessary spaces
-    navigate(`/search?media=${encodeURIComponent(media.trim())}`); // Ensure URL safety
+    if (!media) return;
+    setSelectedMedia(media.trim());
+    navigate(`/search?media=${encodeURIComponent(media.trim())}`);
   };
 
   // Add enter key handler for search
-const handleKeyDown = (e) => {
-  if (e.key === "Enter") {
-    handleSearch();
-  }
-};
-
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
-    <div className="space-y-6  p-4 md:p-6">
+    <div className="space-y-6 p-4 md:p-6">
       {/* Search Section */}
       <section>
         <label className="input input-bordered flex items-center gap-3 w-full">
@@ -155,30 +82,28 @@ const handleKeyDown = (e) => {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
-            
-
           />
           <FaSearch onClick={handleSearch} className="cursor-pointer" />
         </label>
       </section>
 
       {/* Filters Section */}
-      <div >
+      <div>
         <h1 className="text-lg md:text-xl">Filter by</h1>
-        <div className="divider "></div>
+        <div className="divider"></div>
 
         {/* Artist Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
             variant="primary"
             onClick={toggleArtistDropdown}
-            className=" w-full flex items-center justify-between gap-2"
+            className="w-full flex items-center justify-between gap-2"
           >
             <span className="text-sm">Artist</span>
             {artistOpen ? <FaMinus /> : <FaPlus />}
           </Button>
           {artistOpen && (
-            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm ">
+            <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-box p-2 shadow-md z-50 text-sm">
               {artists.map((artist) => (
                 <li key={artist._id}>
                   <Link
@@ -192,8 +117,9 @@ const handleKeyDown = (e) => {
             </ul>
           )}
         </div>
-        <div className="divider h-0.5 "></div>
-        {/* media Dropdown */}
+        <div className="divider h-0.5"></div>
+
+        {/* Media Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
             variant="primary"
@@ -203,10 +129,9 @@ const handleKeyDown = (e) => {
             <span>Media</span>
             {mediaOpen ? <FaMinus /> : <FaPlus />}
           </Button>
-
           {mediaOpen && (
             <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-md p-2 shadow-lg z-50 text-sm">
-              {medias?.length > 0 ? (
+              {medias.length > 0 ? (
                 medias.map((media, index) => (
                   <li key={index}>
                     <button
@@ -223,14 +148,14 @@ const handleKeyDown = (e) => {
             </ul>
           )}
         </div>
-        <div className="divider "></div>
+        <div className="divider"></div>
 
         {/* Price Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
             variant="primary"
             onClick={togglePriceDropdown}
-            className=" w-full flex items-center justify-between gap-2"
+            className="w-full flex items-center justify-between gap-2"
           >
             <span>Price</span>
             {priceOpen ? <FaMinus /> : <FaPlus />}
@@ -251,10 +176,10 @@ const handleKeyDown = (e) => {
             </ul>
           )}
         </div>
-        <div className="divider "></div>
+        <div className="divider"></div>
 
         {/* Year Dropdown */}
-        < div className="relative text-sm mb-2">
+        <div className="relative text-sm mb-2">
           <Button
             variant="primary"
             onClick={toggleYearDropdown}
@@ -282,10 +207,9 @@ const handleKeyDown = (e) => {
             </ul>
           )}
         </div>
-        <div className="divider h-0.5"></div>
+        <div className="divider"></div>
       </div>
     </div>
-
   );
 };
 

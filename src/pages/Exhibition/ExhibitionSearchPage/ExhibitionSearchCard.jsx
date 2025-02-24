@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ExhibitionSearchCard = ({ photo }) => {
-  const { _id, artist, title, media, size, stockCode, photoUrl, formattedPrice, year } = photo
+  const { _id, artist, title, media, size, stockCode, photoUrl, formattedPrice, year, isSold } = photo
   return (
     <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden">
       {/* Image Container */}
@@ -27,7 +27,13 @@ const ExhibitionSearchCard = ({ photo }) => {
           </p>
           <div className='mt-2'>
             <Link to={`/exhibition/${_id}`}>
-              <button className="btn w-3/4 ">View Details</button>
+              <button
+                className={`w-3/4 mx-auto py-2 px-4 rounded-md ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
+                  } `}
+                disabled={isSold}
+              >
+                {isSold ? "Sold" : "View Details"}
+              </button>
             </Link>
           </div>
         </div>

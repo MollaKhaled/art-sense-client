@@ -6,23 +6,32 @@ import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { Button } from '@headlessui/react';
+import useExhibitionSearchAndFilter from '../../hooks/useExhibitionSearchAndFilter';
 
 const Exhibition = () => {
+  const {
+    artists,
+    medias,
+    setSelectedMedia,
+    searchText,
+    setSearchText,
+    selectedPrice,
+    setSelectedPrice,
+    years,
+    selectedYear,
+    setSelectedYear,
+    prices,
+    
+  } = useExhibitionSearchAndFilter();
   const [exhibition, setExhibition] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
-  const [artists, setArtists] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [years, setYears] = useState([]);
-  const [selectedYear, setSelectedYear] = useState("");
-  const [prices, setPrices] = useState([]);
+ 
+
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
-  const [medias, setMedias] = useState([]);
-  const [selectedMedia, setSelectedMedia] = useState("");
   const [mediaOpen, setMediaOpen] = useState(false);
 
   // Toggle functions
@@ -32,7 +41,7 @@ const Exhibition = () => {
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch("https://art-sense-server.vercel.app/exhibition")
+    fetch("http://localhost:3000/exhibition")
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch exhibitions');
@@ -46,79 +55,6 @@ const Exhibition = () => {
       .catch((error) => {
         setError(error.message); // Set error message in case of fetch failure
         setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/exhibitionArtists') // Update to correct endpoint
-      .then(res => res.json())
-      .then(data => {
-        // Sort alphabetically by artist name
-        const sortedArtists = Array.isArray(data) ? data.sort((a, b) => a.artist.localeCompare(b.artist)) : [];
-        setArtists(sortedArtists);
-      })
-      .catch(error => {
-        console.log("Error fetching artists:", error);
-        setArtists([]);
-      });
-  }, []);
-
-  useEffect(() => {
-       fetch('https://art-sense-server.vercel.app/exhibitionMedia')
-         .then(res => res.json())
-         .then(data => {
-           if (Array.isArray(data)) {
-             // Remove duplicates and sort alphabetically
-             const uniqueMedias = [...new Set(data)];
-             const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
-             setMedias(sortedMedias);
-             console.log(sortedMedias);  // This should now log the sorted array
-           } else {
-             setMedias([]);  // Ensure state is empty if data is invalid
-           }
-         })
-         .catch(error => {
-           console.error("Error fetching media:", error);
-           setMedias([]);
-         });
-     }, []);
-
-  useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/exhibitionYears')
-      .then(res => res.json())
-      .then(data => {
-
-        const sortedYears = Array.isArray(data) ? data.sort((a, b) => a - b) : [];
-        setYears(sortedYears);
-      })
-      .catch(error => {
-        console.log("Error fetching years:", error);
-        setYears([]);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/exhibitionPrices')
-      .then((res) => res.json())
-      .then((data) => {
-        // Safely process prices
-        const sortedPrices = Array.isArray(data)
-          ? data
-            .map((price) => {
-              if (typeof price !== 'string') return null; // Ensure price is a string
-              const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
-              return isNaN(numericPrice) ? null : numericPrice;
-            })
-            .filter((price) => price !== null) // Remove null or invalid prices
-            .sort((a, b) => a - b) // Sort numerically
-            .map((price) => `BDT ${price.toLocaleString()}`) // Format back as 'BDT <value>'
-          : [];
-
-        setPrices(sortedPrices); // Update state with sorted prices
-      })
-      .catch((error) => {
-        console.error('Error fetching prices:', error);
-        setPrices([]); // Set an empty array on error
       });
   }, []);
 
