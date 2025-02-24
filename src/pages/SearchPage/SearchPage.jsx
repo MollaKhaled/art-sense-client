@@ -30,7 +30,7 @@ const SearchPage = () => {
       if (year) params.append("year", year);
       if (price) params.append("price", price);
 
-      const searchUrl = `https://art-sense-server.vercel.app/searchPhotos?${params.toString()}`;
+      const searchUrl = `http://localhost:3000/searchPhotos?${params.toString()}`;
 
       try {
         const res = await fetch(searchUrl);

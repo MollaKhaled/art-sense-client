@@ -24,9 +24,9 @@ const AddItem = () => {
       .then(imgResponse => {
         if (imgResponse.success) { // Correct variable: `imgResponse`
           const imgURL = imgResponse.data.display_url;
-          const { artist, title, media, size, year, price, stockCode,artId } = data;
+          const { artist, title, media, size, year, price, stockCode,artistId } = data;
           const newItem = {
-            artId,artist, title, media, size,
+            artistId,artist, title, media, size,
             year: parseFloat(year),
             price: parseFloat(price),
             stockCode, photoUrl: imgURL
@@ -64,8 +64,8 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Artist Id*</span>
               </div>
-              <input type="text" placeholder="ArtId"
-                {...register("artId", { required: true, maxLength: 120 })}
+              <input type="text" placeholder="Artist Id"
+                {...register("artistId", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
            
@@ -83,7 +83,7 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Title*</span>
               </div>
-              <input type="text" placeholder="title"
+              <input type="text" placeholder="Title"
                 {...register("title", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
@@ -93,7 +93,7 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Media*</span>
               </div>
-              <input type="text" placeholder="media"
+              <input type="text" placeholder="Media"
                 {...register("media", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
@@ -101,7 +101,7 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Size*</span>
               </div>
-              <input type="text" placeholder="size"
+              <input type="text" placeholder="Size"
                 {...register("size", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
@@ -111,7 +111,7 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Year*</span>
               </div>
-              <input type="number" placeholder="year"
+              <input type="number" placeholder="Year"
                 {...register("year", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>
@@ -119,7 +119,7 @@ const AddItem = () => {
               <div className="label">
                 <span className="label-text-alt font-semibold">Price*</span>
               </div>
-              <input type="number" placeholder="price"
+              <input type="number" placeholder="Price"
                 {...register("price", { required: true, maxLength: 120 })}
                 className="input input-bordered w-full " />
             </div>

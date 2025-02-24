@@ -28,7 +28,7 @@ const LeftSideNav = () => {
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/artists')
+    fetch('http://localhost:3000/artworkArtists')
       .then(res => res.json())
       .then(data => {
         // Sort alphabetically by artist name
@@ -42,7 +42,7 @@ const LeftSideNav = () => {
   }, []);
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/media')
+    fetch('http://localhost:3000/media')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -65,7 +65,7 @@ const LeftSideNav = () => {
 
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/years')
+    fetch('http://localhost:3000/years')
       .then(res => res.json())
       .then(data => {
 
@@ -80,7 +80,7 @@ const LeftSideNav = () => {
 
 
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/prices')
+    fetch('http://localhost:3000/prices')
       .then((res) => res.json())
       .then((data) => {
         // Safely process prices
@@ -134,11 +134,19 @@ const LeftSideNav = () => {
     navigate(`/search?media=${encodeURIComponent(media.trim())}`); // Ensure URL safety
   };
 
+  // Add enter key handler for search
+const handleKeyDown = (e) => {
+  if (e.key === "Enter") {
+    handleSearch();
+  }
+};
+
+
   return (
     <div className="space-y-6  p-4 md:p-6">
       {/* Search Section */}
       <section>
-        <label className="input input-bordered flex items-center gap-2 w-full">
+        <label className="input input-bordered flex items-center gap-3 w-full">
           <input
             id="search-field"
             type="text"
@@ -146,6 +154,9 @@ const LeftSideNav = () => {
             placeholder="Search by Artist or Title..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            
+
           />
           <FaSearch onClick={handleSearch} className="cursor-pointer" />
         </label>
@@ -154,7 +165,7 @@ const LeftSideNav = () => {
       {/* Filters Section */}
       <div >
         <h1 className="text-lg md:text-xl">Filter by</h1>
-        <div className="divider h-0.5"></div>
+        <div className="divider "></div>
 
         {/* Artist Dropdown */}
         <div className="relative text-sm mb-2">
@@ -171,7 +182,7 @@ const LeftSideNav = () => {
               {artists.map((artist) => (
                 <li key={artist._id}>
                   <Link
-                    to={`/artists/${artist.artistId}`}
+                    to={`/artworkArtists/${artist._id}`}
                     className="block p-2 hover:bg-gray-200"
                   >
                     {artist.artist}
@@ -181,7 +192,7 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
-
+        <div className="divider h-0.5 "></div>
         {/* media Dropdown */}
         <div className="relative text-sm mb-2">
           <Button
@@ -212,7 +223,7 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
-
+        <div className="divider "></div>
 
         {/* Price Dropdown */}
         <div className="relative text-sm mb-2">
@@ -240,6 +251,7 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
+        <div className="divider "></div>
 
         {/* Year Dropdown */}
         < div className="relative text-sm mb-2">
@@ -270,6 +282,7 @@ const LeftSideNav = () => {
             </ul>
           )}
         </div>
+        <div className="divider h-0.5"></div>
       </div>
     </div>
 

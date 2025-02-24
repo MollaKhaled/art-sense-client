@@ -61,12 +61,12 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
+        loader: () => fetch('http://localhost:3000/photoCount'),
       },
       {
-        path: '/artists/:id',
+        path: '/artworkArtists/:id',
         element: <Category />,
-        loader: ({ params }) => fetch(`https://art-sense-server.vercel.app/artists/${params.id}`).then((res) => res.json())
+        loader: ({ params }) => fetch(`http://localhost:3000/artworkArtists/${params.id}`).then((res) => res.json())
       },
       {
         path: '/exhibitionArtists/:id',

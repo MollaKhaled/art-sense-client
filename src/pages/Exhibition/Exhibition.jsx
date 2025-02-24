@@ -217,9 +217,10 @@ const Exhibition = () => {
                     ))}
                   </ul>
                 )}
+                <div className="divider "></div>
 
               </div>
-
+              
               {/* media Dropdown */}
               <div className="relative text-sm mb-2">
                 <Button
@@ -250,6 +251,7 @@ const Exhibition = () => {
                   </ul>
                 )}
               </div>
+              <div className="divider "></div>
               {/* Price Dropdown */}
               <div className="relative">
                 <Button
@@ -276,7 +278,7 @@ const Exhibition = () => {
                   </ul>
                 )}
               </div>
-
+              <div className="divider "></div>
               {/* Year Dropdown */}
               <div className="relative">
                 <Button
@@ -306,6 +308,7 @@ const Exhibition = () => {
                   </ul>
                 )}
               </div>
+              <div className="divider "></div>
             </div>
           </section>
         </div>

@@ -54,7 +54,7 @@ const PhotoItem = ({ item }) => {
 
 
   const handleWhatsAppClick = () => {
-    const message = `${fixedMessage} "${title}" (StockCode - ${stockCode}).`;
+    const message = `${fixedMessage} Id ${stockCode}`;
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(url, "_blank");

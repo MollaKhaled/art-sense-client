@@ -20,9 +20,9 @@ const Auction = () => {
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
-    const [medias, setMedias] = useState([]);
-    const [selectedMedia, setSelectedMedia] = useState("");
-const [mediaOpen, setMediaOpen] = useState(false);
+  const [medias, setMedias] = useState([]);
+  const [selectedMedia, setSelectedMedia] = useState("");
+  const [mediaOpen, setMediaOpen] = useState(false);
   // Toggle functions
   const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
   const togglePriceDropdown = () => setPriceOpen(!priceOpen);
@@ -53,25 +53,25 @@ const [mediaOpen, setMediaOpen] = useState(false);
       });
   }, []);
 
- useEffect(() => {
-     fetch('https://art-sense-server.vercel.app/auctionMedia')
-       .then(res => res.json())
-       .then(data => {
-         if (Array.isArray(data)) {
-           // Remove duplicates and sort alphabetically
-           const uniqueMedias = [...new Set(data)];
-           const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
-           setMedias(sortedMedias);
-           console.log(sortedMedias);  // This should now log the sorted array
-         } else {
-           setMedias([]);  // Ensure state is empty if data is invalid
-         }
-       })
-       .catch(error => {
-         console.error("Error fetching media:", error);
-         setMedias([]);
-       });
-   }, []);
+  useEffect(() => {
+    fetch('https://art-sense-server.vercel.app/auctionMedia')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          // Remove duplicates and sort alphabetically
+          const uniqueMedias = [...new Set(data)];
+          const sortedMedias = uniqueMedias.sort((a, b) => a.localeCompare(b)); // Sort the media types alphabetically
+          setMedias(sortedMedias);
+          console.log(sortedMedias);  // This should now log the sorted array
+        } else {
+          setMedias([]);  // Ensure state is empty if data is invalid
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching media:", error);
+        setMedias([]);
+      });
+  }, []);
 
   useEffect(() => {
     fetch('https://art-sense-server.vercel.app/auctionYears')
@@ -140,17 +140,17 @@ const [mediaOpen, setMediaOpen] = useState(false);
   };
 
   // Sort items to move sold items to bottom
-const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
-  if (a.isSold === b.isSold) return 0;
-  return a.isSold ? 1 : -1;
-});
+  const sortedAuctionPhoto = auctionPhoto.sort((a, b) => {
+    if (a.isSold === b.isSold) return 0;
+    return a.isSold ? 1 : -1;
+  });
 
-// Add enter key handler for search
-const handleKeyDown = (e) => {
-  if (e.key === "Enter") {
-    handleSearch();
-  }
-};
+  // Add enter key handler for search
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <>
@@ -183,7 +183,7 @@ const handleKeyDown = (e) => {
           {/* Filters Section */}
           <div className="space-y-3 mt-6">
             <h1 className="text-lg md:text-xl mt-2">Filter by</h1>
-            <div className="divider h-0.5"></div>
+            <div className="divider h-0.5 "></div>
 
             {/* Artist Dropdown */}
             <div className="relative text-sm">
@@ -209,38 +209,41 @@ const handleKeyDown = (e) => {
                   ))}
                 </ul>
               )}
+              <div className="divider  "></div>
             </div>
+            
 
             {/* media Dropdown */}
-                    <div className="relative text-sm mb-2">
-                      <Button
-                        variant="primary"
-                        onClick={toggleMediaDropdown}
-                        className="w-full flex items-center justify-between gap-2"
-                      >
-                        <span>Media</span>
-                        {mediaOpen ? <FaMinus /> : <FaPlus />}
-                      </Button>
-            
-                      {mediaOpen && (
-                        <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-md p-2 shadow-lg z-50 text-sm">
-                          {medias?.length > 0 ? (
-                            medias.map((media, index) => (
-                              <li key={index}>
-                                <button
-                                  onClick={() => handleMediaChange(media)}
-                                  className="block w-full p-2 text-left hover:bg-gray-100"
-                                >
-                                  {media}
-                                </button>
-                              </li>
-                            ))
-                          ) : (
-                            <li className="text-gray-500 p-2">No media available</li>
-                          )}
-                        </ul>
-                      )}
-                    </div>
+            <div className="relative text-sm mb-2">
+              <Button
+                variant="primary"
+                onClick={toggleMediaDropdown}
+                className="w-full flex items-center justify-between gap-2"
+              >
+                <span>Media</span>
+                {mediaOpen ? <FaMinus /> : <FaPlus />}
+              </Button>
+
+              {mediaOpen && (
+                <ul className="absolute left-0 w-full min-w-[200px] bg-base-100 rounded-md p-2 shadow-lg z-50 text-sm">
+                  {medias?.length > 0 ? (
+                    medias.map((media, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => handleMediaChange(media)}
+                          className="block w-full p-2 text-left hover:bg-gray-100"
+                        >
+                          {media}
+                        </button>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 p-2">No media available</li>
+                  )}
+                </ul>
+              )}
+            </div>
+            <div className='divider '></div>
 
             {/* Price Dropdown */}
             <div className="relative">
@@ -268,11 +271,11 @@ const handleKeyDown = (e) => {
                 </ul>
               )}
             </div>
-
+            <div className="divider  "></div>
             {/* Year Dropdown */}
             <div className="relative">
               <Button
-              variant="primary"
+                variant="primary"
                 onClick={toggleYearDropdown}
                 className="w-full flex items-center justify-between gap-2"
               >
@@ -298,6 +301,7 @@ const handleKeyDown = (e) => {
                 </ul>
               )}
             </div>
+            <div className="divider"></div>
           </div>
         </div>
         {/* Main Content (Auction Items) */}
