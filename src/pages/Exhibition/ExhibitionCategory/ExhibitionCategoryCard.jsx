@@ -26,18 +26,23 @@ const ExhibitionCategoryCard = ({ photo }) => {
           <p >
             <span className="text-green-600">{stockCode}</span>
           </p>
-          <div className='mt-2'>
-            <Link to={`/exhibition/${_id}`} >
+          <div className="mt-2">
+            {isSold ? (
               <button
-                className={`w-3/4 mx-auto py-2 px-4 rounded-md ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
-                  } `}
-                disabled={isSold}
+                className="w-3/4 mx-auto py-2 px-4 rounded-md text-red-500 bg-gray-100 cursor-not-allowed"
+                disabled
               >
-
-                {isSold ? "Sold" : "View Details"}
+                Sold
               </button>
-            </Link>
+            ) : (
+              <Link to={`/exhibition/${_id}`}>
+                <button className="w-3/4 mx-auto py-2 px-4 rounded-md bg-gray-100">
+                  Bid
+                </button>
+              </Link>
+            )}
           </div>
+
         </div>
       </div>
 

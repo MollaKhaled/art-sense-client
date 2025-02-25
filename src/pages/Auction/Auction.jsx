@@ -40,7 +40,7 @@ const Auction = () => {
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auction')
+    fetch('https://art-sense-server.vercel.app/auction')
       .then((res) => res.json())
       .then((data) => {
         setAuctionPhoto(data);

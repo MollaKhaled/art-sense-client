@@ -42,14 +42,14 @@ const AuctionCard = ({ item }) => {
 
   return (
     <div className="card flex flex-col justify-between h-[450px] rounded-lg overflow-hidden text-sm">
-    {/* Image Container */}
-    <figure className="px-10 h-[250px] flex items-center justify-center">
-      <img
-        src={photoUrl}
-        alt="Artwork"
-        className="w-full h-full object-contain rounded-sm "
-      />
-    </figure>
+      {/* Image Container */}
+      <figure className="px-10 h-[250px] flex items-center justify-center">
+        <img
+          src={photoUrl}
+          alt="Artwork"
+          className="w-full h-full object-contain rounded-sm "
+        />
+      </figure>
 
       <div className="card-body text-center p-5 text-sm ">
         <div className="text-center text-sm">
@@ -68,51 +68,58 @@ const AuctionCard = ({ item }) => {
             ) : (
               <p className="text-green-500 text-center">{bidCount} Bids</p>
             )}
-            
-          {remainingTime && (
-            <p className="text-sm sm:text-base text-center ">
-              {remainingTime}
-            </p>
+
+            {remainingTime && (
+              <p className="text-sm sm:text-base text-center ">
+                {remainingTime}
+              </p>
+            )}
+          </div>
+
+        </div>
+
+        <div className='mt-2'>
+          {isAdmin ? (
+            <div className="flex justify-center gap-2">
+              <button
+                onClick={handleMarkAsSold}
+                className={`btn w-1/3 bg-white ${isSold ? "text-red-500" : "text-green-500"
+                  } border border-current`}
+              >
+                {isSold ? "Mark as Available" : "Mark as Sold"}
+              </button>
+              <Link
+                to={`/auction/${_id}`}
+                state={{ item }}
+                className="btn w-1/3 bg-white text-blue-500 border border-current"
+              >
+                View Details
+              </Link>
+            </div>
+          ) : (
+            isSold ? (
+              <button
+                className="inline-block w-3/4 py-2 px-4 rounded-md text-red-500 bg-gray-100 cursor-not-allowed"
+                disabled
+              >
+                Sold
+              </button>
+            ) : (
+              <Link
+                to={`/auction/${_id}`}
+                state={{ item }}
+                className="inline-block w-3/4 py-2 px-4 rounded-md bg-gray-100"
+              >
+                View Details
+              </Link>
+            )
           )}
         </div>
-          
-        </div>
-        
-         <div className='mt-2'>
-              {isAdmin ? (
-                <div className="flex justify-center gap-2">
-                  <button
-                    onClick={handleMarkAsSold}
-                    className={`btn w-1/3 bg-white ${
-                      isSold ? "text-red-500" : "text-green-500"
-                    } border border-current`}
-                  >
-                    {isSold ? "Mark as Available" : "Mark as Sold"}
-                  </button>
-                  <Link 
-                    to={`/auction/${_id}`} 
-                    state={{ item }}
-                    className="btn w-1/3 bg-white text-blue-500 border border-current"
-                  >
-                    Bid
-                  </Link>
-                </div>
-              ) : (
-                <Link 
-                  to={`/auction/${_id}`} 
-                  state={{ item }}
-                  className={`inline-block w-3/4 py-2 px-4 rounded-md ${
-                    isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
-                  } `}
-                >
-                  {isSold ? "Sold" : "Bid"}
-                </Link>
-              )}
-            </div>
-        </div>
-      </div>
 
-    
+      </div>
+    </div>
+
+
   );
 };
 

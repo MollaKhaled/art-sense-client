@@ -74,36 +74,43 @@ const PopularExhibitionCard = ({ item }) => {
           </p>
 
           <div className='mt-2'>
-      {isAdmin ? (
-        <div className="flex justify-center gap-2">
-          <button
-            onClick={handleMarkAsSold}
-            className={`btn w-1/3 bg-white ${
-              isSold ? "text-red-500" : "text-green-500"
-            } border border-current`}
-          >
-            {isSold ? "Mark as Available" : "Mark as Sold"}
-          </button>
-          <Link 
-            to={`/exhibition/${_id}`} 
-            state={{ item }}
-            className="btn w-1/3 bg-white text-blue-500 border border-current"
-          >
-            View Details
-          </Link>
-        </div>
-      ) : (
-        <Link 
-          to={`/exhibition/${_id}`} 
-          state={{ item }}
-          className={`inline-block w-3/4 py-2 px-4 rounded-md ${
-            isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
-          } `}
-        >
-          {isSold ? "Sold" : "View Details"}
-        </Link>
-      )}
-    </div>
+            {isAdmin ? (
+              <div className="flex justify-center gap-2">
+                <button
+                  onClick={handleMarkAsSold}
+                  className={`btn w-1/3 bg-white ${isSold ? "text-red-500" : "text-green-500"
+                    } border border-current`}
+                >
+                  {isSold ? "Mark as Available" : "Mark as Sold"}
+                </button>
+                <Link
+                  to={`/exhibition/${_id}`}
+                  state={{ item }}
+                  className="btn w-1/3 bg-white text-blue-500 border border-current"
+                >
+                  View Details
+                </Link>
+              </div>
+            ) : (
+              isSold ? (
+                <button
+                  className="inline-block w-3/4 py-2 px-4 rounded-md text-red-500 bg-gray-100 cursor-not-allowed"
+                  disabled
+                >
+                  Sold
+                </button>
+              ) : (
+                <Link
+                  to={`/exhibition/${_id}`}
+                  state={{ item }}
+                  className="inline-block w-3/4 py-2 px-4 rounded-md bg-gray-100"
+                >
+                  View Details
+                </Link>
+              )
+            )}
+          </div>
+
 
         </div>
 

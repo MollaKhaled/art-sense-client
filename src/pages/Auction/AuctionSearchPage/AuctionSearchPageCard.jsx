@@ -26,17 +26,22 @@ const AuctionSearchCard = ({ photo }) => {
             <span className="text-green-600">{stockCode}</span>
           </p>
           <div className="mt-2">
-                      <Link to={`/auction/${_id}`}>
-                        <button
-                          className={`w-3/4 mx-auto py-2 px-4 rounded-md ${isSold ? "text-red-500 bg-gray-100" : " bg-gray-100"
-                          } `}
-                          disabled={isSold}
-                        >
-                          
-                          {isSold ? "Sold" : "Bid"}
-                        </button>
-                      </Link>
-                    </div>
+  {isSold ? (
+    <button
+      className="w-3/4 mx-auto py-2 px-4 rounded-md text-red-500 bg-gray-100 cursor-not-allowed"
+      disabled
+    >
+      Sold
+    </button>
+  ) : (
+    <Link to={`/auction/${_id}`}>
+      <button className="w-3/4 mx-auto py-2 px-4 rounded-md bg-gray-100">
+        Bid
+      </button>
+    </Link>
+  )}
+</div>
+
         </div>
       </div>
     </div>

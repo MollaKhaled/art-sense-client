@@ -41,7 +41,7 @@ const Exhibition = () => {
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
   useEffect(() => {
-    fetch("http://localhost:3000/exhibition")
+    fetch("https://art-sense-server.vercel.app/exhibition")
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch exhibitions');

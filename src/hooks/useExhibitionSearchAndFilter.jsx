@@ -15,7 +15,7 @@ const useExhibitionSearchAndFilter = () => {
 
   // Fetch artists
   useEffect(() => {
-      fetch('http://localhost:3000/exhibitionArtists')
+      fetch('https://art-sense-server.vercel.app/exhibitionArtists')
         .then(res => res.json())
         .then(data => {
           // Sort alphabetically by artist name
@@ -29,7 +29,7 @@ const useExhibitionSearchAndFilter = () => {
     }, []);
   // Fetch media
   useEffect(() => {
-      fetch('http://localhost:3000/exhibitionMedia')
+      fetch('https://art-sense-server.vercel.app/exhibitionMedia')
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {
@@ -50,7 +50,7 @@ const useExhibitionSearchAndFilter = () => {
 
   // Fetch years
   useEffect(() => {
-      fetch('http://localhost:3000/exhibitionYears')
+      fetch('https://art-sense-server.vercel.app/exhibitionYears')
         .then(res => res.json())
         .then(data => {
   
@@ -65,7 +65,7 @@ const useExhibitionSearchAndFilter = () => {
 
   // Fetch prices
    useEffect(() => {
-      fetch('http://localhost:3000/exhibitionPrices')
+      fetch('https://art-sense-server.vercel.app/exhibitionPrices')
         .then((res) => res.json())
         .then((data) => {
           // Safely process prices

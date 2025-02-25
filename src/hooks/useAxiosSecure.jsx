@@ -6,9 +6,8 @@ import { AuthContext } from '../providers/AuthProvider';
 
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://art-sense-server.vercel.app/',
 });
-
 const useAxiosSecure = () => {
   const { logOut } = useContext(AuthContext);
   const navigate = useNavigate();
