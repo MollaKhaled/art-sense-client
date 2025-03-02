@@ -49,24 +49,24 @@ const ExhibitionDetails = () => {
       <div className="mt-4 text-sm">
         <div className="flex justify-between">
           <span>Amount</span>
-          <span>{formattedPrice}</span>
+          <span>{formattedPrice.split(".")[0]}</span>
         </div>
         <div className="divider h-0.5"></div>
 
         <div className="font-semibold">
           <div className="flex justify-between">
             <span>Sub Total</span>
-            <span>{formattedPrice}</span>
+            <span>{formattedPrice.split(".")[0]}</span>
           </div>
         </div>
         <div className="flex justify-between">
           <span>Special Honor</span>
-          <span>{discount}</span>
+          <span>{discount.split(".")[0]}</span>
         </div>
 
         <div className="flex justify-between font-semibold">
           <span>Grand Total </span>
-          <span className="text-red-500">{`BDT ${grandTotal.toLocaleString()}.00`}</span> {/* Display grand total */}
+          <span className="text-red-500">{`BDT ${grandTotal.toLocaleString()}`}</span> {/* Display grand total */}
         </div>
         <div className="mt-2">
           <span>In Words: </span>

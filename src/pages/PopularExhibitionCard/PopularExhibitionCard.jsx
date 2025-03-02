@@ -66,7 +66,7 @@ const PopularExhibitionCard = ({ item }) => {
             {title} <span className="text-red-500">|</span> {media}
           </p>
 
-          <p> {size} <span className="text-red-500">|</span> {year} <span className="text-red-500">| {formattedPrice}</span></p>
+          <p> {size} <span className="text-red-500">|</span> {year} <span className="text-red-500">| {formattedPrice.split(".")[0]}</span></p>
 
 
           <p className='text-green-500 mt-2 text-center'>

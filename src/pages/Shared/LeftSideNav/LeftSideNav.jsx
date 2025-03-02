@@ -54,12 +54,19 @@ const LeftSideNav = () => {
     navigate(`/search?year=${year}`);
   };
 
-  // Media change handler
-  const handleMediaChange = (media) => {
-    if (!media) return;
-    setSelectedMedia(media.trim());
-    navigate(`/search?media=${encodeURIComponent(media.trim())}`);
-  };
+ // Media change handler
+const handleMediaChange = (media) => {
+  if (!media) return;
+
+  // Encode the media once, correctly
+  const encodedMedia = encodeURIComponent(media.trim());
+
+  setSelectedMedia(media.trim());
+
+  // Navigate with the encoded media
+  navigate(`/search?media=${encodedMedia}`);
+};
+
 
   // Add enter key handler for search
   const handleKeyDown = (e) => {

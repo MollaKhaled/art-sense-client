@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:3000/photoCount'),
+        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
       },
       {
         path: '/artworkArtists/:id',

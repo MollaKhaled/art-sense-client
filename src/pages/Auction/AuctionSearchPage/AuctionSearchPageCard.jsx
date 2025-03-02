@@ -20,7 +20,7 @@ const AuctionSearchCard = ({ photo }) => {
             {title} <span className="text-red-500">|</span> {media}
           </p>
           <p>
-            {size} <span className="text-red-500">| </span>{year}  <span className="text-red-500"> | {formattedPrice}</span>
+            {size} <span className="text-red-500">| </span>{year}  <span className="text-red-500"> | {formattedPrice.split(".")[0]}</span>
           </p>
           <p >
             <span className="text-green-600">{stockCode}</span>

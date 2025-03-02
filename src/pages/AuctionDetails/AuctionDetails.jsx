@@ -333,7 +333,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
           </div>
           <div className="divider h-0.5"></div>
           <div className="flex">
-            Estimate: <p className="ml-12">{currentItem.estimateBid}</p>
+            Estimate: <p className="ml-12">{currentItem.estimateBid.replace(/\.00/g, "")}</p>
           </div>
           <div className="divider h-0.5"></div>
           <div className="flex">

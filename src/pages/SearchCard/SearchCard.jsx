@@ -44,24 +44,25 @@ const SearchCard = ({ photo }) => {
           </p>
           <p>
             {size} <span className="text-red-500">|</span> {year}
+            {formattedPrice && <span className="text-red-500"> | {formattedPrice.split(".")[0]}</span>}
           </p>
           <p>
             <span className="text-green-600">{stockCode}</span>
           </p>
-          
+
         </div>
         <div className="mt-2">
-            <Link
-              className="inline-block w-3/4 py-2 px-4 rounded-md bg-gray-100"
-              to={detailPage}>
-              <button
-                className={`${isSold ? "text-red-500 cursor-not-allowed" : ""}`}
-                disabled={isSold}
-              >
-                {buttonText}
-              </button>
-            </Link>
-          </div>
+          <Link
+            className="inline-block w-3/4 py-2 px-4 rounded-md bg-gray-100"
+            to={detailPage}>
+            <button
+              className={`${isSold ? "text-red-500 cursor-not-allowed" : ""}`}
+              disabled={isSold}
+            >
+              {buttonText}
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
