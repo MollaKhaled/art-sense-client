@@ -49,6 +49,7 @@ import ExhibitionSearchPage from "../pages/Exhibition/ExhibitionSearchPage/Exhib
 import ExhibitionCategory from "../pages/Exhibition/ExhibitionCategory/ExhibitionCategory";
 import AuctionSearchPage from "../pages/Auction/AuctionSearchPage/AuctionSearchPage";
 import AuctionCategory from "../pages/Auction/AuctionCategory/AuctionCategory";
+import ArtworkDetails from "../pages/ArtworkDetails/ArtworkDetails";
 
 
 
@@ -61,7 +62,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('https://art-sense-server.vercel.app/photoCount'),
+        loader: () => fetch('http://localhost:3000/photoCount'),
       },
       {
         path: '/artworkArtists/:id',
@@ -89,6 +90,11 @@ export const router = createBrowserRouter([
         path: '/signup',
         element: <SignUp />
       },
+      {
+        path: '/photo/:id',
+        element: <ArtworkDetails />
+      },
+      
       {
         path: '/auction',
         element: <Auction />

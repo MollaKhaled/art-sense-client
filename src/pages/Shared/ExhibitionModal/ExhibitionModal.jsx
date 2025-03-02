@@ -3,18 +3,17 @@ import {
   DialogPanel,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
-import { IoMdClose, IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-
+} from "@headlessui/react";
+import { Fragment, useState, useEffect } from "react";
+import { IoIosArrowBack, IoIosArrowForward, IoMdClose } from "react-icons/io";
 
 const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
-
   const [photos, setPhotos] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     if (isOpen) {
+      // If there are multiple photos to display
       fetch("https://art-sense-server.vercel.app/exhibition") // Update with your API URL
         .then((res) => res.json())
         .then((data) => {
@@ -41,8 +40,8 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 
   const currentPhoto = photos[currentPage];
 
-
   return (
+
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <TransitionChild
@@ -88,21 +87,22 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 
                       />
                     </figure>
-                    <div className="card-body text-center p-5 text-sm">
+                    <div className="card-body text-center p-5">
                       <div className="text-center text-sm">
                         <p className=" font-bold">{currentPhoto.artist}</p>
-
                         <p >
                           {currentPhoto.title} <span className="text-red-500">|</span> {currentPhoto.media}
                         </p>
-
-                        <p> {currentPhoto.size} <span className="text-red-500">|</span> {currentPhoto.year} <span className="text-red-500">| {currentPhoto.formattedPrice}</span></p>
-
-
-                        <p className='text-green-500 mt-2 text-center'>
-                          {currentPhoto.stockCode}
+                        <p>
+                          {currentPhoto.size} <span className="text-red-500">| </span> {currentPhoto.year} <span className="text-red-500">| </span> {currentPhoto.stockCode}
                         </p>
                       </div>
+                      <div className="mt-2 text-sm">
+                          <h1 className={currentPhoto.isSold ? "text-red-500" : "text-green-500"}>
+                            {currentPhoto.isSold ? "Sold" : "Available"}
+                          </h1>
+                        </div>
+                      
                     </div>
                     <div className="flex items-center justify-center gap-4 text-sm">
                       <button
@@ -131,9 +131,11 @@ const ExhibitionModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
         </div>
       </Dialog>
     </Transition>
+
+
+
+
   );
 };
-
-
 
 export default ExhibitionModal;

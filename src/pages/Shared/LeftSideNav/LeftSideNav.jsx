@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { FaPlus, FaMinus } from "react-icons/fa6";
+import { FaPlus, FaMinus } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@headlessui/react';
 import useArtworkSearchAndFilter from '../../../hooks/useArtworkSearchAndFilter';
@@ -37,8 +37,7 @@ const LeftSideNav = () => {
   const handleSearch = () => {
     if (searchText.trim()) {
       const encodedSearchText = encodeURIComponent(searchText);
-      const searchUrl = `/search?query=${encodedSearchText}`;
-      navigate(searchUrl);
+      navigate(`/search?query=${encodedSearchText}`); // Navigate with search query
     }
   };
 
@@ -64,7 +63,7 @@ const LeftSideNav = () => {
 
   // Add enter key handler for search
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSearch();
     }
   };

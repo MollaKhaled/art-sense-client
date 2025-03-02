@@ -6,11 +6,8 @@ const Footer = () => {
   return (
     <footer className="bg-base-300 text-base-content text-sm p-4">
   {/* Logo Centered on Small Screens */}
-  <div className="text-3xl text-center md:text-left">
-    <Link to="/">
-      <span className="text-red-600">a</span>rt
-      <span className="text-red-600">s</span>ense
-    </Link>
+  <div className=" text-center md:text-left text-gray-500">
+      <h1>connecting through art</h1>
   </div>
 
   {/* Responsive Footer Content */}

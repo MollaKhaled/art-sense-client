@@ -15,7 +15,7 @@ const useArtworkSearchAndFilter = () => {
 
   // Fetch artists
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/artworkArtists')
+    fetch('http://localhost:3000/artworkArtists')
       .then(res => res.json())
       .then(data => {
         const sortedArtists = Array.isArray(data) 
@@ -32,7 +32,7 @@ const useArtworkSearchAndFilter = () => {
   }, []);
   // Fetch media
    useEffect(() => {
-      fetch('https://art-sense-server.vercel.app/media')
+      fetch('http://localhost:3000/media')
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {
@@ -53,7 +53,7 @@ const useArtworkSearchAndFilter = () => {
 
   // Fetch years
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/years')
+    fetch('http://localhost:3000/years')
       .then(res => res.json())
       .then(data => {
         const sortedYears = Array.isArray(data) 
@@ -69,7 +69,7 @@ const useArtworkSearchAndFilter = () => {
 
   // Fetch prices
   useEffect(() => {
-    fetch('https://art-sense-server.vercel.app/prices')
+    fetch('http://localhost:3000/prices')
       .then(res => res.json())
       .then(data => {
         const sortedPrices = Array.isArray(data)

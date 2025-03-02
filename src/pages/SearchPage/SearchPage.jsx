@@ -7,81 +7,100 @@ import { FaSearch } from 'react-icons/fa';
 import { Button } from '@headlessui/react';
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+
+
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Extract query parameters
-  const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get("query");
-  const year = searchParams.get("year");
-  const price = searchParams.get("price");
-  const media = searchParams.get("media");
+  // Helper function to extract URL parameters
+  const getQueryParams = () => {
+    const params = new URLSearchParams(location.search);
+    return {
+      query: params.get('query'),
+      year: params.get('year'),
+      price: params.get('price'),
+      media: params.get('media'),
+    };
+  };
 
-  console.log("Full URL:", location.search);
-  console.log("Query Params:", { query, year, price, media });
+  const { query, year, price, media } = getQueryParams(); // Destructure the query parameters
 
+  // Fetch data based on search filters
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
 
-      // Construct URL with valid query parameters
-      const params = new URLSearchParams();
-      if (query) params.append("search", query);
-      if (media) params.append("media", media);
-      if (year) params.append("year", year);
-      if (price) params.append("price", price);
+      const searchParams = new URLSearchParams();
 
-      const searchUrl = `http://localhost:3000/searchPhotos?${params.toString()}`;
+      // Append filters to search parameters
+      if (query) searchParams.append('query', query);
+      if (media) searchParams.append("media", media);
+      if (year) searchParams.append('year', year);
+      if (price) searchParams.append('price', price);
+
+      const searchUrl = `http://localhost:3000/searchPhotos?${searchParams.toString()}`;
 
       try {
         const res = await fetch(searchUrl);
+        if (!res.ok) throw new Error("Network response was not ok");
         const data = await res.json();
-        setSearchResults(data);
+        setSearchResults(data);  
       } catch (err) {
-        setError("Error fetching data.");
+        console.error('Fetch error:', err);
+        setError('Error fetching data.');
       } finally {
-        setLoading(false);
+        setLoading(false);  
       }
     };
 
     fetchData();
   }, [query, year, price, media]);
+
   const {
     artists,
     medias,
     setSelectedMedia,
-    searchText,
-    setSearchText,
+    selectedMedia,
     selectedPrice,
     setSelectedPrice,
     years,
     selectedYear,
     setSelectedYear,
     prices,
-
   } = useArtworkSearchAndFilter();
-  const navigate = useNavigate();
+
+  // Toggle dropdown visibility
   const [artistOpen, setArtistOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
   const [yearOpen, setYearOpen] = useState(false);
   const [mediaOpen, setMediaOpen] = useState(false);
 
-  // Toggle functions
+  // Toggle functions for filters
   const toggleArtistDropdown = () => setArtistOpen(!artistOpen);
   const togglePriceDropdown = () => setPriceOpen(!priceOpen);
   const toggleYearDropdown = () => setYearOpen(!yearOpen);
   const toggleMediaDropdown = () => setMediaOpen(!mediaOpen);
 
-  // Search handler
+  // Search text state
+  const [searchText, setSearchText] = useState(query || "");
+
   const handleSearch = () => {
     if (searchText.trim()) {
-      const encodedSearchText = encodeURIComponent(searchText);
-      const searchUrl = `/search?query=${encodedSearchText}`;
-      navigate(searchUrl);
+      const searchParams = new URLSearchParams();
+
+      // Append filters to the search parameters
+      searchParams.append('query', searchText.trim());
+      if (selectedPrice) searchParams.append('price', selectedPrice);
+      if (selectedYear) searchParams.append('year', selectedYear);
+      if (selectedMedia) searchParams.append('media', selectedMedia);
+
+      // Update the URL
+      navigate(`/search?${searchParams.toString()}`);
     }
   };
 
@@ -89,20 +108,45 @@ const SearchPage = () => {
   const handlePriceChange = (event) => {
     const cleanPrice = event.target.value.replace(/\s|,/g, '').replace('BDT', '');
     setSelectedPrice(cleanPrice);
-    navigate(`/search?price=${cleanPrice}`);
+
+    const searchParams = new URLSearchParams();
+    if (searchText.trim()) searchParams.append('query', searchText.trim());
+    searchParams.append('price', cleanPrice);
+    if (selectedYear) searchParams.append('year', selectedYear);
+    if (selectedMedia) searchParams.append('media', selectedMedia);
+
+    navigate(`/search?${searchParams.toString()}`);
   };
 
   // Year change handler
   const handleYearChange = (year) => {
     setSelectedYear(year);
-    navigate(`/search?year=${year}`);
+
+    const searchParams = new URLSearchParams();
+    if (searchText.trim()) searchParams.append('query', searchText.trim());
+    if (selectedPrice) searchParams.append('price', selectedPrice);
+    searchParams.append('year', year);
+    if (selectedMedia) searchParams.append('media', selectedMedia);
+
+    navigate(`/search?${searchParams.toString()}`);
   };
 
   // Media change handler
   const handleMediaChange = (media) => {
     if (!media) return;
+
     setSelectedMedia(media.trim());
-    navigate(`/search?media=${encodeURIComponent(media.trim())}`);
+
+    const searchParams = new URLSearchParams();
+    if (searchText.trim()) searchParams.append('query', searchText.trim());
+    if (selectedPrice) searchParams.append('price', selectedPrice);
+    if (selectedYear) searchParams.append('year', selectedYear);
+
+    if (media.trim()) {
+      searchParams.append('media', encodeURIComponent(media.trim()));
+    }
+
+    navigate(`/search?${searchParams.toString()}`);
   };
 
   // Add enter key handler for search
@@ -117,28 +161,32 @@ const SearchPage = () => {
       <Helmet>
         <title>artsense | Artist Photos</title>
       </Helmet>
-
-      <div className="mb-10">
-        {/* Add your banner or any other top content */}
-      </div>
-
       <div className="my-10 grid grid-cols-1 lg:grid-cols-4 gap-4 text-sm">
         {/* Left Sidebar (Search & Filter) */}
         <div className="lg:col-span-1 space-y-6 p-4 md:p-6">
           {/* Search Section */}
           <section>
-            <label className="input input-bordered flex items-center gap-3 w-full">
-              <input
-                id="search-field"
-                type="text"
-                className="grow text-sm md:text-base"
-                placeholder="Search by Artist or Title..."
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              <FaSearch onClick={handleSearch} className="cursor-pointer" />
-            </label>
+          <label className="input input-bordered flex items-center gap-3 w-full">
+          <input
+            type="text"
+            className="grow text-sm md:text-base"
+            placeholder="Search by Artist or Title..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+           
+          />
+          <FaSearch onClick={handleSearch} className="cursor-pointer" />
+        </label>
+        
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {searchResults.map((result) => (
+          <SearchCard key={result._id} item={result} />
+        ))}
+      </div>
           </section>
           {/* Filters Section */}
           <div>

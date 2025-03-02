@@ -110,7 +110,7 @@ const AuctionCard = ({ item }) => {
                 state={{ item }}
                 className="inline-block w-3/4 py-2 px-4 rounded-md bg-gray-100"
               >
-                View Details
+                Bid
               </Link>
             )
           )}

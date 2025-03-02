@@ -37,7 +37,7 @@ const ExhibitionCategoryCard = ({ photo }) => {
             ) : (
               <Link to={`/exhibition/${_id}`}>
                 <button className="w-3/4 mx-auto py-2 px-4 rounded-md bg-gray-100">
-                  Bid
+                  View Details
                 </button>
               </Link>
             )}

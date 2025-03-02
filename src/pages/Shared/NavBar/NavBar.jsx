@@ -33,7 +33,7 @@ const NavBar = () => {
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>
-          <Link to="/exhibition" onClick={handleOptionClick}>online exhibition</Link>
+          <Link to="/exhibition" onClick={handleOptionClick}>exhibition</Link>
         </li>
         <span className="hidden lg:inline-block text-red-500">|</span>
         <li>

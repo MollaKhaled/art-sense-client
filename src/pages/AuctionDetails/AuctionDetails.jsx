@@ -296,6 +296,12 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
   
       {/* Item Details Section */}
       <div className="flex-1 rounded-md">
+      {/* <div className="flex">
+            Lot Id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
+          </div> */}
+          <h2>lot id <span className="text-red-500">{currentItem.lotId} </span></h2>
+         
+
         <div className="divider h-0.5"></div>
         <h2 className="text-sm font-bold mb-2">{currentItem.artist}</h2>
         <p className="text-sm text-gray-400">{currentItem.birth}</p>
@@ -307,10 +313,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
   
         <div className="divider h-0.5"></div>
         <div className="text-sm">
-          <div className="flex">
-            lot id <p className="ml-20 text-red-500">{currentItem.lotId}</p>
-          </div>
-          <div className="divider h-0.5"></div>
+          
           <div>
             <div className="text-sm flex">
               Ending:{" "}
@@ -389,7 +392,7 @@ const currentHighestBidValue = parseInt(currentHighestBid.toString().replace(/[^
       </div>
     </div>
   
-    <div className="p-4 text-sm m-4 md:m-12">
+    <div className="p-4 text-sm m-4 md:m-12 pt-2">
       <div className="divider h-0.5"></div>
       <h2 className="text-center font-semibold">Lot Details</h2>
       <div className="divider h-0.5"></div>
